@@ -1,0 +1,110 @@
+# vim: set ft=zsh sw=2 ts=2 fdm=marker:
+
+function is_mac_os () {
+  if [[ "$(uname -a)" =~ ".*Darwin.*" ]]; then
+    return 0
+  fi
+  return 1
+}
+
+# ENV VARS {{{
+function set_env_vars () {
+  export ZSH_THEME="wisp"
+  export ZSH=${HOME}/.oh-my-zsh
+  export ZSH_CUSTOM=${HOME}/.zsh-custom/themes
+
+  export VISUAL=vim
+  export EDITOR="${VISUAL}"
+  export BROWSER="firefox"
+}
+# }}}
+
+# TMUX {{{
+function tmux_start_or_attach () {
+  if [[ -x "$(command -v tmux)" ]]; then
+    if [[ -z "${TMUX}" ]] ;then
+      ID="`tmux ls | grep -vm1 attached | cut -d: -f1`"
+      if [[ -z "${ID}" ]] ;then
+        tmux -2 new-session
+      else
+        tmux -2 attach-session -t "${ID}"
+      fi
+    fi
+  fi
+}
+# }}}
+
+# OH-MY-ZSH PLUGINS {{{
+function set_zsh_plugins () {
+  plugins=(git dotenv emoji fzf gitignore sudo docker-compose)
+  is_mac_os && plugins+=(osx brew brew-cask)
+}
+# }}}
+
+# SOURCING {{{
+function source_other_files () {
+  local fzf_paths=("${HOME}/.fzf.zsh"
+  "/usr/share/fzf/key-bindings.zsh"
+  "/usr/share/completion.zsh")
+
+  for fzf_path in "${fzf_paths[@]}"; do
+    if [[ -f "${fzf_path}" ]]; then
+      source "${fzf_path}"
+      break
+    fi
+  done
+
+  [[ -f "${ZSH}/oh-my-zsh.sh" ]] && source "${ZSH}/oh-my-zsh.sh"
+  [[ -s "/etc/grc.zsh" ]] && source /etc/grc.zsh
+  [[ -f "${HOME}/.zsh_aliases" ]] && source ${HOME}/.zsh_aliases
+  [[ -f "${HOME}/.zsh_functions" ]] && source ${HOME}/.zsh_functions
+}
+# }}}
+
+# PATH {{{
+function set_user_path () {
+  typeset -U path
+  path+=("${HOME}/.local/bin"
+  "${HOME}/bin")
+
+  _go="/usr/local/go/bin/go"
+  if [[ -x "${_go}" ]]; then
+    path+=("$(dirname ${_go})"
+    "$(${_go} env GOPATH)/bin")
+    export GOPATH="$(${_go} env GOPATH)"
+  fi
+
+  _cargo_bin="${HOME}/.cargo/bin"
+  if [[ -d "${_cargo_bin}" ]]; then
+    path+=("${_cargo_bin}")
+  fi
+  export PATH
+}
+# }}}
+
+# ALIASES {{{
+function set_aliases () {
+  alias vim='gvim -v'
+  alias watch='watch --color'
+  alias ssh='TERM=xterm-256color ssh'
+  alias cdr='pushd $(git rev-parse --show-toplevel)'
+  alias groot='echo $(git rev-parse --show-toplevel)'
+
+  if is_mac_os; then
+    alias ls='grc gls --color=always'
+  else
+    alias ls='grc ls --color=always'
+  fi
+}
+# }}}
+
+function main () {
+  set_user_path
+  set_zsh_plugins
+  source_other_files
+  set_aliases
+  (( $(id -u) == 0 )) || tmux_start_or_attach
+}
+
+
+main

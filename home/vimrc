@@ -1,0 +1,299 @@
+" vim: set fdm=marker ts=2 sw=2 et:
+scriptencoding utf-8
+
+" INSTALL VIM PLUG {{{
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+" }}}
+
+" PLUGIN VARIABLES {{{
+let g:ctags_supported_languages = ['assembler', 'awk', 'bash', 'c', 'cpp', 'erlang', 'fortran', 'html', 'java', 'javascript', 'lisp', 'lua', 'make', 'matlab', 'pascal', 'perl', 'php', 'sql', 'python', 'rexx', 'ruby', 'scheme', 'sh', 'tcl', 'tex', 'vim', 'vimscript', 'yacc', 'zsh']
+let g:languages_to_lint = ['python', 'css', 'html', 'java', 'c', 'cpp', 'ansible', 'markdown', 'vim']
+let g:tag_languages = ['html', 'xml', 'xhtml', 'jinja']
+"}}}
+
+" PLUGINS LIST {{{
+call plug#begin('~/.vim/plugged')
+" File tree
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Tags
+Plug 'ludovicchabant/vim-gutentags'
+" Tags, file structure overview
+Plug 'majutsushi/tagbar', {'for': g:ctags_supported_languages}
+Plug 'tell-k/vim-autopep8', {'for': 'python'}
+" Asynchronous syntax checking (replaced syntastic)
+Plug 'w0rp/ale', {'for': g:languages_to_lint}
+" Fat code completion
+Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
+" Git indicatiors
+Plug 'airblade/vim-gitgutter'
+" Git wrapper
+Plug 'tpope/vim-fugitive'
+" Some ansible support
+Plug 'chase/vim-ansible-yaml'
+" Jinja2 template syntax
+Plug 'glench/vim-jinja2-syntax'
+" Dockerfile syntax
+Plug 'ekalinin/Dockerfile.vim'
+" Execute commands asyncronously
+Plug 'skywind3000/asyncrun.vim'
+" fzf
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" handle quotes, parantheses etc.
+Plug 'tpope/vim-surround'
+" Highlight RGB color codes in multiple filetypes
+Plug 'ap/vim-css-color'
+" Highlight the encloding html/xml tags
+Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
+" Tickscript support
+Plug 'nathanielc/vim-tickscript', {'for': 'tick'}
+" Gruvbox spinoff with more contrast
+Plug 'srcery-colors/srcery-vim'
+" One of the best color schemes
+Plug 'morhetz/gruvbox'
+" tab completion
+Plug 'ervandew/supertab'
+" Navigation similar to Vimium
+Plug 'justinmk/vim-sneak'
+" Multiple cursors similar to Sublime
+Plug 'terryma/vim-multiple-cursors'
+" Filetype icons for nerd tree
+Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
+" Colors based on filetype
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
+call plug#end()
+" }}}
+
+" PLUGIN SETTINGS {{{
+
+" Autopep8
+let g:autopep8_disable_show_diff=0
+let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
+
+" YouCompleteMe
+let g:ycm_global_ycm_extra_conf = '$HOME/.ycm_extra_conf.py'
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" toggle quickfix window
+nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
+
+" }}}
+
+" KEYMAP {{{
+
+" now Q and W also work - my most common mistype
+command! Q q
+command! W w
+command! Wq wq
+
+" Move up/down on visual lines (wrapped work like no wrapped)
+noremap  j gj
+noremap  k gk
+noremap <up> gk
+noremap <down> gj
+
+" Map familiar C-p to use fzf
+map <C-p> :FZF<CR>
+map <C-t> :GFiles<CR>
+map <leader>p :Commands<CR>
+
+map <leader>t :Tags<CR>
+map <leader>b :Buffers<CR>
+
+map <leader>nt :NERDTreeToggle<CR>
+map <F8> :TagbarToggle<CR>
+map <leader>jd :YcmCompleter GoTo<CR>
+
+
+
+" maps for sourcing, opening and autosourcing .vimrc
+map <leader>vs :source $MYVIMRC<CR>
+map <leader>v :vsplit $MYVIMRC<CR>
+
+" map for reloading the config and restarting i3
+map <leader>i3 :!link_dotfiles.sh<CR> <bar> :!i3-merge-conf.sh<CR> <bar> :AsyncRun i3-msg reload; i3-msg restart<CR>
+
+" leave INSERT mode using C-c
+inoremap <C-c> <Esc><Esc>
+
+" ----- Command mapping -----
+" Format and Sort JSON
+com! FormatJSON %!python -m json.tool
+
+" }}}
+
+" FILETYPE-SPECIFIC {{{
+augroup python
+  autocmd!
+  autocmd FileType python nnoremap <buffer> <F10> :exec '!clear; python' shellescape(@%, 1)<CR>
+  autocmd FileType python nnoremap <buffer> <F9> :exec '!clear;  pytest -v'<CR>
+  autocmd FileType python nnoremap <leader>8 :Autopep8<CR>
+augroup END
+
+augroup ansible
+  autocmd!
+  autocmd FileType yaml.ansible,yaml,ansible nnoremap <buffer> <F9> :exec '!clear; ansible-playbook' shellescape(@%, 1)<CR>
+  autocmd Filetype yaml setlocal ts=2 sw=2 sts=2 expandtab
+augroup END
+
+augroup ccpp
+  autocmd!
+  autocmd FileType c nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+  autocmd FileType cpp nnoremap <F9> :AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+  autocmd FileType c,cpp nnoremap <buffer> <F10> :exec '!clear; %:p:h/%:r' <CR>
+augroup END
+
+augroup vimscript
+  autocmd!
+  autocmd Filetype vim nnoremap <buffer> <F10> :exec '!clear' <bar> source % <CR>
+augroup END
+
+augroup markdown
+  autocmd!
+  autocmd FileType markdown nnoremap <buffer> <F10> :AsyncRun  grip "${VIM_FILEPATH}" --export "/tmp/${VIM_FILENOEXT}.html" && ${BROWSER} "/tmp/${VIM_FILENOEXT}.html"<CR>
+augroup END
+" }}}
+
+" GENERAL {{{
+set diffopt+=vertical
+set laststatus=1
+set foldmethod=marker
+set hlsearch
+set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab " autoindent copyindent
+" dont break lines automatically
+set textwidth=0 wrapmargin=0
+set number
+set termencoding=utf-8
+set fileencoding=utf-8
+set encoding=utf8
+" make backspace work like most other apps
+set backspace=2
+set splitright
+set ruler
+set noswapfile
+set ignorecase
+set incsearch
+set scrolloff=10
+set showmatch
+set showmode
+set history=1000
+set showcmd
+set wildmenu
+set wildmode=list:longest,full
+set autoread
+set modeline  " WARNING: there have been modeline-based vulnerabilities in the past
+set colorcolumn=80
+set notermguicolors
+
+augroup noautomaticcommentcharacter
+  autocmd!
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
+
+augroup persistentundo
+  set undofile
+  set undodir=$HOME/.vim/undo
+  set undolevels=1000
+  set undoreload=10000
+  let undodir='$HOME/.vim/undo'
+
+  if has('persistent_undo')
+    call system('mkdir ' . undodir)
+    set undofile
+  endif
+augroup END
+
+augroup relativenumbers
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * if &modifiable | set relativenumber | endif
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+augroup removetrailingwhitespaces
+  autocmd!
+  autocmd BufWritePre * :%s/\s\+$//e
+augroup END
+
+let g:markdown_fenced_languages = ['make', 'zsh', 'sh', 'json', 'tex', 'sql', 'ruby', 'jinja', 'html', 'css', 'yaml', 'ansible', 'lua', 'vim', 'java', 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
+
+" }}}
+
+" MOUSE {{{
+if has('mouse')
+  " try a, r, v
+  " set ttymouse=xterm2
+  set mouse+=a
+  if &term =~ '^screen' || &term =~ '^tmux'
+    " Enable extended mouse while using tmux
+    set ttymouse=xterm2
+  endif
+endif
+" }}}
+
+" CLIPBOARD {{{
+augroup clipboard
+    if has('clipboard')
+      nnoremap y "+y
+      vnoremap y "+y
+      set clipboard=unnamedplus
+    endif
+augroup END
+"}}}
+
+" THEMING, VISUAL TWEAKS {{{
+silent colorscheme srcery
+" highlight Normal ctermbg=NONE
+" highlight SignColumn guibg=NONE ctermbg=NONE
+highligh ColorColumn ctermbg=black ctermfg=1 cterm=bold
+highligh Folded ctermfg=3
+
+highlight EndOfBuffer ctermfg=black ctermbg=black
+
+" those quotest have to remain double
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+" Change cursor depending on mode
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+
+set fillchars+=vert:\│  " vert split character set to ' '
+highlight VertSplit guibg=NONE ctermbg=NONE ctermfg=8
+
+" Enable italics in comments (important - put after colorscheme)
+highlight Comment cterm=italic
+
+" }}}
+
+" GVIM {{{
+if has("gui_running")
+  silent colorscheme srcery
+  highlight SignColumn guibg=background
+  set guioptions=
+  set guifont=Iosevka\ 14
+  set autochdir
+  set shell=/bin/zsh
+  let g:webdevicons_enable = 0
+endif
+" }}}
+
+" use an orange cursor in insert mode
+let &t_SI = "\<Esc>]12;orange\x7"
+" use a red cursor otherwise
+let &t_EI = "\<Esc>]12;red\x7"
+silent !echo -ne "\033]12;red\007"
+" reset cursor when vim exits
+autocmd VimLeave * silent !echo -ne "\033]112\007"
+" use \003]12;gray\007 for gnome-terminal and rxvt up to version 9.21
+
+highlight Cursor guifg=white guibg=black
+highlight iCursor guifg=white guibg=steelblue
+set guicursor=n-v-c:block-Cursor
+set guicursor+=i:ver100-iCursor
+set guicursor+=n-v-c:blinkon0
+set guicursor+=i:blinkwait10
