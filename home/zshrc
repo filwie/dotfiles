@@ -1,4 +1,11 @@
 # vim: set ft=zsh sw=2 ts=2 fdm=marker:
+export ZSH_THEME="wisp"
+export ZSH=${HOME}/.oh-my-zsh
+export ZSH_CUSTOM=${HOME}/.zsh-custom/themes
+
+export VISUAL=vim
+export EDITOR="${VISUAL}"
+export BROWSER="firefox"
 
 function is_mac_os () {
   if [[ "$(uname -a)" =~ ".*Darwin.*" ]]; then
@@ -6,18 +13,6 @@ function is_mac_os () {
   fi
   return 1
 }
-
-# ENV VARS {{{
-function set_env_vars () {
-  export ZSH_THEME="wisp"
-  export ZSH=${HOME}/.oh-my-zsh
-  export ZSH_CUSTOM=${HOME}/.zsh-custom/themes
-
-  export VISUAL=vim
-  export EDITOR="${VISUAL}"
-  export BROWSER="firefox"
-}
-# }}}
 
 # TMUX {{{
 function tmux_start_or_attach () {
