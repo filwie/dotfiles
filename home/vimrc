@@ -245,7 +245,7 @@ augroup END
 "}}}
 
 " THEMING, VISUAL TWEAKS {{{
-silent colorscheme srcery
+silent! colorscheme srcery
 " highlight Normal ctermbg=NONE
 " highlight SignColumn guibg=NONE ctermbg=NONE
 highligh ColorColumn ctermbg=black ctermfg=1 cterm=bold
