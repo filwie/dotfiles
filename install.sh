@@ -15,23 +15,24 @@ function link_mini_dotfiles () {
 }
 
 function install_utilities () {
-    if ! [[ -d ${HOME}/.oh-my-zsh ]]; then
-        git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
-    fi
+  if ! [[ -d ${HOME}/.oh-my-zsh ]]; then
+    git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
+  fi
 
-    if ! [[ -d "${HOME}/.fzf" ]]; then
-        git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
-        ${HOME}/.fzf/install --all --no-update-rc
-    fi
+  if ! [[ -d "${HOME}/.fzf" ]]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
+    ${HOME}/.fzf/install --all --no-update-rc
+  fi
 
-    if ! [[ -d "${HOME}/.tmux/plugins/tpm" ]]; then
-        git clone --depth 1 https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
-        ${HOME}/.tmux/plugins/tpm/bin/install_plugins
-    fi
+  if ! [[ -d "${HOME}/.tmux/plugins/tpm" ]]; then
+    git clone --depth 1 https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
+    ${HOME}/.tmux/plugins/tpm/bin/install_plugins
+  fi
 
-    if ! [[ -f "${HOME}/.vim/autoload/plug.vim" ]]; then
-        curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    fi
+  if ! [[ -f "${HOME}/.vim/autoload/plug.vim" ]]; then
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    vim +'PlugInstall --sync' +qa
+  fi
 }
 
 link_mini_dotfiles
