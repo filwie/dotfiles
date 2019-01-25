@@ -32,7 +32,7 @@ brew install zsh vim macvim moreutils coreutils wget ranger multitail fd tree un
 
 
 # #TODO
-- [ ] fix changing cursor from block to bar in `INSERT` mode (should be OS independent and gvim/macvim/vim compliant)
+- [x] fix changing cursor from block to bar in `INSERT` mode (should be OS independent and gvim/macvim/vim compliant)
 - [ ] improve setup script - add some feedback about what it does, handle existing target file
 - [ ] provide list of packages for Linux, check if there are no missing packages for Mac
 - [ ] what about ZSH theme that is not in this repo?
