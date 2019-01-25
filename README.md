@@ -13,12 +13,11 @@ git clone --depth 1 "git@github.com:filwie/mini-dotfiles.git" "${HOME}/.mini-dot
 
 ## Description
 This repository contains minimal subset of all my dotfiles:
-- Zsh
+- Zsh (including custom theme)
 - Vim
 - Tmux
 
-
-
+<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme.png" alt="zsh-theme" width="400"/>
 
 ## Other software
 #### Mac OS
@@ -35,4 +34,4 @@ brew install zsh vim macvim moreutils coreutils wget ranger multitail fd tree un
 - [x] fix changing cursor from block to bar in `INSERT` mode (should be OS independent and gvim/macvim/vim compliant)
 - [ ] improve setup script - add some feedback about what it does, handle existing target file
 - [ ] provide list of packages for Linux, check if there are no missing packages for Mac
-- [ ] what about ZSH theme that is not in this repo?
+- [x] what about ZSH theme that is not in this repo? <i>added to repo</i>
