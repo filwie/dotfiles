@@ -32,6 +32,8 @@ brew install zsh vim macvim moreutils coreutils wget ranger multitail fd tree un
 
 # #TODO
 - [x] fix changing cursor from block to bar in `INSERT` mode (should be OS independent and gvim/macvim/vim compliant)
+- [ ] hide output of git clone etc - only display OK/FAIL - the rest should be in log file
+      (that could be in repo in ignored logs dir or in /tmp) log should be displayed if installation fails
 - [ ] improve setup script - add some feedback about what it does, handle existing target file
 - [ ] provide list of packages for Linux, check if there are no missing packages for Mac
 - [x] what about ZSH theme that is not in this repo? <i>added to repo</i>
