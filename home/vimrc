@@ -249,9 +249,10 @@ silent! colorscheme srcery
 " highlight Normal ctermbg=NONE
 " highlight SignColumn guibg=NONE ctermbg=NONE
 highligh ColorColumn ctermbg=black ctermfg=1 cterm=bold
-highligh Folded ctermfg=3
-
-highlight EndOfBuffer ctermfg=black ctermbg=black
+highlight LineNr ctermbg=NONE ctermfg=0
+highlight CursorLineNr ctermbg=NONE cterm=bold
+highligh Folded ctermfg=3 ctermbg=NONE
+highlight EndOfBuffer ctermfg=0 ctermbg=NONE
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
