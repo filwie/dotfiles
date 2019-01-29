@@ -9,6 +9,10 @@ local mini_dotfiles_repo_https="https://github.com/filwie/mini-dotfiles.git"
 
 local zsh_themes="${HOME}/.oh-my-zsh/themes"
 
+function info_msg () {
+  echo -e "$(tput setaf 3)${1}$(tput sgr0)"
+}
+
 function run_log_cmd () {
   # display command that is going to be ran and run it
   # ARGS:
@@ -36,30 +40,44 @@ function link_mini_dotfiles () {
     if [[ "${_src}" =~ ".*.zsh-theme" ]]; then
       _target="${zsh_themes}/$(basename ${_src})"
     fi
-    [[ -e "${_target}" ]] && rm -r "${_target}"
+    [[ -L "${_target}" ]] && run_log_cmd "rm ${_target}"
+    [[ -f "${_target}" ]] && run_log_cmd "mv ${_target} ${_target}.bak"
     run_log_cmd "ln -s ${_src} ${_target}"
   done
   popd > /dev/null
 }
 
+function install_util () {
+  clone_url="${1}"
+  clone_dest="${2}"
+  script_to_run="${3:-''}"
+
+  if [[ -d "${clone_dest}" ]]; then
+    info_msg "${clone_dest} found. Skipping..."
+    return
+  fi
+
+  run_log_cmd "git clone --depth=1 ${clone_url} ${clone_dest}"
+  if [[ "${script_to_run}" != '' ]]; then
+    run_log_cmd "${script_to_run}"
+  fi
+}
+
 function install_utilities () {
-  if ! [[ -d ${HOME}/.oh-my-zsh ]]; then
-    git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
-  fi
-
-  if ! [[ -d "${HOME}/.fzf" ]]; then
-    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
-    ${HOME}/.fzf/install --all --no-update-rc
-  fi
-
-  if ! [[ -d "${HOME}/.tmux/plugins/tpm" ]]; then
-    git clone --depth 1 https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
-    ${HOME}/.tmux/plugins/tpm/bin/install_plugins
-  fi
+  install_util "https://github.com/robbyrussell/oh-my-zsh.git" \
+               "${HOME}/.oh-my-zsh"
+  install_util "https://github.com/junegunn/fzf.git" \
+               "${HOME}/.fzf" \
+               "${HOME}/.fzf/install --all --no-bash --no-fish --no-update-rc"
+  install_util "https://github.com/tmux-plugins/tpm" \
+               "${HOME}/.tmux/plugins/tpm" \
+               "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 
   if ! [[ -f "${HOME}/.vim/autoload/plug.vim" ]]; then
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     vim +silent +PlugInstall +qall
+  else
+    info_msg "Vim plug already intalled. Skipping..."
   fi
 }
 
