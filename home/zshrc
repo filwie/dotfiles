@@ -83,6 +83,7 @@ function set_aliases () {
   alias ssh='TERM=xterm-256color ssh'
   alias cdr='pushd $(git rev-parse --show-toplevel)'
   alias groot='echo $(git rev-parse --show-toplevel)'
+  alias unneeded='echo **/(*.pyc|*.pyo|__pycache__|tags|*.retry)'
 
   if is_mac_os; then
     alias ls='grc gls --color=always'
