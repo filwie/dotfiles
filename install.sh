@@ -66,8 +66,8 @@ function install_utilities () {
 function main () {
   clone_mini_dotfiles "${mini_dotfiles_repo_ssh}" \
     || clone_mini_dotfiles "${mini_dotfiles_repo_https}"
-  link_mini_dotfiles
   install_utilities
+  link_mini_dotfiles
 }
 
 main
