@@ -1,38 +1,27 @@
 # vim: set ft=zsh sw=2 ts=2 fdm=marker:
 # UTILS {{{
 function is_remote () {
-  if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-    return $(true)
-  fi
-  return $(false)
+  [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]
 }
 
-function is_mac_os () {
-  if [[ "$(uname -a)" =~ ".*Darwin.*" ]]; then
-    return $(true)
-  fi
-  return $(false)
+function is_mac () {
+  [[ "$(uname -a)" =~ ".*Darwin.*" ]]
+}
+
+function is_linux () {
+  [[ "$(uname)" == "Linux" ]]
 }
 
 function is_ubuntu () {
-  if [[ "$(uname -a)" =~ ".*Ubuntu.*" ]]; then
-    return $(true)
-  fi
-  return $(false)
+  [[ "$(uname -a)" =~ ".*Ubuntu.*" ]]
 }
 
 function is_arch () {
-  if [[ "$(uname -a)" =~ ".*arch.*" ]]; then
-    return $(true)
-  fi
-  return $(false)
+  [[ "$(uname -a)" =~ ".*arch.*" ]]
 }
 
 function is_docker_container () {
-  if [[ -f "/.dockerenv" ]]; then
-    return $(true)
-  fi
-  return $(false)
+  [[ -f "/.dockerenv" ]]
 }
 # }}}
 
@@ -54,7 +43,7 @@ function tmux_start_or_attach () {
 # OH-MY-ZSH PLUGINS {{{
 function set_zsh_plugins () {
   plugins=(git dotenv emoji fzf gitignore sudo docker-compose)
-  is_mac_os && plugins+=(osx brew brew-cask)
+  is_mac && plugins+=(osx brew brew-cask)
 }
 # }}}
 
@@ -86,9 +75,9 @@ function set_env_vars () {
   export VISUAL=vim
   export EDITOR="${VISUAL}"
   export BROWSER="firefox"
-  if is_mac_os; then export IS_MAC="true"; fi
-  if is_remote; then export IS_REMOTE="true"; fi
-  if is_docker_container; then export IS_DOCKER_CONTAINER="true"; fi
+  is_mac && export IS_MAC="true"
+  is_remote && export IS_REMOTE="true"
+  is_docker_container && export IS_DOCKER_CONTAINER="true"
 }
 
 # }}}
@@ -125,7 +114,7 @@ function set_aliases () {
   alias groot='echo $(git rev-parse --show-toplevel)'
   alias unneeded='echo **/(*.pyc|*.pyo|__pycache__|tags|*.retry)'
 
-  if is_mac_os; then
+  if is_mac; then
     alias ls='grc gls --color=always'
   else
     alias ls='grc ls --color=always'
