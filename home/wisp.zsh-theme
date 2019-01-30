@@ -1,8 +1,6 @@
 # vim: set ft=zsh sw=2 ts=2:
 # Resources:
 #   http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-BOX_TL="┏"
-BOX_BL="┗"
 BRANCH_GLYPH=" "
 GIT_DIRTY_GLYPH=""
 GIT_CLEAN_GLYPH=""
