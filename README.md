@@ -1,4 +1,4 @@
-# mini-dotfiles
+<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-logo.png" alt="zsh-theme-box-logo" width="100%"/>
 
 ## Prerequirements
 ###### Packages
@@ -6,7 +6,7 @@
 vim tmux zsh grc
 ```
 ###### Fonts
-One of [NERD Fonts](https://nerdfonts.com/).
+One of [NERD Fonts](https://nerdfonts.com/). I prefer Iosevka.
 
 ###### Terminal emulator
 One that supports emoji and NERD font glyphs (best effect with double-width characters.
@@ -29,12 +29,20 @@ This repository contains minimal subset of all my dotfiles:
 - Vim
 - Tmux
 
-<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme.png" alt="zsh-theme" width="400"/>
+Including easily customizable [box characters](https://en.wikipedia.org/wiki/Box-drawing_character)
+
+<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-box.png" alt="zsh-theme-box" width="100%"/>
 
 Zsh theme detects and displays information about:
 - [x] running via SSH
 - [x] running in Docker container
 - [x] having Python virtualenv activated
+
+<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-detect.png" alt="zsh-theme-detect" width="100%"/>
+
+Root types in red. <span style="color:red"><b>How distinguishable!</b></span>
+
+<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-root.png" alt="zsh-theme-root" width="100%"/>
 
 ## Other software
 #### Mac OS
