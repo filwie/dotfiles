@@ -1,80 +1,18 @@
-# TEXT STYLE {{{
-italic="$(tput sitm)"
-bold="$(tput bold)"
-reset="$(tput sgr0)"
-# }}}
-
-# COLORS {{{
-git_info_color="%{${fg[brightwhite]}%}"
-path_color="%{${fg[white]}%}"
-distinct_color="%{${fg[brightorange]}%}"
-ok_color="${fg[green]}"
-warning_color="%{${fg[yellow]}%}"
-critical_color="%{${fg[red]}%}"
-indicator_color="%{${fg[blue]}%}"
-# }}}
-
-# CHARACTERS {{{
-space=" "
-
-# os
-docker_info=""
-os_info=""
-
-is_docker_container && docker_info="$(tput setaf 4)🐳 (${HOSTNAME})$(tput sgr0)"
-is_arch && os_info="$(tput setaf 4) $(tput sgr0)"
-is_ubuntu && os_info="$(tput setaf 3) $(tput sgr0)"
-is_mac && os_info="$(tput setaf 15) $(tput sgr0)"
-
-# glyphs
-local branch_glyph=" "
-local git_dirty_glyph=""
-local git_clean_glyph=""
-local eth_glyph=" "
-local python_glyph=" "
-local banana_glyph=" "
-# prompt
-local regular_glyph=" "
-local root_glyph="  "
-# }}}
-
-# FUNCTIONS {{{
-function is_remote () {
-    # ${REMOTE_CONNECTION} env var is set in zshrc
-    # simple check like commented out did not work in tmux
-    # [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]
-    [[ "${REMOTE_CONNECTION}" == "true" ]]
-}
-
-function is_mac () {
-    [[ "$(uname -a)" =~ ".*Darwin.*" ]]
-}
-
-function is_linux () {
-    [[ "$(uname)" == "Linux" ]]
-}
-
-function is_ubuntu () {
-    [[ "$(uname -a)" =~ ".*Ubuntu.*" ]]
-}
-
-function is_arch () {
-    [[ "$(uname -a)" =~ ".*arch.*" ]]
-}
-
-function is_docker_container () {
-    [[ -f "/.dockerenv" ]]
-}
-
-# Root types in bold red
-function precmd {
-    if (( $(id -u) == 0 )); then
-        zle_highlight=( default:fg=red,bold )
-    else
-        zle_highlight=( default:fg=brightwhite )
-    fi
-}
-# }}}
+# Resources:
+#   http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+BOX_TL="┏"
+BOX_BL="┗"
+BRANCH_GLYPH=" "
+GIT_DIRTY_GLYPH=""
+GIT_CLEAN_GLYPH=""
+ETH_GLYPH=" "
+PYTHON_GLYPH=" "
+BANANA_GLYPH=" "
+REGULAR_GLYPH=" "
+ROOT_GLYPH="  "
+ARCH_GLYPH=" "
+UBUNTU_GLYPH=" "
+APPLE_GLYPH=" "
 
 ZSH_THEME_SCM_PROMPT_PREFIX="${git_info_color}${branch_glyph}${italic}"
 ZSH_THEME_GIT_PROMPT_PREFIX="${ZSH_THEME_SCM_PROMPT_PREFIX}"
@@ -83,15 +21,49 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="${reset}${space}"
 ZSH_THEME_GIT_PROMPT_DIRTY="${warning_color}${space}${git_dirty_glyph}${reset}"
 ZSH_THEME_GIT_PROMPT_CLEAN="${ok_color}${space}${git_clean_glyph}${reset}"
 
-local path_short="${path_color}%2~${reset}${space}"
-local git_prompt=$'$(git_prompt_info)$(bzr_prompt_info)'
+function _italic () { echo -n $(tput sitm) }
+function _bold () { echo -n $(tput bold) }
+function _reset () { echo -n $(tput sgr0) }
 
-local prompt_end="%(!.${root_glyph}.${regular_glyph})"
+function is_remote () {
+    # ${REMOTE_CONNECTION} env var is set in zshrc
+    # [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]] <- not works in tmux
+    [[ "${REMOTE_CONNECTION}" == "true" ]]
+}
 
-local ret_status="%(?:%{${path_color}%}${prompt_end}:%{${critical_color}%}${prompt_end})%{$reset_color%}"
+function is_mac () { [[ "$(uname -a)" =~ ".*Darwin.*" ]] }
+function is_linux () { [[ "$(uname)" == "Linux" ]] }
+function is_ubuntu () { [[ "$(uname -a)" =~ ".*Ubuntu.*" ]] }
+function is_arch () { [[ "$(uname -a)" =~ ".*arch.*" ]] }
+function is_docker_container () { [[ -f "/.dockerenv" ]] }
 
-PROMPT="┏ ${os_info} ${path_short} ${git_prompt} $(virtualenv_prompt_info)
-┗ ${ret_status}"
-RPROMPT='[%F{yellow}%?%f]$(virtualenv_prompt_info)'
+function _os_info () {
+    is_arch   && { echo -n "$(tput setaf 4)${ARCH_GLYPH}$(tput sgr0)"; return }
+    is_ubuntu && { echo -n "$(tput setaf 3)${UBUNTU_GLYPH}$(tput sgr0)"; return }
+    is_mac    && { echo -n "$(tput setaf 7)${APPLE_GLYPH}$(tput sgr0)"; return }
+}
+
+function precmd {
+    if (( $(id -u) == 0 )); then
+        zle_highlight=( default:fg=red,bold )
+    else
+        zle_highlight=( default:fg=brightwhite )
+    fi
+}
+
+
+
+PATH_SHORT="%2~"
+GIT_INFO=$'$(git_prompt_info)$(bzr_prompt_info)'
+
+PROMPT_END_GLYPH="%(!.${root_glyph}.${regular_glyph})"
+PROMPT_END="%(?:%{${OK_COLOR}%}${PROMPT_END_GLYPH}:%{${FAIL_COLOR}%}${PROMPT_END_GLYPH})%{$reset_color%}"
+
+#PROMPT="┏ ${os_info} ${path_short} ${git_prompt} $(virtualenv_prompt_info)
+#┗ ${ret_status}"
+
+PROMPT='┏ $(_bold) kek $(_reset)$(_italic) fek $(_reset) pek
+┗'
+RPROMPT='$(tput bold)[%F{yellow}%?%f]$(virtualenv_prompt_info)'
 
 # vim: set filetype=zsh:
