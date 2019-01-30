@@ -122,13 +122,13 @@ function set_aliases () {
 
 function main () {
   ZSH=${HOME}/.oh-my-zsh
+  ZSH_THEME="wisp"
   set_env_vars
   set_user_path
   set_zsh_plugins
   source_other_files
   set_aliases
   (( $(id -u) == 0 )) || tmux_start_or_attach
-  ZSH_THEME="wisp"
 }
 
 main
