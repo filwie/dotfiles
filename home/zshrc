@@ -42,7 +42,7 @@ function tmux_start_or_attach () {
 
 # OH-MY-ZSH PLUGINS {{{
 function set_zsh_plugins () {
-  plugins=(git dotenv emoji fzf gitignore sudo docker-compose)
+  plugins=(git dotenv fzf gitignore sudo virtualenv virtualenvwrapper)
   is_mac && plugins+=(osx brew brew-cask)
 }
 # }}}
@@ -69,15 +69,10 @@ function source_other_files () {
 
 # ENV VARS {{{
 function set_env_vars () {
-  export ZSH=${HOME}/.oh-my-zsh
-  export ZSH_THEME="wisp"
-
   export VISUAL=vim
   export EDITOR="${VISUAL}"
   export BROWSER="firefox"
-  is_mac && export IS_MAC="true"
-  is_remote && export IS_REMOTE="true"
-  is_docker_container && export IS_DOCKER_CONTAINER="true"
+  is_remote && export REMOTE_CONNECTION="true"
 }
 
 # }}}
@@ -113,23 +108,39 @@ function set_aliases () {
   alias cdr='pushd $(git rev-parse --show-toplevel)'
   alias groot='echo $(git rev-parse --show-toplevel)'
   alias unneeded='echo **/(*.pyc|*.pyo|__pycache__|tags|*.retry)'
-
+  alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
   if is_mac; then
     alias ls='grc gls --color=always'
   else
     alias ls='grc ls --color=always'
   fi
+  # open files in vim automatically
+  alias -s {yml,yaml,md}=vim
+}
+# }}}
+
+# PYTHON {{{
+function setup_virtualenvwrapper () {
+  export VIRTUAL_ENV_DISABLE_PROMPT=1
+  export WORKON_HOME="$HOME/python"
+  export PROJECT_HOME=$HOME/repos
+  local venv_wrapper="${HOME}/.local/bin/virtualenvwrapper.sh"
+  if [[ -f "${venv_wrapper}" ]]; then
+    source "${venv_wrapper}"
+  fi
 }
 # }}}
 
 function main () {
+  ZSH=${HOME}/.oh-my-zsh
   set_env_vars
   set_user_path
   set_zsh_plugins
   source_other_files
+  setup_virtualenvwrapper
   set_aliases
   (( $(id -u) == 0 )) || tmux_start_or_attach
+  ZSH_THEME="wisp"
 }
-
 
 main
