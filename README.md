@@ -3,7 +3,7 @@
 ## Prerequirements
 ###### Packages
 ``` sh
-vim tmux zsh grc
+vim tmux zsh [grc] ncurses
 ```
 ###### Fonts
 One of [NERD Fonts](https://nerdfonts.com/). I prefer Iosevka.
