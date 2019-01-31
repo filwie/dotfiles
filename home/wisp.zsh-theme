@@ -2,6 +2,7 @@
 # Resources:
 #   http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 #   http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+
 BRANCH_GLYPH=" "
 GIT_DIRTY_GLYPH=""
 GIT_CLEAN_GLYPH=""
@@ -32,14 +33,6 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="$(_reset)"
 ZSH_THEME_GIT_PROMPT_CLEAN="$(_fg_color 10) ${GIT_CLEAN_GLYPH}$(_reset)"
 ZSH_THEME_GIT_PROMPT_DIRTY="$(_fg_color 9) ${GIT_DIRTY_GLYPH}$(_reset)"
 
-ZSH_THEME_SSH_INFO="${ETH_GLYPH}SSH"
-ZSH_THEME_DOCKER_INFO="${WHALE_EMOJI}%m"
-
-ZSH_THEME_SEGMENT_SEPARATOR=" "
-
-PROMPT_END_GLYPH="%(!.${root_glyph}.${regular_glyph})"
-PROMPT_END="%(?:%{${OK_COLOR}%}${PROMPT_END_GLYPH}:%{${FAIL_COLOR}%}${PROMPT_END_GLYPH})%{$reset_color%}"
-
 function is_remote () {
   # ${REMOTE_CONNECTION} env var is set in zshrc
   # [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]] <- not works in tmux
@@ -59,7 +52,7 @@ function _os_info () {
 }
 
 function _docker_info () {
-  is_docker_container && echo -n "${ZSH_THEME_DOCKER_INFO}"
+  is_docker_container && echo -n "${WHALE_EMOJI}%m"
 }
 
 function _venv_info () {
@@ -68,7 +61,7 @@ function _venv_info () {
 }
 
 function _ssh_info () {
-  is_remote && echo -n "${ZSH_THEME_SSH_INFO}"
+  is_remote && echo -n "${ETH_GLYPH}SSH"
 }
 
 function _path_info () { echo -n "${DIR_GLYPH} %2~" }
