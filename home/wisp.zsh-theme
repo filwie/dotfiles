@@ -1,5 +1,6 @@
 # vim: set ft=zsh sw=2 ts=2:
 # Resources:
+#   http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion
 #   http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 BRANCH_GLYPH=" "
 GIT_DIRTY_GLYPH=""

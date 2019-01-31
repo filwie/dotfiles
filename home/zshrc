@@ -86,8 +86,8 @@ function set_user_path () {
 
   _go="/usr/local/go/bin/go"
   if [[ -x "${_go}" ]]; then
-    path+=("$(dirname ${_go})"
-    "$(${_go} env GOPATH)/bin")
+    path+=("${_go:h:A}"
+           "$(${_go} env GOPATH)/bin")
     export GOPATH="$(${_go} env GOPATH)"
   fi
 
