@@ -101,7 +101,7 @@ function set_user_path () {
 
 # ALIASES {{{
 function set_aliases () {
-  if which gvim > /dev/null; then
+  if which gvim &> /dev/null; then
     alias vim='gvim -v'
   fi
   alias watch='watch --color'
@@ -110,10 +110,12 @@ function set_aliases () {
   alias groot='echo $(git rev-parse --show-toplevel)'
   alias unneeded='echo **/(*.pyc|*.pyo|__pycache__|tags|*.retry)'
   alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-  if is_mac; then
-    alias ls='grc gls --color=always'
-  else
-    alias ls='grc ls --color=always'
+  if which grc &> /dev/null; then
+    if is_mac; then
+      alias ls='grc gls --color=always'
+    else
+      alias ls='grc ls --color=always'
+    fi
   fi
   # open files in vim automatically
   alias -s {yml,yaml,md}=vim
