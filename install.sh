@@ -13,20 +13,21 @@ function info_msg () {
   echo -e "$(tput setaf 3)${1}$(tput sgr0)"
 }
 
+function error_msg () {
+  echo -e "$(tput setaf 3)${1}$(tput sgr0)" > /dev/stderr
+  return "${1:-1}"
+}
+
 function run_log_cmd () {
-  # display command that is going to be ran and run it
-  # ARGS:
-  # 1 - cmd
-  local cmd="${1}"
+  local cmd
+  cmd="${1}"
   echo -e "$(tput setaf 12)[$(date +'%H:%M:%S')] RUNNING: ${cmd}$(tput sgr0)"
   eval "${cmd}"
 }
 
 function clone_mini_dotfiles () {
-  # clone mini dotfiles repo if its destination directory does not exist
-  # ARGS:
-  # 1 - repo url
-  local repo_url="${1}"
+  local repo_url
+  repo_url="${1}"
   if ! [[ -d "${mini_dotfiles}" ]]; then
     run_log_cmd "git clone ${repo_url} ${mini_dotfiles}"
   fi
@@ -34,11 +35,11 @@ function clone_mini_dotfiles () {
 
 function link_mini_dotfiles () {
   pushd "${mini_dotfiles}" > /dev/null
-  for dotfile in home/*; do
-    local _src="$(realpath ${dotfile})"
-    local _target="${HOME}/.$(basename ${dotfile})"
-    if [[ "${_src}" =~ ".*.zsh-theme" ]]; then
-      _target="${zsh_themes}/$(basename ${_src})"
+  for dotfile in ./home/*; do
+    local _src="${dotfile:A}"
+    local _target="${HOME}/.${dotfile:t}"
+    if [[ "${_src}" =~ .*.zsh-theme ]]; then
+      _target="${zsh_themes}/${_src:t}"
     fi
     [[ -L "${_target}" ]] && run_log_cmd "rm ${_target}"
     [[ -f "${_target}" ]] && run_log_cmd "mv ${_target} ${_target}.bak"
@@ -47,38 +48,47 @@ function link_mini_dotfiles () {
   popd > /dev/null
 }
 
-function install_util () {
-  clone_url="${1}"
-  clone_dest="${2}"
-  script_to_run="${3:-''}"
+function install_from_url () {
+  local cmd url dest install_script
+  cmd="${1}"
+  url="${2}"
+  dest="${3}"
+  install_script="${4}"
 
-  if [[ -d "${clone_dest}" ]]; then
-    info_msg "${clone_dest} found. Skipping..."
+  if [[ -e "${dest}" ]]; then
+    info_msg "${dest} found. Skipping..."
     return
   fi
 
-  run_log_cmd "git clone --depth=1 ${clone_url} ${clone_dest}"
-  if [[ "${script_to_run}" != '' ]]; then
-    run_log_cmd "${script_to_run}"
-  fi
+  case "${cmd}" in
+    git)
+      run_log_cmd "git clone --depth=1 ${url} ${dest}" ;;
+    curl)
+      run_log_cmd "curl -fLo ${dest} --create-dirs ${url}" ;;
+    *)
+      return 1
+      ;;
+  esac
+
+  [[ -n "${install_script}" ]] && run_log_cmd "${install_script}"
 }
 
 function install_utilities () {
-  install_util "https://github.com/robbyrussell/oh-my-zsh.git" \
-               "${HOME}/.oh-my-zsh"
-  install_util "https://github.com/junegunn/fzf.git" \
-               "${HOME}/.fzf" \
-               "${HOME}/.fzf/install --all --no-bash --no-fish --no-update-rc"
-  install_util "https://github.com/tmux-plugins/tpm" \
-               "${HOME}/.tmux/plugins/tpm" \
-               "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
-
-  if ! [[ -f "${HOME}/.vim/autoload/plug.vim" ]]; then
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    vim +silent +PlugInstall +qall
-  else
-    info_msg "Vim plug already intalled. Skipping..."
-  fi
+  install_from_url "git"\
+                   "https://github.com/robbyrussell/oh-my-zsh.git" \
+                   "${HOME}/.oh-my-zsh"
+  install_from_url "git" \
+                   "https://github.com/junegunn/fzf.git" \
+                   "${HOME}/.fzf" \
+                   "${HOME}/.fzf/install --all --no-bash --no-fish --no-update-rc"
+  install_from_url "git" \
+                   "https://github.com/tmux-plugins/tpm" \
+                   "${HOME}/.tmux/plugins/tpm" \
+                   "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
+  install_from_url "curl" \
+                   "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
+                   "${HOME}/.vim/autoload/plug.vim" \
+                   "vim +silent +PlugInstall +qall"
 }
 
 function main () {
