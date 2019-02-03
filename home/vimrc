@@ -28,7 +28,9 @@ Plug 'rhysd/vim-clang-format', {'for': ['c', 'c++']}
 " Asynchronous syntax checking (replaced syntastic)
 Plug 'w0rp/ale', {'for': g:languages_to_lint}
 " Fat code completion
-Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
+if has('python')
+  Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
+endif
 " Git indicatiors
 Plug 'airblade/vim-gitgutter'
 " Git wrapper
