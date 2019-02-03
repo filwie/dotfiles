@@ -15,6 +15,7 @@ ROOT_GLYPH="  "
 ARCH_GLYPH=" "
 UBUNTU_GLYPH=" "
 APPLE_GLYPH=" "
+RASPBERRY_FLYPH=" "
 WHALE_EMOJI="🐳 "
 
 function _italic () { echo -n "%{$(tput sitm)%}" }
@@ -39,19 +40,16 @@ function is_remote () {
   [[ -n "${REMOTE_CONNECTION}" ]]
 }
 
-function is_mac () { [[ "$(uname -a)" =~ ".*Darwin.*" ]] }
-function is_linux () { [[ "$(uname)" == "Linux" ]] }
-function is_ubuntu () { [[ "$(uname -a)" =~ ".*Ubuntu.*" ]] }
-function is_arch () { [[ "$(uname -a)" =~ ".*arch.*" ]] }
-function is_docker_container () { [[ -f "/.dockerenv" ]] }
-
 function _os_info () {
-  is_arch && { echo -n "$(tput setaf 4)${ARCH_GLYPH}$(tput sgr0)"; return }
-  is_ubuntu && { echo -n "$(tput setaf 3)${UBUNTU_GLYPH}$(tput sgr0)"; return }
-  is_mac && { echo -n "$(tput setaf 7)${APPLE_GLYPH}$(tput sgr0)"; return }
+  # below functions' definitions reside in zshrc
+  is_arch && { echo -n "$(_fg_color 4)${ARCH_GLYPH}$(_reset)"; return }
+  is_ubuntu && { echo -n "$(_fg_color 3)${UBUNTU_GLYPH}$(_reset)"; return }
+  is_mac && { echo -n "$(_fg_color 7)${APPLE_GLYPH}$(_reset)"; return }
+  is_raspberry && {echo -n "$(_fg_color 9)${RASPBERRY_GLYPH}$(_reset)"; return}
 }
 
 function _docker_info () {
+  # below function's definition resides in zshrc
   is_docker_container && echo -n "${WHALE_EMOJI}%m"
 }
 
