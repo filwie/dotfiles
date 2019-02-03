@@ -24,6 +24,7 @@ Plug 'ludovicchabant/vim-gutentags'
 " Tags, file structure overview
 Plug 'majutsushi/tagbar', {'for': g:ctags_supported_languages}
 Plug 'tell-k/vim-autopep8', {'for': 'python'}
+Plug 'rhysd/vim-clang-format', {'for': ['c', 'c++']}
 " Asynchronous syntax checking (replaced syntastic)
 Plug 'w0rp/ale', {'for': g:languages_to_lint}
 " Fat code completion
@@ -145,6 +146,7 @@ augroup ccpp
   autocmd FileType c nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
   autocmd FileType cpp nnoremap <F9> :AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
   autocmd FileType c,cpp nnoremap <buffer> <F10> :exec '!clear; %:p:h/%:r' <CR>
+  autocmd FileType c,cpp nnoremap <leader>8 :ClangFormat<CR>
 augroup END
 
 augroup vimscript
