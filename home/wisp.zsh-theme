@@ -15,7 +15,7 @@ ROOT_GLYPH="  "
 ARCH_GLYPH=" "
 UBUNTU_GLYPH=" "
 APPLE_GLYPH=" "
-RASPBERRY_FLYPH=" "
+RASPBERRY_GLYPH=" "
 WHALE_EMOJI="🐳 "
 
 function _italic () { echo -n "%{$(tput sitm)%}" }
