@@ -4,25 +4,17 @@ function is_remote () {
   [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]
 }
 
-function is_mac () {
-  [[ "$(uname -a)" =~ ".*Darwin.*" ]]
-}
+function is_mac () { [[ "$(uname)" =~ "Darwin" ]] }
 
-function is_linux () {
-  [[ "$(uname)" == "Linux" ]]
-}
+function is_linux () { [[ "$(uname)" == "Linux" ]] }
 
-function is_ubuntu () {
-  [[ "$(uname -a)" =~ ".*Ubuntu.*" ]]
-}
+function is_ubuntu () { [[ "$(uname -a)" =~ ".*Ubuntu.*" ]] }
 
-function is_arch () {
-  [[ "$(uname -a)" =~ ".*arch.*" ]]
-}
+function is_arch () { [[ "$(uname -a)" =~ ".*arch.*" ]] }
 
-function is_docker_container () {
-  [[ -f "/.dockerenv" ]]
-}
+function is_raspberry () { is_linux && cat /etc/*-release | grep raspbian > /dev/null }
+
+function is_docker_container () { [[ -f "/.dockerenv" ]] }
 # }}}
 
 # TMUX {{{
