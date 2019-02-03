@@ -89,6 +89,9 @@ function install_utilities () {
                    "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" \
                    "${HOME}/.vim/autoload/plug.vim" \
                    "vim +silent +PlugInstall +qall"
+  install_from_url "curl" \
+                   "https://raw.githubusercontent.com/JDevlieghere/dotfiles/master/.vim/.ycm_extra_conf.py" \
+                   "${HOME}/.vim/.ycm_extra_conf.py"
 }
 
 function main () {
