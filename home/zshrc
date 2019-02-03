@@ -112,9 +112,9 @@ function set_aliases () {
   alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
   if which grc &> /dev/null; then
     if is_mac; then
-      alias ls='grc gls --color=always'
+      alias ll='grc ls -allah'
     else
-      alias ls='grc ls --color=always'
+      alias ll='grc ls --color=always -allah'
     fi
   fi
   # open files in vim automatically
@@ -134,3 +134,5 @@ function main () {
 }
 
 main
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
