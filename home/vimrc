@@ -76,7 +76,7 @@ let g:autopep8_disable_show_diff=0
 let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
 
 " YouCompleteMe
-let g:ycm_global_ycm_extra_conf = '$HOME/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '$HOME/.vim/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " toggle quickfix window
@@ -251,7 +251,7 @@ silent! colorscheme srcery
 highlight Normal ctermbg=NONE
 highlight SignColumn guibg=NONE ctermbg=NONE
 highligh ColorColumn ctermbg=NONE ctermfg=1 cterm=bold
-highlight LineNr ctermbg=NONE ctermfg=0
+highlight LineNr ctermbg=NONE ctermfg=7
 highlight CursorLineNr ctermbg=NONE cterm=bold
 highligh Folded ctermfg=3 ctermbg=NONE
 highlight EndOfBuffer ctermfg=0 ctermbg=NONE
