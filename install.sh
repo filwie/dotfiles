@@ -7,7 +7,9 @@ local mini_dotfiles="${HOME}/.mini-dotfiles"
 local mini_dotfiles_repo_ssh="git@github.com:filwie/mini-dotfiles.git"
 local mini_dotfiles_repo_https="https://github.com/filwie/mini-dotfiles.git"
 
-local zsh_themes="${ZSH_CUSTOM}/themes"
+ZSH_CUSTOM="${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"
+ZSH_THEMES="${ZSH_CUSTOM}/themes"
+ZSH_PLUGINS="${ZSH_CUSTOM}/plugins"
 
 function info_msg () {
   echo -e "$(tput setaf 3)${1}$(tput sgr0)"
@@ -39,7 +41,7 @@ function link_mini_dotfiles () {
     local _src="${dotfile:A}"
     local _target="${HOME}/.${dotfile:t}"
     if [[ "${_src}" =~ .*.zsh-theme ]]; then
-      _target="${zsh_themes}/${_src:t}"
+      _target="${ZSH_THEMES}/${_src:t}"
     fi
     [[ -L "${_target}" ]] && run_log_cmd "rm ${_target}"
     [[ -f "${_target}" ]] && run_log_cmd "mv ${_target} ${_target}.bak"
@@ -92,6 +94,10 @@ function install_utilities () {
   install_from_url "curl" \
                    "https://raw.githubusercontent.com/JDevlieghere/dotfiles/master/.vim/.ycm_extra_conf.py" \
                    "${HOME}/.vim/.ycm_extra_conf.py"
+  install_from_url "git" \
+                   "https://github.com/zsh-users/zsh-autosuggestions" \
+                   "${ZSH_PLUGINS}/zsh-autosuggestions"
+
 }
 
 function main () {

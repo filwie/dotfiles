@@ -34,7 +34,7 @@ function tmux_start_or_attach () {
 
 # OH-MY-ZSH PLUGINS {{{
 function set_zsh_plugins () {
-  plugins=(git dotenv fzf gitignore sudo)
+  plugins=(git dotenv fzf gitignore sudo zsh-autosuggestions)
   is_mac && plugins+=(osx brew brew-cask)
 }
 # }}}
