@@ -42,8 +42,8 @@ function set_zsh_plugins () {
 # SOURCING {{{
 function source_other_files () {
   local fzf_paths=("${HOME}/.fzf.zsh"
-  "/usr/share/fzf/key-bindings.zsh"
-  "/usr/share/completion.zsh")
+                   "/usr/share/fzf/key-bindings.zsh"
+                   "/usr/share/completion.zsh")
 
   for fzf_path in "${fzf_paths[@]}"; do
     if [[ -f "${fzf_path}" ]]; then
@@ -67,14 +67,12 @@ function set_env_vars () {
   is_remote && export REMOTE_CONNECTION=1
   export VIRTUAL_ENV_DISABLE_PROMPT=1
 }
-
 # }}}
 
 # PATH {{{
 function set_user_path () {
-  typeset -U path
   path+=("${HOME}/.local/bin"
-  "${HOME}/bin")
+         "${HOME}/bin")
 
   _go="/usr/local/go/bin/go"
   if [[ -x "${_go}" ]]; then
