@@ -34,6 +34,9 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="$(_reset)"
 ZSH_THEME_GIT_PROMPT_CLEAN="$(_fg_color 10) ${GIT_CLEAN_GLYPH}$(_reset)"
 ZSH_THEME_GIT_PROMPT_DIRTY="$(_fg_color 9) ${GIT_DIRTY_GLYPH}$(_reset)"
 
+ZSH_THEME_BOX_CHAR=2
+ZSH_THEME_ALWAYS_SHOW_PYTHON=1
+
 function is_remote () {
   # ${REMOTE_CONNECTION} env var is set in zshrc
   # [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]] <- not works in tmux
@@ -53,9 +56,17 @@ function _docker_info () {
   is_docker_container && echo -n "${WHALE_EMOJI}%m"
 }
 
-function _venv_info () {
-  [[ -n ${VIRTUAL_ENV} ]] || return
-  echo -n "$(_fg_color 3)${PYTHON_GLYPH} $(_fg_color 4)${VIRTUAL_ENV:t}"
+function _python_info () {
+  local info="$(_fg_color 3)${PYTHON_GLYPH} $(_fg_color 4)"
+  local version="${$(python -V)#Python }"
+  if [[ -n ${VIRTUAL_ENV} ]]; then
+    info+="${VIRTUAL_ENV:t} (${version})${_reset}"
+    echo -n "${info}"
+  else
+    info+="default (${version})${_reset}"
+    [[ ${ZSH_THEME_ALWAYS_SHOW_PYTHON} -eq 1 ]] \
+      && echo -n "${info}"
+  fi
 }
 
 function _ssh_info () {
@@ -120,17 +131,16 @@ function _prompt_end () {
   echo -n "%(?:%{$(_fg_color 15)%}$(_prompt_end_symbol):%{$(_fg_color 1)%}$(_prompt_end_symbol))%{$(_reset)%}"
 }
 
-BOX_CHAR=2
 function _prompt () {
-  _box t ${BOX_CHAR}
+  _box t ${ZSH_THEME_BOX_CHAR}
   _separator
   _segment "$(_docker_info)" 4
   _segment "$(_ssh_info)" 3
   _segment "$(_os_info)"
-  _box t ${BOX_CHAR}; _separator
+  _box t ${ZSH_THEME_BOX_CHAR}; _separator
   _segment "$(_path_info)" 7
   _segment "$(_git_info)" 11
-  _segment "$(_venv_info)"
+  _segment "$(_python_info)"
 }
 
 function precmd {
@@ -142,5 +152,5 @@ function precmd {
 }
 
 
-PROMPT='$(_box tl ${BOX_CHAR})$(_prompt)
-$(_box bl ${BOX_CHAR}) $(_prompt_end)'
+PROMPT='$(_box tl ${ZSH_THEME_BOX_CHAR})$(_prompt)
+$(_box bl ${ZSH_THEME_BOX_CHAR}) $(_prompt_end)'
