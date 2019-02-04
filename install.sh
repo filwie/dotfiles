@@ -7,7 +7,7 @@ local mini_dotfiles="${HOME}/.mini-dotfiles"
 local mini_dotfiles_repo_ssh="git@github.com:filwie/mini-dotfiles.git"
 local mini_dotfiles_repo_https="https://github.com/filwie/mini-dotfiles.git"
 
-local zsh_themes="${HOME}/.oh-my-zsh/custom/themes"
+local zsh_themes="${ZSH_CUSTOM}/themes"
 
 function info_msg () {
   echo -e "$(tput setaf 3)${1}$(tput sgr0)"
