@@ -103,6 +103,8 @@ function set_aliases () {
   if which grc &> /dev/null; then
     if is_mac; then
       alias ll='grc ls -allah'
+      alias python='python3'
+      alias pip='pip3'
     else
       alias ll='grc ls --color=always -allah'
     fi
