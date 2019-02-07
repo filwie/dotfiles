@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 # vim: set ft=zsh sw=2 ts=2:
 
-source "${0:A:h}/vars.sh"
+# source zshrc variables
+eval "$(head -n 12 ${0:A:h}/home/zshrc)"
 
 function info_msg () {
   echo -e "$(tput setaf 3)${1}$(tput sgr0)"
