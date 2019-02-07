@@ -35,7 +35,7 @@ ZSH_THEME_GIT_PROMPT_CLEAN="$(_fg_color 10) ${GIT_CLEAN_GLYPH}$(_reset)"
 ZSH_THEME_GIT_PROMPT_DIRTY="$(_fg_color 9) ${GIT_DIRTY_GLYPH}$(_reset)"
 
 ZSH_THEME_BOX_CHAR=2
-ZSH_THEME_ALWAYS_SHOW_PYTHON=1
+ZSH_THEME_ALWAYS_SHOW_PYTHON=0
 
 function is_remote () {
   # ${REMOTE_CONNECTION} env var is set in zshrc
