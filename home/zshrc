@@ -74,6 +74,12 @@ function set_user_path () {
   path+=("${HOME}/.local/bin"
          "${HOME}/bin")
 
+  if is_mac; then
+    for dir in ${HOME}/Library/Python/**/bin/; do
+      path+=("${dir}")
+    done
+  fi
+
   _go="/usr/local/go/bin/go"
   if [[ -x "${_go}" ]]; then
     path+=("${_go:h:A}"
