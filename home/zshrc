@@ -1,4 +1,7 @@
 # vim: set ft=zsh sw=2 ts=2 fdm=marker:
+ZSH=${HOME}/.oh-my-zsh
+ZSH_THEME="wisp"
+
 # UTILS {{{
 function is_remote () {
   [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]
@@ -121,8 +124,6 @@ function set_aliases () {
 # }}}
 
 function main () {
-  ZSH=${HOME}/.oh-my-zsh
-  ZSH_THEME="wisp"
   set_env_vars
   set_user_path
   set_zsh_plugins
