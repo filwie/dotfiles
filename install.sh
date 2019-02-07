@@ -1,15 +1,7 @@
 #!/usr/bin/env zsh
 # vim: set ft=zsh sw=2 ts=2:
 
-local log_file="/tmp/mini_dotfiles$(date)"
-
-local mini_dotfiles="${HOME}/.mini-dotfiles"
-local mini_dotfiles_repo_ssh="git@github.com:filwie/mini-dotfiles.git"
-local mini_dotfiles_repo_https="https://github.com/filwie/mini-dotfiles.git"
-
-ZSH_CUSTOM="${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"
-ZSH_THEMES="${ZSH_CUSTOM}/themes"
-ZSH_PLUGINS="${ZSH_CUSTOM}/plugins"
+source "${0:A:h}/vars.sh"
 
 function info_msg () {
   echo -e "$(tput setaf 3)${1}$(tput sgr0)"
@@ -30,13 +22,13 @@ function run_log_cmd () {
 function clone_mini_dotfiles () {
   local repo_url
   repo_url="${1}"
-  if ! [[ -d "${mini_dotfiles}" ]]; then
-    run_log_cmd "git clone ${repo_url} ${mini_dotfiles}"
+  if ! [[ -d "${MINI_DOTFILES}" ]]; then
+    run_log_cmd "git clone ${repo_url} ${MINI_DOTFILES}"
   fi
 }
 
 function link_mini_dotfiles () {
-  pushd "${mini_dotfiles}" > /dev/null
+  pushd "${MINI_DOTFILES}" > /dev/null
   for dotfile in ./home/*; do
     local _src="${dotfile:A}"
     local _target="${HOME}/.${dotfile:t}"
@@ -78,11 +70,11 @@ function install_from_url () {
 function install_utilities () {
   install_from_url "git"\
                    "https://github.com/robbyrussell/oh-my-zsh.git" \
-                   "${HOME}/.oh-my-zsh"
+                   "${ZSH}"
   install_from_url "git" \
                    "https://github.com/junegunn/fzf.git" \
-                   "${HOME}/.fzf" \
-                   "${HOME}/.fzf/install --all --no-bash --no-fish --no-update-rc"
+                   "${FZF}" \
+                   "${FZF}/install --no-completion --no-key-bindings --no-bash --no-fish --no-zsh --no-update-rc"
   install_from_url "git" \
                    "https://github.com/tmux-plugins/tpm" \
                    "${HOME}/.tmux/plugins/tpm" \
@@ -101,8 +93,6 @@ function install_utilities () {
 }
 
 function main () {
-  clone_mini_dotfiles "${mini_dotfiles_repo_ssh}" \
-    || clone_mini_dotfiles "${mini_dotfiles_repo_https}"
   install_utilities
   link_mini_dotfiles
 }
