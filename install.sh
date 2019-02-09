@@ -90,6 +90,9 @@ function install_utilities () {
   install_from_url "git" \
                    "https://github.com/zsh-users/zsh-autosuggestions" \
                    "${ZSH_PLUGINS}/zsh-autosuggestions"
+  install_from_url "git" \
+                   "https://github.com/zdharma/fast-syntax-highlighting.git" \
+                   "${ZSH_PLUGINS}/fast-syntax-highlighting"
 
 }
 
