@@ -44,7 +44,8 @@ Plug 'ekalinin/Dockerfile.vim'
 " Execute commands asyncronously
 Plug 'skywind3000/asyncrun.vim'
 " fzf
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug $FZF
 Plug 'junegunn/fzf.vim'
 " handle quotes, parantheses etc.
 Plug 'tpope/vim-surround'
