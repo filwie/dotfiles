@@ -15,15 +15,17 @@ function is_remote () {
   [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]
 }
 
+[[ -f "/etc/issue" ]] && _etc_issue=$(</etc/issue)
+
 function is_mac () { [[ "$(uname)" =~ "Darwin" ]] }
 
 function is_linux () { [[ "$(uname)" == "Linux" ]] }
 
-function is_ubuntu () { [[ "$(uname -a)" =~ ".*Ubuntu.*" ]] }
+function is_ubuntu () { [[ "${_etc_issue}" = *"Ubuntu"* ]] }
 
-function is_arch () { [[ "$(uname -a)" =~ ".*arch.*" ]] }
+function is_arch () { [[ "${_etc_issue}" = *"Arch Linux"* ]] }
 
-function is_raspberry () { is_linux && cat /etc/*-release | grep raspbian > /dev/null }
+function is_raspberry () { [[ "${_etc_issue}" = *"Raspbian"* ]] }
 
 function is_docker_container () { [[ -f "/.dockerenv" ]] }
 # }}}
