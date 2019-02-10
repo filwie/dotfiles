@@ -10,7 +10,7 @@ endif
 " }}}
 
 " PLUGIN VARIABLES {{{
-let g:ctags_supported_languages = ['assembler', 'awk', 'bash', 'c', 'cpp', 'erlang', 'fortran', 'html', 'java', 'javascript', 'lisp', 'lua', 'make', 'matlab', 'pascal', 'perl', 'php', 'sql', 'python', 'rexx', 'ruby', 'scheme', 'sh', 'tcl', 'tex', 'vim', 'vimscript', 'yacc', 'zsh']
+let g:ctags_supported_languages = ['ansible', 'assembler', 'awk', 'bash', 'c', 'cpp', 'erlang', 'fortran', 'html', 'java', 'javascript', 'lisp', 'lua', 'make', 'matlab', 'pascal', 'perl', 'php', 'sql', 'python', 'rexx', 'ruby', 'scheme', 'sh', 'tcl', 'tex', 'vim', 'vimscript', 'yacc', 'yaml', 'zsh']
 let g:languages_to_lint = ['python', 'css', 'html', 'java', 'c', 'cpp', 'ansible', 'markdown', 'vim']
 let g:tag_languages = ['html', 'xml', 'xhtml', 'jinja']
 "}}}
@@ -81,6 +81,9 @@ let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '$HOME/.vim/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" Tagbar
+let g:tagbar_type_ansible = {'ctagstype' : 'ansible', 'kinds' : ['t:tasks'], 'sort' : 0}
 
 " toggle quickfix window
 nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
