@@ -16,10 +16,8 @@ function error_msg () {
 }
 
 function run_log_cmd () {
-  local cmd
-  cmd="${1}"
-  echo -e "$(tput setaf 12)[$(date +'%H:%M:%S')] RUNNING: ${cmd}$(tput sgr0)"
-  eval "${cmd}"
+  echo -e "$(tput setaf 12)[$(date +'%H:%M:%S')] RUNNING: ${1}$(tput sgr0)"
+  eval "${1}"
 }
 
 function clone_mini_dotfiles () {
