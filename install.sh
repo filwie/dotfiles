@@ -20,13 +20,6 @@ function run_log_cmd () {
   eval "${1}"
 }
 
-function clone_mini_dotfiles () {
-  local repo_url
-  repo_url="${1}"
-  if ! [[ -d "${MINI_DOTFILES}" ]]; then
-    run_log_cmd "git clone ${repo_url} ${MINI_DOTFILES}"
-  fi
-}
 
 function link_mini_dotfiles () {
   pushd "${MINI_DOTFILES}" > /dev/null
