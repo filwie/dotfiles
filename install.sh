@@ -4,6 +4,8 @@
 # source zshrc variables
 eval "$(head -n 12 ${0:A:h}/home/zshrc)"
 
+MINI_DOTFILES="${0:A:h}"
+
 function info_msg () {
   echo -e "$(tput setaf 3)${1}$(tput sgr0)"
 }
