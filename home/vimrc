@@ -23,40 +23,38 @@ let g:tag_languages = ['html', 'xml', 'xhtml', 'jinja']
 "}}}
 
 " PLUGINS LIST {{{
+" Sorted alphabetically by plugin name `sort i /^\(Plug.*\/\|Plug.*\$\)/`
 call plug#begin('~/.vim/plugged')
+Plug 'w0rp/ale', {'for': g:languages_to_lint}
+Plug 'pearofducks/ansible-vim'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'ekalinin/Dockerfile.vim'
+Plug $FZF
+Plug 'junegunn/fzf.vim'
+Plug 'morhetz/gruvbox'
+Plug 'mboughaba/i3config.vim'
+Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
+Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'ludovicchabant/vim-gutentags'
+Plug 'vim-python/python-syntax'
+Plug 'srcery-colors/srcery-vim'
+Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar', {'for': g:ctags_supported_languages}
 Plug 'tell-k/vim-autopep8', {'for': 'python'}
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'c++']}
-Plug 'w0rp/ale', {'for': g:languages_to_lint}
-if has('python')
-  Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
-endif
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-fugitive'
-Plug 'pearofducks/ansible-vim'
-Plug 'glench/vim-jinja2-syntax'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'skywind3000/asyncrun.vim'
-Plug $FZF
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-surround'
 Plug 'ap/vim-css-color'
-Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
-Plug 'nathanielc/vim-tickscript', {'for': 'tick'}
-Plug 'srcery-colors/srcery-vim'
-Plug 'morhetz/gruvbox'
-Plug 'ervandew/supertab'
-Plug 'justinmk/vim-sneak'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'airblade/vim-gitgutter'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'glench/vim-jinja2-syntax'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
-Plug 'vim-python/python-syntax'
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'mboughaba/i3config.vim'
+Plug 'justinmk/vim-sneak'
+Plug 'tpope/vim-surround'
+Plug 'nathanielc/vim-tickscript', {'for': 'tick'}
 call plug#end()
 " }}}
 
