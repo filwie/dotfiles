@@ -160,6 +160,7 @@ augroup END
 
 augroup ansible
   autocmd!
+  autocmd BufRead,BufNewFile */ansible/*.yml set filetype=yaml.ansible
   autocmd FileType yaml.ansible,yaml,ansible nnoremap <buffer> <F9> :exec '!clear; ansible-playbook' shellescape(@%, 1)<CR>
   autocmd Filetype yaml setlocal ts=2 sw=2 sts=2 expandtab
 augroup END
