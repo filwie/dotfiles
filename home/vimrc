@@ -40,6 +40,8 @@ if has('python')
 endif
 " Git indicatiors
 Plug 'airblade/vim-gitgutter'
+" syntax, indent, and filetype plugin files for git, gitcommit, gitconfi
+Plug 'tpope/vim-git'
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 " Some ansible support
