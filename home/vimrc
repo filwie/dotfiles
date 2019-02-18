@@ -256,9 +256,11 @@ if has('mouse')
   " try a, r, v
   " set ttymouse=xterm2
   set mouse+=a
-  if &term =~ '^screen' || &term =~ '^tmux'
-    " Enable extended mouse while using tmux
-    set ttymouse=xterm2
+  if ! has('nvim')
+    if &term =~ '^screen' || &term =~ '^tmux'
+      " Enable extended mouse while using tmux
+      set ttymouse=xterm2
+    endif
   endif
 endif
 " }}}
