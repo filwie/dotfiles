@@ -32,6 +32,7 @@ function link_mini_dotfiles () {
     if [[ "${_src:t}" == "vimrc" ]]; then
       local _nvim_init
       _nvim_init="${XDG_CONFIG_HOME:-${HOME}/.config}/nvim/init.vim"
+      [[ -f "${_nvim_init}" ]] && rm "${_nvim_init}"
       [[ -d "${_nvim_init:A:h}" ]] || run_log_cmd "mkdir -p ${_nvim_init:A:h}"
       run_log_cmd "ln -s ${_src} ${_nvim_init}"
     fi
