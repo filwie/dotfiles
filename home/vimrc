@@ -78,13 +78,8 @@ Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
 " Colors based on filetype
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
-if has('nvim')
-  " Smart python syntax (nvim only)
-  Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-else
-  " Better python syntax including f-strings etc.
-  Plug 'vim-python/python-syntax'
-endif
+" Better python syntax including f-strings etc.
+Plug 'vim-python/python-syntax'
 call plug#end()
 " }}}
 
