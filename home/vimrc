@@ -69,6 +69,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
 " Colors based on filetype
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
+" Better python syntax including f-strings etc.
+Plug 'vim-python/python-syntax'
 call plug#end()
 " }}}
 
@@ -79,6 +81,9 @@ let g:ale_echo_msg_format = '[%severity%][%linter%][%code%]: %s'
 " Autopep8
 let g:autopep8_disable_show_diff=0
 let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
+
+" Python-syntax
+let g:python_highlight_all = 1
 
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '$HOME/.vim/.ycm_extra_conf.py'
