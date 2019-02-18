@@ -43,7 +43,7 @@ Plug 'airblade/vim-gitgutter'
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 " Some ansible support
-Plug 'chase/vim-ansible-yaml'
+Plug 'pearofducks/ansible-vim'
 " Jinja2 template syntax
 Plug 'glench/vim-jinja2-syntax'
 " Dockerfile syntax
@@ -80,6 +80,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
 " Better python syntax including f-strings etc.
 Plug 'vim-python/python-syntax'
+Plug 'Vimjas/vim-python-pep8-indent'
 call plug#end()
 " }}}
 
