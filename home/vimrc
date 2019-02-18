@@ -24,63 +24,36 @@ let g:tag_languages = ['html', 'xml', 'xhtml', 'jinja']
 
 " PLUGINS LIST {{{
 call plug#begin('~/.vim/plugged')
-" File tree
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" Tags
 Plug 'ludovicchabant/vim-gutentags'
-" Tags, file structure overview
 Plug 'majutsushi/tagbar', {'for': g:ctags_supported_languages}
 Plug 'tell-k/vim-autopep8', {'for': 'python'}
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'c++']}
-" Asynchronous syntax checking (replaced syntastic)
 Plug 'w0rp/ale', {'for': g:languages_to_lint}
-" Fat code completion
 if has('python')
   Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
 endif
-" Git indicatiors
 Plug 'airblade/vim-gitgutter'
-" syntax, indent, and filetype plugin files for git, gitcommit, gitconfi
 Plug 'tpope/vim-git'
-" Git wrapper
 Plug 'tpope/vim-fugitive'
-" Some ansible support
 Plug 'pearofducks/ansible-vim'
-" Jinja2 template syntax
 Plug 'glench/vim-jinja2-syntax'
-" Dockerfile syntax
 Plug 'ekalinin/Dockerfile.vim'
-" Execute commands asyncronously
 Plug 'skywind3000/asyncrun.vim'
-" fzf
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug $FZF
 Plug 'junegunn/fzf.vim'
-" handle quotes, parantheses etc.
 Plug 'tpope/vim-surround'
-" Highlight RGB color codes in multiple filetypes
 Plug 'ap/vim-css-color'
-" Highlight the encloding html/xml tags
 Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
-" Tickscript support
 Plug 'nathanielc/vim-tickscript', {'for': 'tick'}
-" Gruvbox spinoff with more contrast
 Plug 'srcery-colors/srcery-vim'
-" One of the best color schemes
 Plug 'morhetz/gruvbox'
-" tab completion
 Plug 'ervandew/supertab'
-" Navigation similar to Vimium
 Plug 'justinmk/vim-sneak'
-" Multiple cursors similar to Sublime
 Plug 'terryma/vim-multiple-cursors'
-" Filetype icons for nerd tree
 Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
-" Colors based on filetype
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
-" Colors based on filetype
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
-" Better python syntax including f-strings etc.
 Plug 'vim-python/python-syntax'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'mboughaba/i3config.vim'
