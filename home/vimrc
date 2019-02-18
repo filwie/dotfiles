@@ -73,6 +73,8 @@ call plug#end()
 " }}}
 
 " PLUGIN SETTINGS {{{
+" Ale
+let g:ale_echo_msg_format = '[%severity%][%linter%][%code%]: %s'
 
 " Autopep8
 let g:autopep8_disable_show_diff=0
