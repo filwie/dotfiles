@@ -88,6 +88,16 @@ call plug#end()
 " }}}
 
 " PLUGIN SETTINGS {{{
+" Ansible-vim
+let g:ansible_unindent_after_newline = 1
+" below might not work with jinja plugins
+let g:ansible_template_syntaxes = {
+      \ '*.ini.j2': 'dosini',
+      \ '*.json.j2': 'json',
+      \ '*.yaml.j2': 'yaml',
+      \ '*.yml.j2': 'yaml',
+      \}
+
 " Ale
 let g:ale_echo_msg_format = '[%severity%][%linter%][%code%]: %s'
 
