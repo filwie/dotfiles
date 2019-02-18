@@ -29,6 +29,12 @@ function link_mini_dotfiles () {
     if [[ "${_src}" =~ .*.zsh-theme ]]; then
       _target="${ZSH_THEMES}/${_src:t}"
     fi
+    if [[ "${_src:t}" == "vimrc" ]]; then
+      local _nvim_init
+      _nvim_init="${XDG_CONFIG_HOME:-${HOME}/.config}/nvim/init.vim"
+      [[ -d "${_nvim_init:A:h}" ]] || run_log_cmd "mkdir -p ${_nvim_init:A:h}"
+      run_log_cmd "ln -s ${_src} ${_nvim_init}"
+    fi
     [[ -L "${_target}" ]] && run_log_cmd "rm ${_target}"
     [[ -f "${_target}" ]] && run_log_cmd "mv ${_target} ${_target}.bak"
     run_log_cmd "ln -s ${_src} ${_target}"
