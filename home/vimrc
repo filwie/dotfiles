@@ -83,6 +83,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
 " Better python syntax including f-strings etc.
 Plug 'vim-python/python-syntax'
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'mboughaba/i3config.vim'
 call plug#end()
 " }}}
 
