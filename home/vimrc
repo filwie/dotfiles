@@ -18,7 +18,7 @@ endif
 
 " PLUGIN VARIABLES {{{
 let g:ctags_supported_languages = ['ansible', 'assembler', 'awk', 'bash', 'c', 'cpp', 'erlang', 'fortran', 'html', 'java', 'javascript', 'lisp', 'lua', 'make', 'matlab', 'pascal', 'perl', 'php', 'sql', 'python', 'rexx', 'ruby', 'scheme', 'sh', 'tcl', 'tex', 'vim', 'vimscript', 'yacc', 'yaml', 'zsh']
-let g:languages_to_lint = ['python', 'css', 'html', 'java', 'c', 'cpp', 'ansible', 'markdown', 'vim']
+let g:languages_to_lint = ['python', 'css', 'html', 'java', 'c', 'cpp', 'yaml', 'ansible', 'markdown', 'vim']
 let g:tag_languages = ['html', 'xml', 'xhtml', 'jinja']
 "}}}
 
