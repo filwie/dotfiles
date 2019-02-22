@@ -33,7 +33,9 @@ Plug $FZF
 Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
 Plug 'mboughaba/i3config.vim'
-Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
+if has('python') || has('python3')
+  Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
+endif
 Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'vim-python/python-syntax'
