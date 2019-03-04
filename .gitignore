@@ -1,2 +1,5 @@
 *.swp
 tags
+fzf_key_bindings.fish
+.idea
+fish_variables

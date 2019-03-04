@@ -1,5 +1,6 @@
 " vim: set fdm=marker ts=2 sw=2 et:
 scriptencoding utf-8
+set shell=$VIM_SHELL
 
 " INSTALL VIM PLUG {{{
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -24,18 +25,30 @@ let g:tag_languages = ['html', 'xml', 'xhtml', 'jinja']
 
 " PLUGINS LIST {{{
 " Sorted alphabetically by plugin name `sort i /^\(Plug.*\/\|Plug.*\$\)/`
-call plug#begin('~/.vim/plugged')
+if has('nvim')
+  call plug#begin('~/.local/share/nvim/plugged')
+else
+  call plug#begin('~/.vim/plugged')
+endif
 Plug 'w0rp/ale', {'for': g:languages_to_lint}
 Plug 'pearofducks/ansible-vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'ekalinin/Dockerfile.vim'
-Plug $FZF
+Plug $FZF_BASE
 Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
 Plug 'mboughaba/i3config.vim'
-if has('python') || has('python3')
-  Plug 'Valloric/YouCompleteMe', { 'do': ':AsyncRun ./install.py --clang-completer --go-completer --js-completer'}
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
+Plug 'Shougo/deoplete-clangx', {'for': ['c', 'c++']}
+Plug 'deoplete-plugins/deoplete-go', {'for': ['go']}
+Plug 'deoplete-plugins/deoplete-jedi', {'for': ['python']}
+Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'vim-python/python-syntax'
@@ -58,6 +71,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
 Plug 'nathanielc/vim-tickscript', {'for': 'tick'}
 Plug 'dag/vim-fish'
+Plug 'zefei/vim-wintabs'
 call plug#end()
 " }}}
 
@@ -78,11 +92,26 @@ let g:ale_echo_msg_format = '[%severity%][%linter%][%code%]: %s'
 let g:autopep8_disable_show_diff=0
 let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
 
+" Deoplete
+let g:deoplete#enable_at_startup = 1
+
+" NERDTree
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = 'ﱮ'
+let g:NERDTreeMouseMode=3
+
 " Python-syntax
 let g:python_highlight_all = 1
 
+" Webdevicons
+let g:WebDevIconsUnicodeDecorateFolderNodes = 0
+
 " YouCompleteMe
-let g:ycm_global_ycm_extra_conf = '$HOME/.vim/.ycm_extra_conf.py'
+if has('nvim')
+  let g:ycm_global_ycm_extra_conf = '$XDG_CONFIG_HOME/nvim/ycm_extra_conf.py'
+else
+  let g:ycm_global_ycm_extra_conf = '$HOME/.vim/.ycm_extra_conf.py'
+end
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " Tagbar
@@ -90,6 +119,13 @@ let g:tagbar_type_ansible = {'ctagstype' : 'ansible', 'kinds' : ['t:tasks'], 'so
 
 " toggle quickfix window
 nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
+
+" Wintabs
+let g:wintabs_ui_modified=' (m)'
+let g:wintabs_ui_readonly=' (ro)'
+let g:wintabs_ui_sep_leftmost=''
+let g:wintabs_ui_sep_inbetween=''
+let g:wintabs_ui_sep_rightmost=''
 
 " }}}
 
@@ -199,7 +235,8 @@ set wildmode=list:longest,full
 set autoread
 set modeline  " WARNING: there have been modeline-based vulnerabilities in the past
 set colorcolumn=80
-set notermguicolors
+" set notermguicolors
+set termguicolors
 
 augroup noautomaticcommentcharacter
   autocmd!
@@ -259,14 +296,28 @@ augroup END
 "}}}
 
 " THEMING, VISUAL TWEAKS {{{
-silent! colorscheme srcery
-highlight Normal ctermbg=NONE
-highlight SignColumn guibg=NONE ctermbg=NONE
-highligh ColorColumn ctermbg=NONE ctermfg=1 cterm=bold
-highlight LineNr ctermbg=NONE ctermfg=7
-highlight CursorLineNr ctermbg=NONE cterm=bold
-highligh Folded ctermfg=3 ctermbg=NONE
-highlight EndOfBuffer ctermfg=0 ctermbg=NONE
+" gruvbox {{{
+set background=light
+let g:gruvbox_italic = 1
+let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_termcolors = 1
+let g:gruvbox_sign_column = 'bg0'
+let g:gruvbox_color_column = 'bg0'
+silent! colorscheme gruvbox
+" }}}
+
+" highlight Normal            guibg=NONE    ctermbg=NONE
+" highlight SignColumn        guibg=NONE    ctermbg=NONE
+" highlight ColorColumn       guibg=NONE    ctermbg=NONE    guifg=gb.light1  ctermfg=1
+" highlight LineNr            guibg=NONE    ctermbg=NONE    guifg=gb.neutral_red[0]  ctermfg=7
+" highlight CursorLineNr      guibg=NONE    ctermbg=NONE    cterm=bold
+highlight Folded            guibg=NONE    ctermbg=NONE
+highlight TabLineFill       guibg=NONE    ctermbg=NONE
+highlight TabLine           guibg=NONE    ctermbg=NONE
+highlight TabLineSel        guibg=NONE    ctermbg=NONE
+" highlight EndOfBuffer       guibg=NONE    ctermbg=NONE    guifg=gb.light0_soft    ctermfg=0
+
+
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
