@@ -48,6 +48,7 @@ endif
 Plug 'Shougo/deoplete-clangx', {'for': ['c', 'c++']}
 Plug 'deoplete-plugins/deoplete-go', {'for': ['go']}
 Plug 'deoplete-plugins/deoplete-jedi', {'for': ['python']}
+Plug 'artur-shaik/vim-javacomplete2', {'for': ['java']}
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -178,6 +179,16 @@ augroup python
   autocmd FileType python nnoremap <buffer> <F10> :exec '!clear; python' shellescape(@%, 1)<CR>
   autocmd FileType python nnoremap <buffer> <F9> :exec '!clear;  pytest -v'<CR>
   autocmd FileType python nnoremap <leader>8 :Autopep8<CR>
+augroup END
+
+augroup java
+  autocmd!
+  autocmd FileType java nnoremap <buffer> <F10> :term javac % && java %:r <CR>
+augroup END
+
+augroup term
+  autocmd BufWinEnter,WinEnter term://* startinsert
+  tnoremap <Esc> <C-\><C-n>:q!<CR>
 augroup END
 
 augroup ansible
