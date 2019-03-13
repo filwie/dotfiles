@@ -1,7 +1,16 @@
+function _env_java
+    set _java_dir_linux /usr/lib/jvm/java-11-openjdk-amd64/bin/
+    if test -d $_java_dir_linux
+        set JAVA_HOME $_java_dir_linux
+        set JAVA_BIN $JAVA_HOME/bin
+    end
+end
+
 function _environment
     set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
     set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
     set -gx FISH_DIR $XDG_CONFIG_HOME/fish
+
     set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
     set -gx TMUX_SHELL (which fish)
     set -gx VIM_SHELL (which sh)
@@ -20,6 +29,8 @@ function _environment
     if set -q SSH_CLIENT || set -q SSH_TTY
         set -g REMOTE_SESSION 1
     end
+
+    _env_java
 
     set -g fish_greeting
     set -g always_start_tmux

@@ -1,5 +1,10 @@
 set _path $HOME/.local/bin $HOME/bin
 
+# Java
+if set -q JAVA_BIN
+    set _path $_path $JAVA_BIN
+end
+
 # MacOS
 if string match -q 'Darwin' (uname)
     set _path $_path $HOME/Library/Python/**/bin/
