@@ -254,7 +254,7 @@ set autoread
 set modeline  " WARNING: there have been modeline-based vulnerabilities in the past
 set colorcolumn=80
 set termguicolors
-"set timeoutlen=1000 ttimeoutlen=0
+" set timeoutlen=1000 ttimeoutlen=0
 
 augroup noautomaticcommentcharacter
   autocmd!
