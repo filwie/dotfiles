@@ -1,5 +1,5 @@
 function _env_java
-    set _java_dir_linux /usr/lib/jvm/java-11-openjdk-amd64/bin/
+    set _java_dir_linux /usr/lib/jvm/java-8-openjdk-amd64/
     if test -d $_java_dir_linux
         set JAVA_HOME $_java_dir_linux
         set JAVA_BIN $JAVA_HOME/bin

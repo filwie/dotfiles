@@ -96,6 +96,10 @@ let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 
+" Deoplete - java
+let g:JavaComplete_Home = $HOME . '/.local/share/nvim/plugged/vim-javacomplete2/libs/javavi'
+let $CLASSPATH .= '.:' . $HOME . '/.local/share/nvim/plugged/vim-javacomplete2/libs/javavi/target/classes'
+
 " NERDTree
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = 'ﱮ'
@@ -114,6 +118,9 @@ else
   let g:ycm_global_ycm_extra_conf = '$HOME/.vim/.ycm_extra_conf.py'
 end
 let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" Supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Tagbar
 let g:tagbar_type_ansible = {'ctagstype' : 'ansible', 'kinds' : ['t:tasks'], 'sort' : 0}
@@ -213,9 +220,9 @@ augroup END
 
 augroup markdown
   autocmd!
-  autocmd FileType markdown nnoremap <buffer> <F10> :AsyncRun  grip "${VIM_FILEPATH}" --export "/tmp/${VIM_FILENOEXT}.html" && ${BROWSER} "/tmp/${VIM_FILENOEXT}.html"<CR>
+  autocmd FileType markdown nnoremap <buffer> <F10> :AsyncRun  grip "${VIM_FILEPATH}" --export "/tmp/${VIM_FILENOEXT}.html" && xdg-open "/tmp/${VIM_FILENOEXT}.html"<CR>
 augroup END
-" }}}
+
 
 " GENERAL {{{
 filetype plugin indent on
@@ -247,7 +254,7 @@ set autoread
 set modeline  " WARNING: there have been modeline-based vulnerabilities in the past
 set colorcolumn=80
 set termguicolors
-set timeoutlen=1000 ttimeoutlen=0
+"set timeoutlen=1000 ttimeoutlen=0
 
 augroup noautomaticcommentcharacter
   autocmd!
