@@ -25,8 +25,7 @@ function _r; set_color normal; end
 
 function _path -d 'Display shortened path'  # {{{
     set -g glyph 
-    _glyph '  '
-    printf "%s" (prompt_pwd)
+    printf "%s%s" (_glyph '  ')(prompt_pwd)
 end  # }}}
 
 function _git -d 'Display branch in green/red depending on status'  # {{{
@@ -35,8 +34,7 @@ function _git -d 'Display branch in green/red depending on status'  # {{{
     set branch (__git_branch)
 
     if not __git_is_clean; _c bryellow; end
-    _glyph ' '; _r
-    printf "%s" (_i)$branch(_r)
+    printf "%s%s" (_glyph ' ')(_r) (_i)$branch(_r)
     set_color normal
 end  # }}}
 
@@ -78,9 +76,9 @@ function _end -d 'Prompt end character'  # {{{
         end
     else
         if test (id -u) -eq 0
-            set end_char '#'
+            set end_char (_b)\#(_r)
         else
-            set end_char '$'
+            set end_char (_b)\$(_r)
         end
     end
 

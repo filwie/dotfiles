@@ -15,11 +15,17 @@ function _environment
     set -gx TMUX_SHELL (which fish)
     set -gx VIM_SHELL (which sh)
     set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
+
     if command -v nvim > /dev/null
         set -gx VIM_CONF $XDG_CONFIG_HOME/nvim/init.vim
     else
         set -gx VIM_CONF $HOME/.vimrc
     end
+
+    if command -v emacs > /dev/null && test -f $XDG_CONFIG_HOME/emacs/init.el
+        set -gx EMACS_CONF $XDG_CONFIG_HOME/emacs/init.el
+    end
+
     if test -f $XDG_CONFIG_HOME/tmux/tmux.conf
         set -gx TMUX_CONF $XDG_CONFIG_HOME/tmux/tmux.conf
     else

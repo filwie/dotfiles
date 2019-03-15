@@ -19,12 +19,17 @@ else if command -v mvim > /dev/null
     alias vim 'mvim -v'
 end
 
+# Emacs
+if command -v emacs > /dev/null && test -f $EMACS_CONF
+    alias emacs 'emacs --no-window-system -ql $EMACS_CONF'
+end
+
 if command -v open > /dev/null
     alias :o open
 end
 
 # Tmux
-if set -q $TMUX_CONF || test -f $TMUX_CONF
+if set -q $TMUX_CONF && test -f $TMUX_CONF
     alias tmux 'tmux -f $TMUX_CONF'
 end
 
