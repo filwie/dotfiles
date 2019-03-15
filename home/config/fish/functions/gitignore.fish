@@ -15,7 +15,7 @@ function gitignore -d 'Create gitignore file '
     end
     for arg in $argv
         if set -q _flag_file
-            curl -sL https://www.gitignore.io/api/$arg -o $_flag_file
+            curl -sL https://www.gitignore.io/api/$arg >> (realpath $_flag_file)
         else if set -q _flag_git && string match -q true (command git rev-parse --is-inside-work-tree 2>&1)
             set repo_gitignore (git rev-parse --show-toplevel)/.gitignore
             curl -sL https://www.gitignore.io/api/$arg >> (realpath $repo_gitignore)
