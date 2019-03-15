@@ -6,22 +6,40 @@ import sys
 import platform
 
 LOG = logging.getLogger('mini-dotfiles')
-logging.basicConfig()
+logging.basicConfig(level=logging.INFO)
 
 try:
     script_path = Path(__file__)
-    PROJECT_ROOT = script_path.parent.resolve()
+    script_path = script_path.resolve()
 except NameError as err:
     LOG.error('Unable to determine script path. (%s)', err)
     sys.exit(1)
 
-PACKAGE_LIST_FILE = PROJECT_ROOT / 'packages' / 'packages.json'
-XDG_CONFIGS = PROJECT_ROOT / 'home' / 'config'
+
+REAL_HOME = Path.home()
+REPO_HOME = script_path.parent / 'home'
+LOG.info(f'Repository home path set to: {REPO_HOME}')
 
 
-def parse_package_list(package_list_file: Path = PACKAGE_LIST_FILE) -> dict:
-    packages = json.loads(package_list_file.read_text())
-    return packages
+class Dotfile():
+    def __init__(self, src_path: Path):
+        self.src_path = src_path
+
+    @property
+    def real(self) -> Path:
+        return self.src_path.resolve()
+
+    @property
+    def relative_to_repo_home(self) -> Path:
+        return self.src_path.relative_to(REPO_ROOT / 'home')
+
+    @property
+    def destination(self) -> Path:
+        return HOME / self.relative_to_repo_home
+
+
+def list_available_dotfiles():
+    pass
 
 
 def detect_os():
@@ -30,15 +48,5 @@ def detect_os():
     platform.release()
 
 
-def link_dotfiles():
-    script_path = Path(__file__).resolve()
-    dotfiles_root_dir = script_path.parent
-
-    dotfiles_config_dir = dotfiles_root_dir / 'home' / 'config'
-
-    for conf_subdir in dotfiles_config_dir.iterdir():
-        print(conf_subdir)
-
-
 if __name__ == '__main__':
-    parse_package_list()
+    logging.basicConfig()
