@@ -2,15 +2,20 @@
 alias cfish 'pushd (dirname $FISH_CONF); vim $FISH_CONF; popd'
 alias cvim 'pushd (dirname $VIM_CONF); vim $VIM_CONF; popd'
 alias ctmux 'pushd (dirname $TMUX_CONF); vim $TMUX_CONF; popd'
+alias cemacs 'pushd (dirname $EMACS_CONF); vim $EMACS_CONF; popd'
 
 # modified commands
 alias ssh 'env TERM=xterm-256color ssh'
 
 # single letter
 alias r ranger
+alias v vim
+alias o open
+alias e emacs
 
 # Vim
 alias :e vim
+alias :q exit
 if command -v nvim > /dev/null
     alias vim nvim
 else if command -v gvim > /dev/null
@@ -21,7 +26,7 @@ end
 
 # Emacs
 if command -v emacs > /dev/null && test -f $EMACS_CONF
-    alias emacs 'emacs --no-window-system -ql $EMACS_CONF'
+    alias emacs 'env TERM=xterm-24bit emacs --no-window-system -q -l $EMACS_CONF'
 end
 
 if command -v open > /dev/null
