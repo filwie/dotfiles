@@ -19,9 +19,7 @@ else if command -v mvim > /dev/null
     alias vim 'mvim -v'
 end
 
-if string match -q Linux (uname)
-    alias :o xdg-open
-else if string match -q Darwin (uname)
+if command -v open > /dev/null
     alias :o open
 end
 
