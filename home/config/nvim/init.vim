@@ -183,8 +183,8 @@ com! FormatJSON %!python -m json.tool
 " FILETYPE-SPECIFIC {{{
 augroup python
   autocmd!
-  autocmd FileType python nnoremap <buffer> <F10> :exec '!clear; python' shellescape(@%, 1)<CR>
-  autocmd FileType python nnoremap <buffer> <F9> :exec '!clear;  pytest -v'<CR>
+  autocmd FileType python nnoremap <buffer> <F10> :term python3 %<CR>
+  autocmd FileType python nnoremap <buffer> <F9> :term pytest<CR>
   autocmd FileType python nnoremap <leader>8 :Autopep8<CR>
 augroup END
 
