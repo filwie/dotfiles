@@ -173,6 +173,8 @@ map <leader>i3 :!link_dotfiles.sh<CR> <bar> :!i3-merge-conf.sh<CR> <bar> :AsyncR
 
 " leave INSERT mode using C-c
 inoremap <C-c> <Esc><Esc>
+" Emacs
+map <C-g> <Esc><Esc>
 
 " ----- Command mapping -----
 " Format and Sort JSON
