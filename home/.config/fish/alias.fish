@@ -1,8 +1,13 @@
 # configs
-alias cfish 'pushd (dirname $FISH_CONF); vim $FISH_CONF; popd'
-alias cvim 'pushd (dirname $VIM_CONF); vim $VIM_CONF; popd'
-alias ctmux 'pushd (dirname $TMUX_CONF); vim $TMUX_CONF; popd'
-alias cemacs 'pushd (dirname $EMACS_CONF); vim $EMACS_CONF; popd'
+if set -q EDITOR
+    set -g _editor $EDITOR
+else
+    set -g _editor vim
+end
+alias cfish 'pushd (dirname $FISH_CONF); $_editor $FISH_CONF; popd'
+alias cvim 'pushd (dirname $VIM_CONF); $_editor $VIM_CONF; popd'
+alias ctmux 'pushd (dirname $TMUX_CONF); $_editor $TMUX_CONF; popd'
+alias cemacs 'pushd (dirname $EMACS_CONF); $_editor $EMACS_CONF; popd'
 
 # modified commands
 alias ssh 'env TERM=xterm-256color ssh'
@@ -34,7 +39,7 @@ if command -v open > /dev/null
 end
 
 # Tmux
-if set -q $TMUX_CONF && test -f $TMUX_CONF
+if set -q TMUX_CONF && test -f $TMUX_CONF
     alias tmux 'tmux -f $TMUX_CONF'
 end
 
