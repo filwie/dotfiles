@@ -54,6 +54,10 @@ end  # }}}
 function _source_other_files  -d 'Source path config and aliases'  # {{{
     source $FISH_DIR/path.fish
     source $FISH_DIR/alias.fish
+
+    if command -v kitty > /dev/null
+        kitty + complete setup fish | source
+    end
 end  # }}}
 
 function _start_or_attach_tmux  -d 'Start new tmux session or attach to existing one'  # {{{
@@ -72,15 +76,26 @@ function _start_or_attach_tmux  -d 'Start new tmux session or attach to existing
     end
 end  # }}}
 
+function _workon_default_venv -d 'Source default Python3 venv'  # {{{
+    if not set -q always_start_venv; return; end
+    set def_venv_activate $HOME/python/main/bin/activate.fish
+    if test -f $def_venv_activate
+        source $def_venv_activate
+    end
+end  # }}}
+
 function main
     set -g fish_greeting
-    set -g always_start_tmux
+    #    set -g always_start_tmux
+    set -g always_start_venv
     set -e fish_theme_always_show_python
     set -g fish_theme_enable_glyphs
+
 
     _env_all
     _source_other_files
     _start_or_attach_tmux
+    _workon_default_venv
 end
 
 main
