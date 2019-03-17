@@ -1,12 +1,16 @@
+;; (server-start)
 ;; Line numbers
 (global-display-line-numbers-mode t)
 
 ;; Specify user directory based on env vars
 (if (not (getenv "XDG_CONFIG_HOME"))
-    (setenv "XDG_CONFIG_HOME" "~/.config")
-  )
+    (setenv "XDG_CONFIG_HOME" "~/.config"))
 (setq user-emacs-directory (concat (getenv "XDG_CONFIG_HOME") "/emacs"))
 
+;; enable modularity https://stackoverflow.com/questions/2079095/how-to-modularize-an-emacs-configuration
+
+
+;; move to user functions/utils/helpers
 (defun source ()
   "Load $EMACS_CONFIG if set or ~/.emacs.d/init.el otherwise"
   (interactive)
@@ -17,6 +21,7 @@
   (load-file source_file))
 
 ;; Packages list
+;; move to packages.el or something
 (setq package-to-install '(evil
 			   gruvbox-theme
 			   elpy
@@ -25,6 +30,7 @@
 			   drag-stuff
 			   evil-surround
 			   git-gutter
+			   fish-mode
 			   ))
 
 (require 'package)
@@ -43,6 +49,8 @@
     (package-install package)))
 
 ;; Mouse mode
+;; move to mouse.el or terminal.el
+;; change window-system to display-graphic-p
 (unless window-system
   (require 'mouse)
   (xterm-mouse-mode t)
@@ -69,19 +77,21 @@
 (drag-stuff-global-mode 1)
 (drag-stuff-define-keys) ;; enables default bindings <M-{arrow}>
 
-;; Python
-(elpy-enable) ;; requires Python libraries: jedi, flake8, autopep8, yapf
-(setq elpy-rpc-python-command "python3")
-(setenv "IPY_TEST_SIMPLE_PROMPT" "1")
-(setq python-shell-interpreter "ipython3"
-      python-shell-interpreter-args "-i")
-
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+;; Python 
+;; write hook for enabling elpy etc only in python
+;; (add-hook 'python-mode-hook
+;; defunc or lambda ()
+;;     (elpy-enable) ;; requires Python libraries: jedi, flake8, autopep8, yapf
+;;     (setq elpy-rpc-python-command "python3")
+;;     (setq python-shell-interpreter "ipython3"
+;; 	python-shell-interpreter-args "-i --simple-prompt")
+;; 
+;;     (when (require 'flycheck nil t)
+;;     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;     (add-hook 'elpy-mode-hook 'flycheck-mode))
+;; 
+;;     (require 'py-autopep8)
+;;     (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
 
 ;; Theming
@@ -92,3 +102,7 @@
   (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
   (add-hook 'evil-normal-state-entry-hook (lambda () (send-string-to-terminal "\033[0 q")))
   )
+
+(when (display-graphic-p)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1))
