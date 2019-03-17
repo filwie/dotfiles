@@ -58,18 +58,21 @@
         "eslint"
     ],
     "pip": [
+        "IPython",
         "autopep8",
         "colr",
         "flake8",
-        "httpie",
-        "pynvim",
-        "jedi",
         "gitlint",
         "grip",
-        "IPython",
+        "httpie",
+        "jedi",
+        "rope",
+        "importmagick",
         "pylint",
+        "pynvim",
         "pytest",
         "requests",
-        "vim-vint"
+        "vim-vint",
+        "yapf"
     ]
 }
