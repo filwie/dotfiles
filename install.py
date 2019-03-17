@@ -31,11 +31,11 @@ class Dotfile():
 
     @property
     def relative_to_repo_home(self) -> Path:
-        return self.src_path.relative_to(REPO_ROOT / 'home')
+        return self.src_path.relative_to(REPO_HOME)
 
     @property
     def destination(self) -> Path:
-        return HOME / self.relative_to_repo_home
+        return REAL_HOME / self.relative_to_repo_home
 
 
 def list_available_dotfiles():
