@@ -16,7 +16,13 @@ alias ssh 'env TERM=xterm-256color ssh'
 alias r ranger
 alias v vim
 alias o open
-alias e emacs
+
+# Emacs
+if command -v emacs > /dev/null && test -f $EMACS_CONF
+    alias emacs-server 'emacs --daemon -q -l $EMACS_CONF'
+end
+alias em 'emacsclient -t -nw -a="emacs -nw"'
+alias eg 'emacsclient -c -a=emacs'
 
 # Vim
 alias :e vim
@@ -27,15 +33,6 @@ else if command -v gvim > /dev/null
     alias vim 'gvim -v'
 else if command -v mvim > /dev/null
     alias vim 'mvim -v'
-end
-
-# Emacs
-if command -v emacs > /dev/null && test -f $EMACS_CONF
-    alias emacs 'env TERM=xterm-24bit emacs --no-window-system -q -l $EMACS_CONF'
-end
-
-if command -v open > /dev/null
-    alias :o open
 end
 
 # Tmux
