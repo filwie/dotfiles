@@ -1,4 +1,8 @@
 {
+    "apt": [
+        "maven",
+        "xclip"
+    ],
     "brew": [
         "ansible",
         "ansible-lint",
@@ -48,12 +52,6 @@
     "cargo": [
         "racer"
     ],
-    "linux": {
-        "common": [
-            "maven",
-            "xclip"
-        ]
-    },
     "npm": [
         "eslint"
     ],
