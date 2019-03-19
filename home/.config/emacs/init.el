@@ -1,14 +1,28 @@
-;; (server-start)
-;; Line numbers
-(global-display-line-numbers-mode t)
-
-;; Specify user directory based on env vars
+;; Set config and package directory based on XDG base directory specification
 (if (not (getenv "XDG_CONFIG_HOME"))
     (setenv "XDG_CONFIG_HOME" "~/.config"))
-(setq user-emacs-directory (concat (getenv "XDG_CONFIG_HOME") "/emacs"))
 
-;; enable modularity https://stackoverflow.com/questions/2079095/how-to-modularize-an-emacs-configuration
+(defconst user-emacs-directory
+  (concat (getenv "XDG_CONFIG_HOME") "/emacs"))
 
+;; Load config modules
+(defconst user-modules-dir
+  (concat user-emacs-directory "/modules"))
+
+(defun load-user-module (module-name)
+  "Load an .el file residing in user-modules-dir by name (without extension)"
+  (interactive)
+  (setq module-file
+	(expand-file-name (concat module-name ".el") user-modules-dir))
+  (if (file-exists-p module-file)
+      (load-file module-file)
+    (message "Module does not exist: %s" module-file)))
+
+(load-user-module "packages")
+
+
+
+(global-display-line-numbers-mode t)
 
 ;; move to user functions/utils/helpers
 (defun source ()
@@ -16,22 +30,12 @@
   (interactive)
   (if (getenv "EMACS_CONF")
       (setq source_file (getenv "EMACS_CONF"))
-    (setq source_file "~/.emacs.d/init.el")
-    )
+    (setq source_file (expand-file-name "init.el" user-init-dir)))
   (load-file source_file))
 
 ;; Packages list
 ;; move to packages.el or something
-(setq package-to-install '(evil
-			   gruvbox-theme
-			   elpy
-			   py-autopep8
-			   flycheck
-			   drag-stuff
-			   evil-surround
-			   git-gutter
-			   fish-mode
-			   ))
+
 
 (require 'package)
 (add-to-list 'package-archives
@@ -43,10 +47,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; Install packages
-(dolist (package package-to-install)
-  (unless (package-installed-p package)
-    (package-install package)))
+
 
 ;; Mouse mode
 ;; move to mouse.el or terminal.el
@@ -62,22 +63,15 @@
   (setq mouse-sel-mode t)
   )
 
-;; Evil mode
-(require 'evil)
-(evil-mode 1)
 
-;; Git integration
-(global-git-gutter-mode +1)
 
-;; Vim surround emulation
-(require 'evil-surround)
-(global-evil-surround-mode 1)
 
-;; Drag lines/selection
-(drag-stuff-global-mode 1)
-(drag-stuff-define-keys) ;; enables default bindings <M-{arrow}>
 
-;; Python 
+
+
+
+
+;; Python
 ;; write hook for enabling elpy etc only in python
 ;; (add-hook 'python-mode-hook
 ;; defunc or lambda ()
@@ -85,11 +79,11 @@
 ;;     (setq elpy-rpc-python-command "python3")
 ;;     (setq python-shell-interpreter "ipython3"
 ;; 	python-shell-interpreter-args "-i --simple-prompt")
-;; 
+;;
 ;;     (when (require 'flycheck nil t)
 ;;     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-;     (add-hook 'elpy-mode-hook 'flycheck-mode))
-;; 
+					;     (add-hook 'elpy-mode-hook 'flycheck-mode))
+;;
 ;;     (require 'py-autopep8)
 ;;     (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
