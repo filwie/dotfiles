@@ -7,7 +7,7 @@
 
 ;; Load config modules
 (defconst user-modules-dir
-  (concat user-emacs-directory "/modules"))
+  (concat user-emacs-directory "/init.d"))
 
 (defun load-user-module (module-name)
   "Load an .el file residing in user-modules-dir by name (without extension)"
@@ -19,56 +19,12 @@
     (message "Module does not exist: %s" module-file)))
 
 (load-user-module "packages")
+(load-user-module "mouse")
+(load-user-module "keybindings")
+(load-user-module "interface")
+(load-user-module "helpers")
 
-
-
-(global-display-line-numbers-mode t)
-
-;; move to user functions/utils/helpers
-(defun source ()
-  "Load $EMACS_CONFIG if set or ~/.emacs.d/init.el otherwise"
-  (interactive)
-  (if (getenv "EMACS_CONF")
-      (setq source_file (getenv "EMACS_CONF"))
-    (setq source_file (expand-file-name "init.el" user-init-dir)))
-  (load-file source_file))
-
-;; Packages list
-;; move to packages.el or something
-
-
-(require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-	     '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(package-initialize)
-
-;; Fetch packages list
-(unless package-archive-contents
-  (package-refresh-contents))
-
-
-
-;; Mouse mode
-;; move to mouse.el or terminal.el
-;; change window-system to display-graphic-p
-(unless window-system
-  (require 'mouse)
-  (xterm-mouse-mode t)
-  (when (string-equal system-type "darwin")
-    (global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
-    (global-set-key [mouse-5] (lambda () (interactive) (scroll-up 1)))
-    )
-  (defun track-mouse (e))
-  (setq mouse-sel-mode t)
-  )
-
-
-
-
-
-
-
+(load-user-module "ft_python")
 
 
 ;; Python
@@ -87,16 +43,3 @@
 ;;     (require 'py-autopep8)
 ;;     (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
-
-;; Theming
-;; Color scheme
-(load-theme 'gruvbox-light-soft t)
-;; Cursor shape in insert mode
-(unless (display-graphic-p)
-  (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
-  (add-hook 'evil-normal-state-entry-hook (lambda () (send-string-to-terminal "\033[0 q")))
-  )
-
-(when (display-graphic-p)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1))
