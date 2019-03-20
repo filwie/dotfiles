@@ -209,10 +209,7 @@ augroup END
 
 augroup ccpp
   autocmd!
-  autocmd FileType c nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-  autocmd FileType cpp nnoremap <F9> :AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
-  autocmd FileType c,cpp nnoremap <buffer> <F10> :exec '!clear; %:p:h/%:r' <CR>
-  autocmd FileType c,cpp nnoremap <leader>8 :ClangFormat<CR>
+  autocmd FileType c nnoremap <silent> <F10> :term gcc -Wall -O2 % -o %:r  && ./%:r <CR>
 augroup END
 
 augroup vimscript
