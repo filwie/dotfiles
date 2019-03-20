@@ -24,6 +24,13 @@ end
 alias em 'emacsclient -t -nw -a="emacs -nw"'
 alias eg 'emacsclient -c -a=emacs'
 
+# Microk8s
+if command -v microk8s.kubectl > /dev/null && not command -v kubectl > /dev/null
+    # autocompletion: https://github.com/evanlucas/fish-kubectl-completions/issues
+    # %s/\skubectl/\ microk8s.kubectl\ /g
+    alias kubectl 'microk8s.kubectl'
+end
+
 # Vim
 alias :e vim
 alias :q exit

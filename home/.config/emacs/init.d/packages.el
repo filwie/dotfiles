@@ -18,6 +18,7 @@
 			   evil-surround
 			   git-gutter
 			   fish-mode
+               yaml-mode
 			   ))
 
 
