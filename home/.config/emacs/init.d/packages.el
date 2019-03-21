@@ -1,6 +1,7 @@
 ;; Setup repositories
 (require 'package)
 (add-to-list 'package-archives
+	     '("elpa" . "http://elpa.gnu.org/")
 	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
@@ -11,6 +12,7 @@
 ;; List packages
 (setq package-to-install '(evil
 			   gruvbox-theme
+			   helm
 			   elpy
 			   py-autopep8
 			   flycheck
@@ -45,3 +47,12 @@
 ;; Drag stuff
 (drag-stuff-global-mode 1)
 (drag-stuff-define-keys) ;; enables default bindings <M-{arrow}>
+
+;; Helm
+(require 'helm-config)
+(helm-mode 1)
+
+;; Flycheck
+(global-flycheck-mode)
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+

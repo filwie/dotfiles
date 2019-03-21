@@ -5,6 +5,7 @@ import logging
 import sys
 import platform
 
+
 LOG = logging.getLogger('mini-dotfiles')
 logging.basicConfig(level=logging.INFO)
 

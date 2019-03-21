@@ -13,7 +13,8 @@
 ;; Hide toolbar and scrollbar in GUI
 (when (display-graphic-p)
   (tool-bar-mode -1)
-  (scroll-bar-mode -1))
+  (scroll-bar-mode -1)
+  (horizontal-scroll-bar-mode -1))
 
 ;; Hide menu bar at all times (toggle in keybindings module)
 (menu-bar-mode -1)
