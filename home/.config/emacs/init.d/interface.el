@@ -17,3 +17,6 @@
 
 ;; Hide menu bar at all times (toggle in keybindings module)
 (menu-bar-mode -1)
+
+;; Disable splash/welcome message
+(setq inhibit-startup-screen t)

@@ -4,6 +4,7 @@ fzf_key_bindings.fish
 .idea
 fish_variables
 elpa
+completions
 
 # Created by https://www.gitignore.io/api/vim
 # Edit at https://www.gitignore.io/?templates=vim

@@ -101,8 +101,8 @@ let g:JavaComplete_Home = $HOME . '/.local/share/nvim/plugged/vim-javacomplete2/
 let $CLASSPATH .= '.:' . $HOME . '/.local/share/nvim/plugged/vim-javacomplete2/libs/javavi/target/classes'
 
 " NERDTree
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = 'ﱮ'
+let g:NERDTreeDirArrowExpandable = ' '
+let g:NERDTreeDirArrowCollapsible = ' ﱮ'
 let g:NERDTreeMouseMode=3
 
 " Python-syntax

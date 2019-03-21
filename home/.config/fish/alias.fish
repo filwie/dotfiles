@@ -21,8 +21,8 @@ alias o open
 if command -v emacs > /dev/null && test -f $EMACS_CONF
     alias emacs-server 'emacs --daemon -q -l $EMACS_CONF'
 end
-alias em 'emacsclient -t -nw -a="emacs -nw"'
-alias eg 'emacsclient -c -a=emacs'
+alias em 'emacsclient -t -nw -a="emacs -nw -q -l $EMACS_CONF"'
+alias eg 'emacsclient -c -a="emacs -q -l $EMACS_CONF"'
 
 # Microk8s
 if command -v microk8s.kubectl > /dev/null && not command -v kubectl > /dev/null
