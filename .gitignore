@@ -87,3 +87,4 @@ flycheck_*.el
 # End of https://www.gitignore.io/api/emacs
 eshell
 irony
+ac-comphist.dat

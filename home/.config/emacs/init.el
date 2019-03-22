@@ -28,20 +28,16 @@
 (load-user-module "helpers")
 (load-user-module "fzf")
 
-(add-hook 'python-mode-hook 'lambda () (load-user-module "ft_python"))
-
 ;; Misc settings
 (require 'saveplace)
 (setq-default save-place t)
 (setq-default indent-tabs-mode nil)
 
 (setq save-interprogram-paste-before-kill t
-      apropos-do-all t
       mouse-yank-at-point t
       require-final-newline t
       visible-bell t
       load-prefer-newer t
-      ediff-window-setup-function 'ediff-setup-windows-plain
       save-place-file (concat user-emacs-directory "places")
       backup-directory-alist `(("." . ,(concat user-emacs-directory
 					       "backups"))))

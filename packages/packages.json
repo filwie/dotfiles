@@ -1,11 +1,11 @@
 {
     "apt": [
-        "maven",
-        "xclip",
+        "clang",
         "cmake",
-        "libclang-6.0-dev",
         "libclang-6.0",
-        "clang"
+        "libclang-6.0-dev",
+        "maven",
+        "xclip"
     ],
     "brew": [
         "ansible",
@@ -56,12 +56,17 @@
     "cargo": [
         "racer"
     ],
+    "go": [
+        "github.com/golangci/golangci-lint/cmd/golangci-lint"
+    ],
     "npm": [
         "eslint"
     ],
     "pip": [
         "IPython",
         "autopep8",
+        "rope",
+        "black",
         "colr",
         "flake8",
         "gitlint",
