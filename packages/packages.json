@@ -1,7 +1,11 @@
 {
     "apt": [
         "maven",
-        "xclip"
+        "xclip",
+        "cmake",
+        "libclang-6.0-dev",
+        "libclang-6.0",
+        "clang"
     ],
     "brew": [
         "ansible",

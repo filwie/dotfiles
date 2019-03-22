@@ -1,4 +1,7 @@
 ;; Set config and package directory based on XDG base directory specification
+(setq visible-bell nil
+      ring-bell-function #'ignore)
+
 (if (not (getenv "XDG_CONFIG_HOME"))
     (setenv "XDG_CONFIG_HOME" "~/.config"))
 
@@ -26,7 +29,6 @@
 (load-user-module "fzf")
 
 (add-hook 'python-mode-hook 'lambda () (load-user-module "ft_python"))
-
 
 ;; Misc settings
 (require 'saveplace)
