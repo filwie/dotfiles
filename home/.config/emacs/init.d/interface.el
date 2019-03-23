@@ -21,3 +21,10 @@
 
 ;; Disable splash/welcome message
 (setq inhibit-startup-screen t)
+
+;; Color tweaks
+(custom-set-faces
+ '(neo-root-dir-face ((t (:foreground "#AD3B14"))))
+ '(neo-dir-link-face ((t (:foreground "#282828"))))
+ '(neo-file-link-face ((t (:foreground "#282828")))))
+(custom-set-variables)
