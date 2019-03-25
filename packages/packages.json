@@ -57,7 +57,8 @@
         "racer"
     ],
     "go": [
-        "github.com/golangci/golangci-lint/cmd/golangci-lint"
+        "github.com/golangci/golangci-lint/cmd/golangci-lint",
+        "github.com/mdempsky/gocode"
     ],
     "npm": [
         "eslint"

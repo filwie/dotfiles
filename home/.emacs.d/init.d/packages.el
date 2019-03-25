@@ -28,7 +28,7 @@
   (setq evil-shift-round nil)
   (setq evil-want-C-u-scroll t)
   :config
-  (setq evil-vsplit-window-right t)
+  (setq evil-vsplit-window-right t) 
   (define-key evil-normal-state-map ",w" 'evil-window-vsplit)
   (define-key evil-normal-state-map "za" 'origami-toggle-node)
   (define-key evil-normal-state-map ",," 'fzf)
@@ -45,14 +45,12 @@
   (drag-stuff-global-mode 1))  ;; }}}
 
 (use-package neotree  ;; {{{
-  :init
+  :init  
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-enter-vertical-split)
   (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   :config
-  (add-hook 'neo-after-create-hook
-            (lambda (&rest _) (display-line-numbers-mode -1)))
   (global-set-key [f8] 'neotree-toggle))  ;; }}}
 
 (use-package all-the-icons) ;; M-x all-the-icons-install-fonts
@@ -63,13 +61,9 @@
   :config
   (which-key-setup-side-window-right-bottom)
   (setq which-key-sort-order 'which-key-key-order-alpha
-    which-key-side-window-max-width 0.33
-    which-key-idle-delay 0.05)
+        which-key-side-window-max-width 0.33
+        which-key-idle-delay 0.05)
   :diminish which-key-mode)  ;; }}}
-
-(use-package deadgrep  ;; {{{
-  :config
-  (define-key evil-normal-state-map ",/" 'deadgrep))  ;; }}}
 
 (use-package git-gutter  ;; {{{
   :init
@@ -89,11 +83,7 @@
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   :config
-  (global-flycheck-mode))
-
-(use-package flycheck-gometalinter
-  :config
-  (flycheck-gometalinter-setup))  ;; }}}
+  (global-flycheck-mode)) ;; }}}
 
 (use-package company ;; {{{
   :init
@@ -101,6 +91,7 @@
   (setq company-idle-delay .3)
   (setq company-echo-delay 0)
   (setq company-begin-commands '(self-insert-command))
+  (add-hook 'go-mode-hook (lambda () (set (make-local-variable 'company-backends) '(company-go))))
   :config
   (add-hook 'after-init-hook 'global-company-mode))  ;; }}}
 
@@ -110,8 +101,21 @@
 (use-package company-irony)
 
 (use-package elpy  ;; {{{
+  :init
+  (setq elpy-rpc-python-command "python3")
+  (setq python-shell-interpreter "ipython3"
+        python-shell-interpreter-args "-i --simple-prompt")
+  :config 
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode)
+  (elpy-enable)
+  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))  ;; }}}
+
+(use-package exec-path-from-shell  ;; {{{
   :config
-  (load-user-module "ft_python"))  ;; }}}
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))  ;; }}}
+
 (use-package py-autopep8)
 
 (use-package go-mode  ;; {{{
@@ -132,11 +136,6 @@
 (use-package fish-mode)
 (use-package helm)
 (use-package helm-gtags)
-
-(use-package shell-pop  ;; {{{
-  :config
-  (setq shell-pop-window-position "bottom")
-  (define-key evil-normal-state-map ",t" 'shell-pop))  ;; }}}
 
 (use-package irony  ;; {{{
   :init

@@ -53,6 +53,7 @@ Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'vim-python/python-syntax'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'srcery-colors/srcery-vim'
 Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar', {'for': g:ctags_supported_languages}

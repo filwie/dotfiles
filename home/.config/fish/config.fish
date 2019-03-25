@@ -16,8 +16,12 @@ function _env_editors -d 'Export (Neo)Vim and Emacs variables'  # {{{
         set -gx VIM_CONF $HOME/.vimrc
     end
     # emacs
-    if command -v emacs > /dev/null && test -f $XDG_CONFIG_HOME/emacs/init.el
-        set -gx EMACS_CONF $XDG_CONFIG_HOME/emacs/init.el
+    if command -v emacs > /dev/null
+        if test -f $XDG_CONFIG_HOME/emacs/init.el
+            set -gx EMACS_CONF $XDG_CONFIG_HOME/emacs/init.el
+        else
+            set -gx EMACS_CONF $HOME/.emacs.d/init.el
+        end
     end
 end  # }}}
 

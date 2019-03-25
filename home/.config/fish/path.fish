@@ -17,10 +17,15 @@ if test -d $_fzf_bin
 end
 
 # Go
-set _go /usr/local/go/bin/go
-if test -x $_go
-    set _path $_path ($_go env GOPATH)/bin
-    set -x GOPATH ($_go env GOPATH)
+if command -v go >> /dev/null
+    set _go (command -v go)
+else if test -x /usr/local/go/bin/go
+    set _go /usr/local/go/bin/go
+end
+if set -q _go
+    set -gx GOPATH ($_go env GOPATH)
+    set -gx GOROOT (dirname (dirname $_go))
+    set _path $_path $GOPATH/bin $GOROOT/bin
 end
 
 # Rust
