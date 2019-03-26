@@ -49,11 +49,18 @@
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-enter-vertical-split)
   (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+  (evil-define-key 'normal neotree-mode-map (kbd "ma") 'neotree-create-node) 
+  (evil-define-key 'normal neotree-mode-map (kbd "md") 'neotree-delete-node) 
+  (evil-define-key 'normal neotree-mode-map (kbd "mm") 'neotree-rename-node)
+  (evil-define-key 'normal neotree-mode-map (kbd "R") 'neotree-refresh)
+  (setq neo-window-fixed-size nil)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   :config
   (global-set-key [f8] 'neotree-toggle))  ;; }}}
 
-(use-package all-the-icons) ;; M-x all-the-icons-install-fonts
+(use-package all-the-icons
+  :init
+  (setq all-the-icons-color-icons nil)) ;; M-x all-the-icons-install-fonts
 
 (use-package which-key  ;; {{{
   :init
