@@ -28,7 +28,7 @@
   (setq evil-shift-round nil)
   (setq evil-want-C-u-scroll t)
   :config
-  (setq evil-vsplit-window-right t) 
+  (setq evil-vsplit-window-right t)
   (define-key evil-normal-state-map ",w" 'evil-window-vsplit)
   (define-key evil-normal-state-map "za" 'origami-toggle-node)
   (define-key evil-normal-state-map ",," 'fzf)
@@ -45,12 +45,12 @@
   (drag-stuff-global-mode 1))  ;; }}}
 
 (use-package neotree  ;; {{{
-  :init  
+  :init
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-enter-vertical-split)
   (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
-  (evil-define-key 'normal neotree-mode-map (kbd "ma") 'neotree-create-node) 
-  (evil-define-key 'normal neotree-mode-map (kbd "md") 'neotree-delete-node) 
+  (evil-define-key 'normal neotree-mode-map (kbd "ma") 'neotree-create-node)
+  (evil-define-key 'normal neotree-mode-map (kbd "md") 'neotree-delete-node)
   (evil-define-key 'normal neotree-mode-map (kbd "mm") 'neotree-rename-node)
   (evil-define-key 'normal neotree-mode-map (kbd "R") 'neotree-refresh)
   (setq neo-window-fixed-size nil)
@@ -112,7 +112,7 @@
   (setq elpy-rpc-python-command "python3")
   (setq python-shell-interpreter "ipython3"
         python-shell-interpreter-args "-i --simple-prompt")
-  :config 
+  :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode)
   (elpy-enable)
@@ -150,6 +150,8 @@
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'objc-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))  ;; }}}
+
+(use-package format-all)
 
 (use-package js2-mode  ;; {{{
   :init
