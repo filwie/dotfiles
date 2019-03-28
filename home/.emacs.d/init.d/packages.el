@@ -10,6 +10,8 @@
 (require 'use-package)
 (setq use-package-always-ensure t);; }}}
 
+(use-package org)
+
 (use-package gruvbox-theme)
 
 (use-package origami  ;; {{{
@@ -58,9 +60,9 @@
   :config
   (global-set-key [f8] 'neotree-toggle))  ;; }}}
 
-(use-package all-the-icons
+(use-package all-the-icons  ;; {{{
   :init
-  (setq all-the-icons-color-icons nil)) ;; M-x all-the-icons-install-fonts
+  (setq all-the-icons-color-icons nil)) ;; M-x all-the-icons-install-fonts }}}
 
 (use-package which-key  ;; {{{
   :init
@@ -137,7 +139,9 @@
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))  ;; }}}
 
 (use-package json-mode)
+
 (use-package markdown-mode)
+
 (use-package yaml-mode)
 (use-package dockerfile-mode)
 (use-package fish-mode)

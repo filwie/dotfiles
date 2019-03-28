@@ -58,7 +58,8 @@
     ],
     "go": [
         "github.com/golangci/golangci-lint/cmd/golangci-lint",
-        "github.com/mdempsky/gocode"
+        "github.com/mdempsky/gocode",
+        "gopkg.in/yaml.v2"
     ],
     "npm": [
         "eslint"
