@@ -51,7 +51,7 @@ end
 
 
 function c -a cmd src_file -d "Compile and run single file C program"
-    if not set -q cmd || not set -q src_file
+    if test -z $cmd || test -z $src_file
         _usage
         return 1
     end
