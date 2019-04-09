@@ -62,7 +62,7 @@
 
 (use-package all-the-icons  ;; {{{
   :init
-  (setq all-the-icons-color-icons nil)) ;; M-x all-the-icons-install-fonts }}}
+  (setq all-the-icons-color-icons t)) ;; M-x all-the-icons-install-fonts }}}
 
 (use-package which-key  ;; {{{
   :init
@@ -83,10 +83,13 @@
   :config
   (smartparens-mode))  ;; }}}
 
+(use-package go-autocomplete)
+
 (use-package auto-complete  ;; {{{
   :init
   (ac-config-default)
-  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode))  ;; }}}
+  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode)
+  (add-hook 'go-mode-hook 'auto-complete-mode))  ;; }}}
 
 (use-package flycheck  ;; {{{
   :init

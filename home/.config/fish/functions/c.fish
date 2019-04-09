@@ -41,7 +41,7 @@ end
 
 function _build -a source_file -d "Compile source file using GCC"
     _header "compilation"
-    eval $COMPILE_CMD $source_file
+    eval $COMPILE_CMD $source_file $argv[2..-1]
 end
 
 function _run -a binary_executable -d "Run executable binary"
@@ -58,7 +58,7 @@ function c -a cmd src_file -d "Compile and run single file C program"
     switch $cmd
         case run
             begin
-                if _build $src_file
+                if _build $src_file $argv[3..-1]
                     _info "Compilation succeded."
                     _header "execution"
                     ./a.out

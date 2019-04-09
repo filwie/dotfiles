@@ -58,8 +58,9 @@
     ],
     "go": [
         "github.com/golangci/golangci-lint/cmd/golangci-lint",
-        "go get -u github.com/kardianos/govendor",
-        "go get github.com/onsi/gomega/...",
+        "github.com/kardianos/govendor",
+        "github.com/davecgh/go-spew/spew",
+        "github.com/onsi/gomega/...",
         "github.com/mdempsky/gocode",
         "gopkg.in/yaml.v2"
     ],
