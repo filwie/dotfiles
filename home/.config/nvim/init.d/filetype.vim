@@ -40,10 +40,6 @@ function! FileTypeJson()
     call NNOREMAP(g:user_mapping_fmt, l:fmt)
 endfunction
 
-function! FileTypeJson()
-    let l:fm
-endfunction
-
 function! FileTypeAnsible()
     nnoremap <buffer> <F9> :exec '!clear; ansible-playbook' shellescape(@%, 1)<CR>
 endfunction

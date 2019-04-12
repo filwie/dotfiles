@@ -58,10 +58,6 @@ end  # }}}
 function _source_other_files  -d 'Source path config and aliases'  # {{{
     source $FISH_DIR/path.fish
     source $FISH_DIR/alias.fish
-
-    if command -v kitty > /dev/null
-        kitty + complete setup fish | source
-    end
 end  # }}}
 
 function _start_or_attach_tmux  -d 'Start new tmux session or attach to existing one'  # {{{
