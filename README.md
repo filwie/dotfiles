@@ -1,3 +1,7 @@
+## #TODO
+- [ ] automate https://github.com/sebastianmarkow/deoplete-rust, https://github.com/racer-rust/racer
+- [ ] autocd in fish
+
 ## Prerequirements
 ###### Packages
 ``` sh
