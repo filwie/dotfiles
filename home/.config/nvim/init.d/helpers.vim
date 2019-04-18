@@ -9,3 +9,10 @@ function! InstallVimPlug ()
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     endif
 endfunction
+
+function! UpdateRP(info)
+  if has('nvim')
+    silent UpdateRemotePlugins
+    echomsg 'Remote plugin updated: ' . a:info['name'] . '. Restart NeoVim for changes to take effect.'
+  endif
+endfunction

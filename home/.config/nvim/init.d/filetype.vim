@@ -12,6 +12,16 @@ function! FileTypePython()
     call NNOREMAP(g:user_mapping_fmt, l:fmt)
 endfunction
 
+function! FileTypeRust()
+    let l:run = ':RustRun'
+    let l:test = ':RustTest!'
+    let l:fmt = ':RustFmt'
+
+    call NNOREMAP(g:user_mapping_run, l:run)
+    call NNOREMAP(g:user_mapping_test, l:test)
+    call NNOREMAP(g:user_mapping_fmt, l:fmt)
+endfunction
+
 function! FileTypeJava()
     let l:run = ':term javac % && java %:r'
 
@@ -20,8 +30,18 @@ endfunction
 
 function! FileTypeC()
     let l:run = ':term c run %'
+    let l:fmt = ':ClangFormat'
 
     call NNOREMAP(g:user_mapping_run, l:run)
+    call NNOREMAP(g:user_mapping_fmt, l:fmt)
+endfunction
+
+function! FileTypeCpp()
+    let l:run = ':term cpp run %'
+    let l:fmt = ':ClangFormat'
+
+    call NNOREMAP(g:user_mapping_run, l:run)
+    call NNOREMAP(g:user_mapping_fmt, l:fmt)
 endfunction
 
 function! FileTypeGo()
@@ -65,10 +85,12 @@ augroup FileTypeSpecific
     autocmd!
     autocmd FileType ansible, yaml, yaml.ansible call FileTypeAnsible()
     autocmd FileType c call FileTypeC()
+    autocmd FileType cpp call FileTypeCpp()
     autocmd FileType go call FileTypeGo()
     autocmd FileType java call FileTypeJava()
     autocmd FileType markdown call FileTypeMarkdown()
     autocmd FileType python call FileTypePython()
+    autocmd FileType rust call FileTypeRust()
     autocmd FileType vim call FileTypeVim()
     autocmd FileType json call FileTypeJson()
 
