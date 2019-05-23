@@ -8,21 +8,9 @@ end  # }}}
 
 function _env_editors -d 'Export (Neo)Vim and Emacs variables'  # {{{
     # vim
+    set -gx EDITOR vim
     set -gx VIM_SHELL (which sh)
     set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
-    if command -v nvim > /dev/null
-        set -gx VIM_CONF $XDG_CONFIG_HOME/nvim/init.vim
-    else
-        set -gx VIM_CONF $HOME/.vimrc
-    end
-    # emacs
-    if command -v emacs > /dev/null
-        if test -f $XDG_CONFIG_HOME/emacs/init.el
-            set -gx EMACS_CONF $XDG_CONFIG_HOME/emacs/init.el
-        else
-            set -gx EMACS_CONF $HOME/.emacs.d/init.el
-        end
-    end
 end  # }}}
 
 function _env_all -d 'Set environment variables'  # {{{
@@ -31,24 +19,15 @@ function _env_all -d 'Set environment variables'  # {{{
     # fzf
     set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
 
-    # Python Virtualenv
-    set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
-
     # Tmux
     set -gx TMUX_SHELL (which fish)
-    if test -f $XDG_CONFIG_HOME/tmux/tmux.conf
-        set -gx TMUX_CONF $XDG_CONFIG_HOME/tmux/tmux.conf
-    else
-        set -gx TMUX_CONF $HOME/.tmux.conf
-    end
 
     # Fish itself
     set -gx FISH_DIR $XDG_CONFIG_HOME/fish
-    set -gx FISH_CONF $FISH_DIR/config.fish
 
     # SSH detection
     if set -q SSH_CLIENT || set -q SSH_TTY
-        set -gx REMOTE_SESSION 1
+        set -gx REMOTE_SESSION true
     end
 
     _env_java
@@ -90,7 +69,7 @@ function main
     set -g always_start_venv
     set -e fish_theme_always_show_python
     set -g fish_theme_enable_glyphs
-
+    set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
     _env_all
     _source_other_files

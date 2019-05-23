@@ -1,100 +1,80 @@
-function _glyph -d 'Print glyph+whitespace conditionally'  # {{{
-    if set -q glyph && set -q fish_theme_enable_glyphs
-        printf "%s" $glyph
-        if test (count $argv) -eq 1
-            printf "%s" $argv[1]
-        end
+set -g prompt_path_properties          '--bold'
+set -g prompt_path_color               cyan
+
+set -g prompt_end_properties           '--bold'
+set -g prompt_end_color                brblue
+set -g prompt_end_color_fail           brred
+set -g prompt_char                     '>'
+set -g prompt_char_root                '#'
+
+set -g git_info_properties             '--italics'
+set -g git_clean_color                 brblack
+set -g git_dirty_color                 bryellow
+
+set -g python_version_properties       '--bold'
+set -g python_version_color1           brblue
+set -g python_version_color2           blue
+
+function git_info -d "Display git branch"
+    if not string match -q true (command git rev-parse --is-inside-work-tree 2>&1)
+        return
     end
-end  # }}}
+    set git_status (git status --porcelain)
+    set git_branch (git branch ^/dev/null | grep \* | sed 's/* //')
 
-function _segment -d 'Print segment surrounded by separators'  # {{{
-    if test (count $argv) -ne 1; return; end
-    if not set -q separator;
-        set separator ' '
+    if test -z "$git_status";       set_color $git_clean_color
+    else;                           set_color $git_dirty_color
     end
-    if test -n $argv[1]
-        printf "%s%s" $argv[1] $separator
-    end
-end  # }}}
+    set_color $git_info_properties
+    printf "%s%s " $git_branch (set_color normal)
+end
 
-function _i; set_color -i; end
-function _b; set_color -o; end
-function _u; set_color -u; end
-function _c; set_color $argv[1]; end
-function _r; set_color normal; end
-
-function _path -d 'Display shortened path'  # {{{
-    set -g glyph 
-    printf "%s%s" (_glyph '  ')(prompt_pwd)
-end  # }}}
-
-function _git -d 'Display branch in green/red depending on status'  # {{{
-    if not __git_is_repo; return; end
-    set -g glyph 
-    set branch (__git_branch)
-
-    if not __git_is_clean; _c bryellow; end
-    printf "%s%s" (_glyph ' ')(_r) (_i)$branch(_r)
-    set_color normal
-end  # }}}
-
-function _ssh -d 'Display info if connected via SSH'  # {{{
-    if not _is_remote; return; end
-    set -g glyph 
-    _glyph
-    printf (_i)"SSH"(_r)
-end  # }}}
-
-function _docker -d 'Display hostname if host is docker container'  # {{{
-    if not _docker_is_container; return; end
-    set -g glyph 
-    set_color blue
-    _glyph
-    printf "%s" (_i)(hostname)(_r)
-    set_color normal
-end  # }}}
-
-function _python -d 'Display venv name and Python version info'  # {{{
-    if not test (command -v python); return; end
-    set -g glyph 
-    set python_version (__python_version)
-    set venv (__python_venv)
-    if set -q VIRTUAL_ENV || set -q fish_theme_always_show_python
-        set_color brblue
-        _glyph '  '
-        set_color normal
-        printf "%s%s" $python_version \ \((set_color -o)$venv(set_color normal)\)
-     end
-end  # }}}
-
-function _end -d 'Prompt end character'  # {{{
-    if set -q fish_theme_enable_glyphs
-        if test (id -u) -eq 0
-            set end_char 
-        else
-            set end_char 
-        end
-    else
-        if test (id -u) -eq 0
-            set end_char (_b)\#(_r)
-        else
-            set end_char (_b)\$(_r)
+function python_info
+    function _version
+        if test (command -v python)
+            set_color $python_version_properties
+            set python_version (string split '' (string match -r '.*(\d\.\d\.(:?\w)+).*' (python -V 2>&1))[2])
+            set_color $python_version_color1
+            printf "%s" $python_version[1..2]
+            set_color $python_version_color2
+            printf "%s" $python_version[3..-1]
+            set_color normal
         end
     end
 
-    if test $RETURN_VALUE -ne 0
-        set_color brred
+    if set -q VIRTUAL_ENV
+        set venv (basename $VIRTUAL_ENV)
+        set venv_info " ($venv)"
     end
-    printf "%s" $end_char
-    set_color normal
-end  # }}}
 
-function _prompt
-    printf " %s%s%s%s " (_segment (_path)) (_segment (_git)) (_segment (_python)) (_end)
+    printf "%s%s%s%s " (_version) (set_color $python_version_color2) $venv_info (set_color normal)
+end
+
+function prompt_path -d "Displays shortened path"
+    set_color $prompt_path_properties
+    set_color $prompt_path_color
+    printf "%s%s " (prompt_pwd) (set_color normal)
+end
+
+function prompt_end -d "Displays prompt end character based on user (regular or root) and return value"
+    set_color $prompt_end_properties
+    if test $RETURN_VALUE -eq 0;    set_color $prompt_end_color
+    else;                           set_color $prompt_end_color_fail
+    end
+
+    if test (id -u) -eq 0;
+        set prompt_char $prompt_char_root
+    end
+    printf "%s%s " $prompt_char (set_color normal)
+end
+
+
+function ascii_prompt
+    printf "%s%s%s%s" (prompt_path) (git_info) (python_info) (prompt_end)
 end
 
 function fish_prompt
     set -g RETURN_VALUE $status
-    _prompt
-    set -e glyph
+    
+    ascii_prompt
 end

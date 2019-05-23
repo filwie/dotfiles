@@ -4,8 +4,7 @@ set laststatus=1
 set foldmethod=marker
 set hlsearch
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4 " autoindent copyindent
-" dont break lines automatically
-set textwidth=0 wrapmargin=0
+set textwidth=0 wrapmargin=0 " dont break lines automatically
 set number
 set termencoding=utf-8
 set fileencoding=utf-8

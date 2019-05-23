@@ -76,6 +76,9 @@ let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
 let g:autopep8_disable_show_diff=0
 let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
 
+" Autopairs
+let g:AutoPairsShortcutToggle = '<leader>ap'
+
 " Deoplete {{{
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
