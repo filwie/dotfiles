@@ -1,6 +1,10 @@
 #!/usr/bin/env fish
 
-set -g COMPILE_CMD "gcc -Wall -pedantic -g"
+if test (__os) = mac
+    set -g COMPILE_CMD "gcc-8 -Wall -pedantic -g"
+else
+    set -g COMPILE_CMD "gcc -Wall -pedantic -g"
+end
 
 function _usage
     printf "USAGE: c run/build {SOURCE_FILE} \n"

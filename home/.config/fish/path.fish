@@ -24,7 +24,11 @@ else if test -x /usr/local/go/bin/go
 end
 if set -q _go
     set -gx GOPATH ($_go env GOPATH)
-    set -gx GOROOT (dirname (dirname $_go))
+    if test (__os) = "mac"
+        set -gx GOROOT /usr/local/opt/go/libexec
+    else
+        set -gx GOROOT (dirname (dirname $_go))
+    end
     set _path $_path $GOPATH/bin $GOROOT/bin
 end
 

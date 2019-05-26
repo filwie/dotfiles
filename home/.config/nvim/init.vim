@@ -26,6 +26,7 @@ endif
 Plug 'w0rp/ale', {'for': g:languages_to_lint}
 Plug 'pearofducks/ansible-vim'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'jiangmiao/auto-pairs'
 Plug 'ekalinin/Dockerfile.vim'
 Plug $FZF_BASE
 Plug 'junegunn/fzf.vim'
@@ -39,6 +40,7 @@ Plug 'deoplete-plugins/deoplete-jedi', {'for': ['python']}
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
+Plug 'rust-lang/rust.vim'
 Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'vim-python/python-syntax'
@@ -85,8 +87,8 @@ let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const
 " clang
 if has('macunix')
 else
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so'
-let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-6.0/lib/clang/'
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so'
+    let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-6.0/lib/clang/'
 endif
 " /clang
 " rust

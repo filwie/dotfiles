@@ -14,8 +14,8 @@ set background=light
 let g:gruvbox_italic = 1
 let g:gruvbox_contrast_light = 'soft'
 let g:gruvbox_termcolors = 1
-let g:gruvbox_sign_column = 'bg0'
-let g:gruvbox_color_column = 'bg0'
+let g:gruvbox_sign_column = 'bg1'
+let g:gruvbox_color_column = 'bg1'
 silent! colorscheme gruvbox
 
 highlight Normal            guibg=NONE    ctermbg=NONE
@@ -27,7 +27,7 @@ highlight Folded            guibg=NONE    ctermbg=NONE
 highlight TabLineFill       guibg=NONE    ctermbg=NONE
 highlight TabLine           guibg=NONE    ctermbg=NONE
 highlight TabLineSel        guibg=NONE    ctermbg=NONE
-highlight EndOfBuffer       guibg=NONE    ctermbg=NONE    guifg=gb.light0_soft    ctermfg=0
+highlight EndOfBuffer       guibg=NONE    ctermbg=NONE    guifg=gb.light0_soft    ctermfg=7
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -57,3 +57,9 @@ highlight VertSplit guibg=NONE ctermbg=NONE ctermfg=8
 " Enable italics in comments (important - put after colorscheme)
 highlight Comment cterm=italic
 
+" Always show signcolumn
+if exists('&signcolumn')  " Vim 7.4.2201
+  set signcolumn=yes
+else
+  let g:gitgutter_sign_column_always = 1
+endif

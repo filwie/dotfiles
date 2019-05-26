@@ -1,5 +1,6 @@
 
-(set-frame-font "Iosevka 12")      ; Set font and size
+(set-frame-font "Iosevka")      ; Set font and size
+(set-face-attribute 'default nil :height 140)
 (setq-default indent-tabs-mode nil) ; Use spaces instead of tabs
 (setq tab-width 2)                  ; Four spaces is a tab
 
