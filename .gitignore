@@ -6,6 +6,7 @@ home/.config/Code/*
 home/.config/Code/User/*
 !home/.config/Code/User/keybindings.json
 !home/.config/Code/User/settings.json
+!home/.config/Code/User/extensions.list
 !home/.config/Code/User/snippets/
 
 *.swp
