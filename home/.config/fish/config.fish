@@ -8,7 +8,7 @@ end  # }}}
 
 function _env_editors -d 'Export (Neo)Vim and Emacs variables'  # {{{
     # vim
-    set -gx EDITOR vim
+    set -gx EDITOR nvim
     set -gx VIM_SHELL (which sh)
     set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
 end  # }}}

@@ -7,6 +7,7 @@ alias e $EDITOR
 alias o xdg-open
 
 # vim-like
+alias vim $EDITOR
 alias :e $EDITOR
 alias :q exit
 
