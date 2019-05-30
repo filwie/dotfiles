@@ -10,9 +10,9 @@ if has('mouse')
     endif
 endif
 
-set background=light
+set background=dark
 let g:gruvbox_italic = 1
-let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_contrast_light = 'hard'
 let g:gruvbox_termcolors = 1
 let g:gruvbox_sign_column = 'bg1'
 let g:gruvbox_color_column = 'bg1'
