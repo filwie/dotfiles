@@ -2,6 +2,7 @@
     "apt": [
         "clang",
         "cmake",
+        "highlight",
         "libclang-6.0",
         "libclang-6.0-dev",
         "maven",
@@ -59,11 +60,15 @@
     "go": [
         "github.com/golangci/golangci-lint/cmd/golangci-lint",
         "github.com/kardianos/govendor",
-        "github.com/onsi/gomega/...",
-        "golang.org/x/tools/cmd/vet",
-        "golang.org/x/tools/cmd/godoc",
         "github.com/mdempsky/gocode",
-        "gopkg.in/yaml.v2"
+        "github.com/newhook/go-symbols",
+        "github.com/rogpeppe/godef",
+        "github.com/sqs/goreturns",
+        "golang.org/x/tools/cmd/godoc",
+        "golang.org/x/tools/cmd/gorename",
+        "golang.org/x/tools/cmd/guru",
+        "golang.org/x/tools/cmd/vet",
+        "thub.com/uudashr/gopkgs/cmd/gopkgs"
     ],
     "npm": [
         "eslint"
