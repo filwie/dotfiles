@@ -1,0 +1,17 @@
+{
+    "workbench.editor.tabSizing": "shrink",
+    "editor.fontFamily": "'Iosevka'",
+    "window.zoomLevel": 1,
+    "workbench.iconTheme": "file-icons",
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": false,
+    "workbench.activityBar.visible": false,
+    "workbench.settings.editor": "json",
+    "code-runner.executorMap": {
+        "python": "python3"
+    },
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "window.menuBarVisibility": "toggle"
+}

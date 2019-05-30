@@ -1,5 +1,13 @@
 home/.config/nvim/*
 !home/.config/nvim/init*
+
+home/.config/Code/*
+!home/.config/Code/User
+home/.config/Code/User/*
+!home/.config/Code/User/keybindings.json
+!home/.config/Code/User/settings.json
+!home/.config/Code/User/snippets/
+
 *.swp
 tags
 fzf_key_bindings.fish
