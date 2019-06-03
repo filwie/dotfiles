@@ -61,11 +61,15 @@ function! FileTypeJson()
 endfunction
 
 function! FileTypeAnsible()
-    nnoremap <buffer> <F9> :exec '!clear; ansible-playbook' shellescape(@%, 1)<CR>
+    let l:run = ':term ansible-playbook %'
+
+    call NNOREMAP(g:user_mapping_run, l:run)
 endfunction
 
 function! FileTypeVim()
-    nnoremap <buffer> . g:user_mapping_run . :exec '!clear' <bar> source % <CR>
+    let l:run = ':source %'
+
+    call NNOREMAP(g:user_mapping_run, l:run)
 endfunction
 
 function! MarkdownConvertOpen()  " {{{
@@ -83,7 +87,7 @@ endfunction
 
 augroup FileTypeSpecific
     autocmd!
-    autocmd FileType ansible, yaml, yaml.ansible call FileTypeAnsible()
+    autocmd FileType ansible,yaml,yaml.ansible call FileTypeAnsible()
     autocmd FileType c call FileTypeC()
     autocmd FileType cpp call FileTypeCpp()
     autocmd FileType go call FileTypeGo()
