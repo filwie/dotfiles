@@ -11,12 +11,5 @@ alias vim $EDITOR
 alias :e $EDITOR
 alias :q exit
 
-# Microk8s
-if command -v microk8s.kubectl > /dev/null && not command -v kubectl > /dev/null
-    # autocompletion: https://github.com/evanlucas/fish-kubectl-completions/issues
-    # %s/\skubectl/\ microk8s.kubectl\ /g
-    alias kubectl 'microk8s.kubectl'
-end
-
 # misc
 alias gitr 'printf (git rev-parse --show-toplevel)'
