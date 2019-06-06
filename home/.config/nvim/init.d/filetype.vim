@@ -72,6 +72,12 @@ function! FileTypeVim()
     call NNOREMAP(g:user_mapping_run, l:run)
 endfunction
 
+function! FileTypeExecutable()
+    let l:run = ':term %'
+
+    call NNOREMAP(g:user_mapping_run, l:run)
+endfunction
+
 function! MarkdownConvertOpen()  " {{{
     if has('macunix') | let l:open_html_cmd = 'open'
     else              | let l:open_html_cmd = 'xdg-open' | endif
@@ -97,6 +103,7 @@ augroup FileTypeSpecific
     autocmd FileType rust call FileTypeRust()
     autocmd FileType vim call FileTypeVim()
     autocmd FileType json call FileTypeJson()
+    autocmd FileType bash,fish,sh call FileTypeExecutable()
 
     autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal i | endif
     autocmd BufRead,BufNewFile */ansible/*.yml set filetype=yaml.ansible
