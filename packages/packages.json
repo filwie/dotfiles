@@ -2,6 +2,8 @@
     "apt": [
         "clang",
         "cmake",
+        "node",
+        "yarn",
         "highlight",
         "libclang-6.0",
         "libclang-6.0-dev",

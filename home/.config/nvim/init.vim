@@ -32,13 +32,9 @@ Plug $FZF_BASE
 Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
 Plug 'mboughaba/i3config.vim'
-Plug 'Shougo/deoplete.nvim', {'do': function('UpdateRP')}
+Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 Plug 'Shougo/denite.nvim', {'do': function('UpdateRP')}
-Plug 'deoplete-plugins/deoplete-clang', {'for': ['c', 'cpp']}
-Plug 'deoplete-plugins/deoplete-go', {'do': 'make'}
-Plug 'deoplete-plugins/deoplete-jedi', {'for': ['python']}
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
-Plug 'sebastianmarkow/deoplete-rust'
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'rust-lang/rust.vim'
 Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
@@ -47,8 +43,9 @@ Plug 'vim-python/python-syntax'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'srcery-colors/srcery-vim'
 Plug 'ervandew/supertab'
+Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
-Plug 'majutsushi/tagbar', {'for': g:ctags_supported_languages}
+Plug 'liuchengxu/vista.vim'
 Plug 'tell-k/vim-autopep8', {'for': 'python'}
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
 Plug 'ap/vim-css-color'
@@ -67,6 +64,7 @@ Plug 'tpope/vim-surround'
 Plug 'nathanielc/vim-tickscript', {'for': 'tick'}
 Plug 'dag/vim-fish'
 Plug 'zefei/vim-wintabs'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 " /PLUGIN LIST }}}
 
@@ -81,21 +79,12 @@ let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
 " Autopairs
 let g:AutoPairsShortcutToggle = '<leader>ap'
 
-" Deoplete {{{
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-" clang
-if has('macunix')
-else
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so'
-    let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-6.0/lib/clang/'
-endif
-" /clang
-" rust
-let g:deoplete#sources#rust#racer_binary = glob('~/.cargo/bin/racer')
-let g:deoplete#sources#rust#rust_source_path = glob('~/.rustup/toolchains/stable*/lib/rustlib/src/rust/src')
-" /rust
-" /Deoplete }}}
+" Coc
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
+
 
 " FZF colors {{{
 let g:fzf_colors = { 'fg':      ['fg', 'Normal'],
@@ -114,6 +103,24 @@ let g:fzf_colors = { 'fg':      ['fg', 'Normal'],
 
 " GitGutter
 autocmd BufWritePost * GitGutter
+let g:gitgutter_override_sign_column_highlight = 0
+
+" indentLine
+let g:indentLine_char = '│'
+let g:indentLine_enabled = 1
+
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction'
+      \ },
+      \ }
 
 " NERDTree, WebDevIcons  {{{
 let NERDTreeDirArrowExpandable = "\u00a0"
@@ -137,9 +144,6 @@ let g:python_highlight_all = 1
 " Supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
 
-" Tagbar
-let g:tagbar_type_ansible = {'ctagstype' : 'ansible', 'kinds' : ['t:tasks'], 'sort' : 0}
-
 " toggle quickfix window
 nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
 
@@ -149,6 +153,14 @@ let g:wintabs_ui_readonly = ' (ro)'
 let g:wintabs_ui_sep_leftmost = ''
 let g:wintabs_ui_sep_inbetween = ''
 let g:wintabs_ui_sep_rightmost = ''
+
+" vista.vim
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 " /PLUGIN SETTINGS }}}
 

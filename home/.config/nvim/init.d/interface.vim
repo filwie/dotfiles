@@ -13,21 +13,29 @@ endif
 set background=dark
 let g:gruvbox_italic = 1
 let g:gruvbox_contrast_light = 'hard'
-let g:gruvbox_termcolors = 1
+let g:gruvbox_termcolors = 0
 let g:gruvbox_sign_column = 'bg1'
 let g:gruvbox_color_column = 'bg1'
 silent! colorscheme gruvbox
 
 highlight Normal            guibg=NONE    ctermbg=NONE
 highlight SignColumn        guibg=NONE    ctermbg=NONE
-highlight ColorColumn       guibg=NONE    ctermbg=NONE    guifg=gb.light1  ctermfg=1
-highlight LineNr            guibg=NONE    ctermbg=NONE    guifg=gb.neutral_red[0]  ctermfg=7
-highlight CursorLineNr      guibg=NONE    ctermbg=NONE    cterm=bold
+highlight ColorColumn       guibg=NONE    ctermbg=NONE    ctermfg=1    guifg=#1d2021
+highlight LineNr            guibg=NONE    ctermbg=NONE    ctermfg=7    guifg=#a89984
+highlight CursorLineNr      guibg=NONE    ctermbg=NONE    ctermfg=3    guifg=#fe8019    cterm=bold     gui=bold
 highlight Folded            guibg=NONE    ctermbg=NONE
 highlight TabLineFill       guibg=NONE    ctermbg=NONE
 highlight TabLine           guibg=NONE    ctermbg=NONE
 highlight TabLineSel        guibg=NONE    ctermbg=NONE
-highlight EndOfBuffer       guibg=NONE    ctermbg=NONE    guifg=gb.light0_soft    ctermfg=7
+highlight EndOfBuffer       guibg=NONE    ctermbg=NONE    ctermfg=7    guifg=#1d2021
+
+highlight GitGutterAdd      guibg=NONE    ctermbg=NONE    ctermfg=2    guifg=#98971a
+highlight GitGutterChange   guibg=NONE    ctermbg=NONE    ctermfg=3    guifg=#d79921
+highlight GitGutterDelete   guibg=NONE    ctermbg=NONE    ctermfg=1    guifg=#cc241d
+
+
+highlight ALEErrorSign     guibg=NONE    ctermbg=NONE    ctermfg=2    guifg=#d79921
+highlight ALEWarningSign   guibg=NONE    ctermbg=NONE    ctermfg=3    guifg=#cc241d
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -55,10 +63,10 @@ set fillchars+=vert:\│  " vert split character set to ' '
 highlight VertSplit guibg=NONE ctermbg=NONE ctermfg=8
 
 " Enable italics in comments (important - put after colorscheme)
-highlight Comment cterm=italic
+highlight Comment cterm=italic gui=italic
 
 " Always show signcolumn
-if exists('&signcolumn')  " Vim 7.4.2201
+if exists('&signcolumn')
   set signcolumn=yes
 else
   let g:gitgutter_sign_column_always = 1

@@ -1,4 +1,4 @@
-set _path $HOME/.local/bin $HOME/bin
+set _path $HOME/.local/bin $HOME/bin /usr/local/sbin
 
 # Java
 if set -q JAVA_BIN

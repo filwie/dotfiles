@@ -16,3 +16,17 @@ function! UpdateRP(info)
     echomsg 'Remote plugin updated: ' . a:info['name'] . '. Restart NeoVim for changes to take effect.'
   endif
 endfunction
+
+
+function! InstallMyCoc()
+    " https://github.com/neoclide/coc-sources
+    :CocInstall coc-tag
+    :CocInstall coc-omni
+    :CocInstall coc-gocode
+    :CocInstall coc-html
+    :CocInstall coc-tsserver
+    :CocInstall coc-css
+    :CocInstall coc-python
+    :CocInstall coc-yaml
+    :CocInstall coc-vimlsp
+endfunction
