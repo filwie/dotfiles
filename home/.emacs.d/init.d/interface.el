@@ -12,7 +12,7 @@
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 ;; Color scheme
-(load-theme 'gruvbox-light-soft t)
+(load-theme 'gruvbox-dark-hard t)
 
 ;; Cursor shape in insert mode
 (unless (display-graphic-p)
