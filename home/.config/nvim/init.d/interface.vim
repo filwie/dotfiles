@@ -20,7 +20,7 @@ silent! colorscheme gruvbox
 
 highlight Normal            guibg=NONE    ctermbg=NONE
 highlight SignColumn        guibg=NONE    ctermbg=NONE
-highlight ColorColumn       guibg=NONE    ctermbg=NONE    ctermfg=1    guifg=#1d2021
+highlight ColorColumn       guibg=NONE    ctermbg=NONE
 highlight LineNr            guibg=NONE    ctermbg=NONE    ctermfg=7    guifg=#a89984
 highlight CursorLineNr      guibg=NONE    ctermbg=NONE    ctermfg=3    guifg=#fe8019    cterm=bold     gui=bold
 highlight Folded            guibg=NONE    ctermbg=NONE

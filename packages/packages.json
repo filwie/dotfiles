@@ -93,6 +93,7 @@
         "pytest",
         "requests",
         "vim-vint",
-        "yapf"
+        "yapf",
+        "python-language-server[all]"
     ]
 }
