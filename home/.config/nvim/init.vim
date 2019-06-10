@@ -144,6 +144,10 @@ let g:python_highlight_all = 1
 " Supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
 
+" Startify
+let g:startify_custom_header = ''
+let g:startify_custom_footer = ''
+
 " toggle quickfix window
 nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
 
