@@ -27,7 +27,14 @@ map <leader>nt :NERDTreeToggle<CR>
 map <F8> :TagbarToggle<CR>
 map <leader>jd :YcmCompleter GoTo<CR>
 
+" Goto
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " maps for sourcing, opening and autosourcing .vimrc
 map <leader>vs :source $MYVIMRC<CR>
