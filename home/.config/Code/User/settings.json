@@ -1,7 +1,7 @@
 {
     "workbench.editor.tabSizing": "shrink",
     "editor.fontFamily": "'Iosevka'",
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 0,
     "workbench.iconTheme": "file-icons",
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
