@@ -1,5 +1,6 @@
 home/.config/nvim/*
 !home/.config/nvim/init*
+!home/.config/nvim/coc-settings.json
 
 home/.config/Code/*
 !home/.config/Code/User
