@@ -29,10 +29,11 @@ highlight TabLine           guibg=NONE    ctermbg=NONE
 highlight TabLineSel        guibg=NONE    ctermbg=NONE
 highlight EndOfBuffer       guibg=NONE    ctermbg=NONE    ctermfg=7    guifg=#1d2021
 
+
 highlight GitGutterAdd      guibg=NONE    ctermbg=NONE    ctermfg=2    guifg=#98971a
 highlight GitGutterChange   guibg=NONE    ctermbg=NONE    ctermfg=3    guifg=#d79921
+highlight link GitGutterChangeDelete GitGutterChange
 highlight GitGutterDelete   guibg=NONE    ctermbg=NONE    ctermfg=1    guifg=#cc241d
-
 
 highlight ALEErrorSign     guibg=NONE    ctermbg=NONE    ctermfg=2    guifg=#d79921
 highlight ALEWarningSign   guibg=NONE    ctermbg=NONE    ctermfg=3    guifg=#cc241d

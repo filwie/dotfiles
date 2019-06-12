@@ -33,7 +33,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
 Plug 'mboughaba/i3config.vim'
 Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
-Plug 'Shougo/denite.nvim', {'do': function('UpdateRP')}
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'rust-lang/rust.vim'
@@ -133,14 +132,14 @@ let g:fzf_colors = { 'fg':      ['fg', 'Normal'],
 " /FZF }}}
 
 " GitGutter
-autocmd BufWritePost * GitGutter
+" autocmd BufWritePost * GitGutter
 let g:gitgutter_override_sign_column_highlight = 0
 
 " indentLine
 let g:indentLine_char = '│'
 let g:indentLine_enabled = 1
 let g:indentLine_showFirstIndentLevel =1
-let g:indentLine_fileTypeExclude = ['denite','startify','tagbar','vista_kind']
+let g:indentLine_fileTypeExclude = ['startify','tagbar','vista_kind']
 
 " lightline
 let g:lightline = {
