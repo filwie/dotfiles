@@ -12,6 +12,11 @@
     "code-runner.executorMap": {
         "python": "python3"
     },
+    "window.menuBarVisibility": "toggle",
     "workbench.colorTheme": "Gruvbox Dark Hard",
-    "window.menuBarVisibility": "toggle"
+    "files.associations": {
+        "**/ansible/**/*.yaml": "ansible",
+        "**/roles/**/*.yaml": "ansible",
+        "gitconfig.j2": "jinja-properties"
+    }
 }
