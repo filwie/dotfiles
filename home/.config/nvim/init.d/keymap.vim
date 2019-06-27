@@ -24,7 +24,7 @@ map <leader>t :Tags<CR>
 map <leader>b :Buffers<CR>
 
 map <leader>nt :NERDTreeToggle<CR>
-map <F8> :TagbarToggle<CR>
+map <F8> :Vista<CR>
 map <leader>jd :YcmCompleter GoTo<CR>
 
 " Goto
