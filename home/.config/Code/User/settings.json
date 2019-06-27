@@ -1,22 +1,35 @@
 {
-    "workbench.editor.tabSizing": "shrink",
-    "editor.fontFamily": "'Iosevka'",
-    "window.zoomLevel": 0,
-    "workbench.iconTheme": "file-icons",
-    "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false,
-    "editor.minimap.enabled": false,
-    "breadcrumbs.enabled": false,
-    "workbench.activityBar.visible": false,
-    "workbench.settings.editor": "json",
-    "code-runner.executorMap": {
-        "python": "python3"
-    },
-    "window.menuBarVisibility": "toggle",
-    "workbench.colorTheme": "Gruvbox Dark Hard",
-    "files.associations": {
-        "**/ansible/**/*.yaml": "ansible",
-        "**/roles/**/*.yaml": "ansible",
-        "gitconfig.j2": "jinja-properties"
+  "workbench.editor.tabSizing": "shrink",
+  "editor.fontFamily": "'Iosevka'",
+  "window.zoomLevel": 0,
+  "workbench.iconTheme": "simple-icons",
+  "telemetry.enableTelemetry": false,
+ "trailing-spaces.trimOnSave": true,
+  "telemetry.enableCrashReporter": false,
+  "editor.minimap.enabled": false,
+  "breadcrumbs.enabled": false,
+  "workbench.activityBar.visible": false,
+  "workbench.settings.editor": "json",
+  "code-runner.executorMap": {
+    "python": "python3"
+  },
+  "window.menuBarVisibility": "toggle",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "files.associations": {
+    "**/ansible/**/*.yaml": "ansible",
+    "**/roles/**/*.yaml": "ansible",
+    "gitconfig.j2": "jinja-properties"
+  },
+  "[yaml]": {
+    "editor.tabSize": 2
+  },
+  "[ansible]": {
+    "editor.tabSize": 2
+  },
+  "vim.useSystemClipboard": true,
+  "vim.handleKeys": {
+      "<C-a>": false,  // will select all
+      "<C-n>": false,  // set in keybindings.json to extension.advancedNewFile
+      "<C-f>": false   // will use VSCode search
     }
 }
