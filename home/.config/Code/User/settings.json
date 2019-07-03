@@ -16,6 +16,8 @@
   "files.associations": {
     "**/ansible/**/*.yaml": "ansible",
     "**/roles/**/*.yaml": "ansible",
+    "**/i3/config": "i3",
+    "**/sway/config": "i3",
     "gitconfig.j2": "jinja-properties"
   },
   "markdown.preview.scrollEditorWithPreview": false,
@@ -73,6 +75,6 @@
   "workbench.activityBar.visible": false,
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.editor.tabSizing": "shrink",
-  "workbench.iconTheme": "simple-icons",
+  "workbench.iconTheme": "file-icons",
   "workbench.settings.editor": "json"
 }
