@@ -2,6 +2,8 @@
     "apt": [
         "clang",
         "cmake",
+        "node",
+        "yarn",
         "highlight",
         "libclang-6.0",
         "libclang-6.0-dev",
@@ -91,6 +93,7 @@
         "pytest",
         "requests",
         "vim-vint",
-        "yapf"
+        "yapf",
+        "python-language-server[all]"
     ]
 }

@@ -5,7 +5,26 @@
         "command": "workbench.action.toggleSidebarVisibility"
     },
     {
-        "key": "ctrl+b",
-        "command": "-workbench.action.toggleSidebarVisibility"
+        "key": "ctrl+n",
+        "command": "extension.advancedNewFile"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "workbench.action.focusFirstEditorGroup",
+    },
+    {
+        "key": "f10",
+        "command": "markdown.showPreview",
+        "when": "resourceLangId == markdown"
+    },
+    {
+        "key": "f10",
+        "command": "code-runner.run",
+        "when": "!resourceLangId == markdown && editorTextFocus"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "workbench.action.focusSideBar",
+        "when": "editorTextFocus"
     }
 ]

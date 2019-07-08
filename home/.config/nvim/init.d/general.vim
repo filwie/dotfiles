@@ -28,6 +28,8 @@ set colorcolumn=80
 set termguicolors
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o  " no automatic comment char inserting
 set timeoutlen=1000 ttimeoutlen=0
+"set cmdheight=2  " better visibility of messages
+set updatetime=300  " smaller updatetime for CursorHold & CursorHoldI
 
 augroup clipboard
     if has('clipboard')

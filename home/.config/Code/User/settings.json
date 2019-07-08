@@ -1,17 +1,80 @@
 {
-    "workbench.editor.tabSizing": "shrink",
-    "editor.fontFamily": "'Iosevka'",
-    "window.zoomLevel": 1,
-    "workbench.iconTheme": "file-icons",
-    "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false,
-    "editor.minimap.enabled": false,
-    "breadcrumbs.enabled": false,
-    "workbench.activityBar.visible": false,
-    "workbench.settings.editor": "json",
-    "code-runner.executorMap": {
-        "python": "python3"
-    },
-    "workbench.colorTheme": "Gruvbox Dark Hard",
-    "window.menuBarVisibility": "toggle"
+  "[ansible]": {
+    "editor.tabSize": 2
+  },
+  "[yaml]": {
+    "editor.tabSize": 2
+  },
+  "bookmarks.navigateThroughAllFiles": true,
+  "bookmarks.saveBookmarksInProject": true,
+  "breadcrumbs.enabled": false,
+  "code-runner.executorMap": {
+    "python": "python3"
+  },
+  "editor.fontFamily": "'Iosevka'",
+  "editor.minimap.enabled": false,
+  "files.associations": {
+    "**/ansible/**/*.yaml": "ansible",
+    "**/roles/**/*.yaml": "ansible",
+    "**/i3/config": "i3",
+    "**/sway/config": "i3",
+    "gitconfig.j2": "jinja-properties"
+  },
+  "markdown.preview.scrollEditorWithPreview": false,
+  "telemetry.enableCrashReporter": false,
+  "telemetry.enableTelemetry": false,
+  "trailing-spaces.trimOnSave": true,
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-d>": false,
+    "<C-f>": false,
+    "<C-n>": false,
+    "<C-o>": false,
+    "<C-u>": false
+  },
+  "vim.hlsearch": true,
+  "vim.ignorecase": true,
+  "vim.leader": "\\",
+  "vim.normalModeKeyBindingsNonRecursive": [{
+    "before": ["<leader>", "m"],
+    "commands": ["bookmarks.toggle"]
+  }, {
+    "before": ["<leader>", "b"],
+    "commands": ["bookmarks.list"]
+  }, {
+    "before": ["<leader>", "n"],
+    "commands": ["extension.advancedNewFile"]
+  }, {
+    "before": ["<leader>", "t"],
+    "commands": ["todo-tree-view.focus"]
+  }, {
+    "before": ["<leader>", "e"],
+    "commands": ["workbench.files.action.focusFilesExplorer"]
+  }, {
+    "before": ["J"],
+    "commands": ["scrollLineDown"]
+  }, {
+    "before": ["K"],
+    "commands": ["scrollLineUp"]
+  }, {
+    "before": ["<leader>", "d"],
+    "commands": [{
+      "command": "editor.action.peekDefinition",
+      "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    }]
+  }, {
+    "before": ["<leader>", "i"],
+    "commands": [{
+      "command": "editor.action.peekImplementation",
+      "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
+    }]
+  }],
+  "vim.useSystemClipboard": true,
+  "window.menuBarVisibility": "toggle",
+  "window.zoomLevel": 0,
+  "workbench.activityBar.visible": false,
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.iconTheme": "file-icons",
+  "workbench.settings.editor": "json"
 }

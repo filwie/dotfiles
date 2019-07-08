@@ -86,8 +86,9 @@ function! MarkdownConvertOpen()  " {{{
     execute l:cmd
 endfunction  " }}}
 
+let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex', 'sql', 'ruby', 'jinja', 'html', 'css', 'yaml', 'ansible', 'lua', 'vim', 'java', 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
+
 function! FileTypeMarkdown()
-    let g:markdown_fenced_languages = ['make', 'zsh', 'sh', 'json', 'tex', 'sql', 'ruby', 'jinja', 'html', 'css', 'yaml', 'ansible', 'lua', 'vim', 'java', 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
     execute 'nnoremap <buffer> ' . g:user_mapping_run . ' :call MarkdownConvertOpen()<CR>'
 endfunction
 
