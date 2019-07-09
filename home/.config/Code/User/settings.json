@@ -40,7 +40,7 @@
     "commands": ["bookmarks.toggle"]
   }, {
     "before": ["<leader>", "b"],
-    "commands": ["bookmarks.list"]
+    "commands": ["bookmarks.listFromAllFiles"]
   }, {
     "before": ["<leader>", "n"],
     "commands": ["extension.advancedNewFile"]

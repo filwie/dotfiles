@@ -1,3 +1,4 @@
+" vim: set ts=2 sw=2 fdm=marker:
 scriptencoding utf-8
 if $VIM_SHELL ==# '' | set shell=$VIM_SHELL | endif
 
@@ -5,77 +6,97 @@ source ~/.config/nvim/init.d/helpers.vim
 
 call InstallVimPlug()
 
-" PLUGIN VARIABLES {{{
-let g:ctags_supported_languages = ['ansible', 'assembler', 'awk', 'bash', 'c', 'cpp', 'erlang', 'fortran', 'html', 'java', 'javascript', 'lisp', 'lua', 'make', 'matlab', 'pascal', 'perl', 'php', 'sql', 'python', 'rexx', 'ruby', 'scheme', 'sh', 'tcl', 'tex', 'vim', 'vimscript', 'yacc', 'yaml', 'zsh']
-let g:languages_to_lint = ['python', 'css', 'html', 'java', 'c', 'cpp', 'yaml', 'ansible', 'markdown', 'rust', 'vim']
-let g:tag_languages = ['html', 'xml', 'xhtml', 'jinja']
-" /PLUGIN VARIABLES}}}
+" plugin-variables {{{
+let g:fzf_path = ''
+for fzf_path in ['$FZF_BASE', '~/.fzf', '/usr/share/fzf', '/usr/local/opt/fzf']
+  if !empty(glob(fzf_path)) | let g:fzf_path = fzf_path | break | endif
+endfor
+" plugin-variables }}}
 
-" PLUGINS LIST {{{
-" Sorted alphabetically by plugin name `sort i /^\(Plug.*\/\|Plug.*\$\)/`
-if has('nvim')
-    call plug#begin('~/.local/share/nvim/plugged')
-else
-    call plug#begin('~/.vim/plugged')
-endif
-if ! has('nvim')  " used by Shougo plugins
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" plugins {{{
+let g:nvim_plugin_dir = '~/.local/share/nvim/plugged'
+call plug#begin(g:nvim_plugin_dir)
 
-Plug 'w0rp/ale', {'for': g:languages_to_lint}
-Plug 'pearofducks/ansible-vim'
+Plug 'w0rp/ale'  " {{{
+  let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
+" }}}"
+
+Plug 'sheerun/vim-polyglot'
+
 Plug 'skywind3000/asyncrun.vim'
+
 Plug 'jiangmiao/auto-pairs'
+
 Plug 'ekalinin/Dockerfile.vim'
-Plug $FZF_BASE
+
+if g:fzf_path != '' | Plug g:fzf_path | endif
 Plug 'junegunn/fzf.vim'
+
 Plug 'morhetz/gruvbox'
-Plug 'mboughaba/i3config.vim'
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+
+
+" go {{{
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
-Plug 'racer-rust/vim-racer', {'for': ['rust']}
-Plug 'rust-lang/rust.vim'
-Plug 'valloric/MatchTagAlways', {'for': g:tag_languages}
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'vim-python/python-syntax'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'srcery-colors/srcery-vim'
-Plug 'itchyny/lightline.vim'
-Plug 'mhinz/vim-startify'
-Plug 'liuchengxu/vista.vim'
+" /go }}}
+
+" python {{{
+"" autopep8 {{{
 Plug 'tell-k/vim-autopep8', {'for': 'python'}
+let g:autopep8_disable_show_diff=0
+let g:autopep8_ignore='E501'
+"" /autopep8 }}}
+" /python }}}
+
+" rust {{{
+Plug 'racer-rust/vim-racer'
+Plug 'rust-lang/rust.vim'
+" /rust }}}
+
+
+
+Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+
+Plug 'valloric/MatchTagAlways'
+
+Plug 'terryma/vim-multiple-cursors'  " {{{
+  let g:multi_cursor_use_default_mapping=0
+  let g:multi_cursor_start_word_key      = '<C-d>'
+  let g:multi_cursor_select_all_word_key = '<A-n>'
+  let g:multi_cursor_start_key           = 'g<C-n>'
+  let g:multi_cursor_select_all_key      = 'g<A-n>'
+  let g:multi_cursor_next_key            = '<C-d>'
+  let g:multi_cursor_prev_key            = '<C-p>'
+  let g:multi_cursor_skip_key            = '<C-x>'
+  let g:multi_cursor_quit_key            = '<Esc>'
+" /vim-multiple-cursors }}}
+
+
+Plug 'itchyny/lightline.vim'
+
+Plug 'mhinz/vim-startify'
+
+Plug 'liuchengxu/vista.vim'
+
+
+
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
+
 Plug 'ap/vim-css-color'
-Plug 'jiangmiao/auto-pairs'
-Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'airblade/vim-gitgutter'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'glench/vim-jinja2-syntax'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'justinmk/vim-sneak'
+
 Plug 'tpope/vim-surround'
-Plug 'nathanielc/vim-tickscript', {'for': 'tick'}
-Plug 'dag/vim-fish'
-Plug 'zefei/vim-wintabs'
-Plug 'Yggdroot/indentLine'
+
+Plug 'ludovicchabant/vim-gutentags'
+
 call plug#end()
 " /PLUGIN LIST }}}
 
 " PLUGIN SETTINGS {{{
 " Ale
-let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
+
 
 " Autopep8
-let g:autopep8_disable_show_diff=0
-let g:autopep8_ignore='E501'  " ignore specific PEP8 (line too long,)
 
-" Autopairs
-let g:AutoPairsShortcutToggle = '<leader>ap'
 
 " Coc
 let g:coc_snippet_next = '<TAB>'
@@ -116,21 +137,6 @@ function! s:check_back_space() abort
 endfunction
 
 
-" FZF colors {{{
-let g:fzf_colors = { 'fg':      ['fg', 'Normal'],
-            \ 'bg':      ['bg', 'Normal'],
-            \ 'hl':      ['fg', 'Comment'],
-            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-            \ 'hl+':     ['fg', 'Statement'],
-            \ 'info':    ['fg', 'PreProc'],
-            \ 'prompt':  ['fg', 'Conditional'],
-            \ 'pointer': ['fg', 'Exception'],
-            \ 'marker':  ['fg', 'Keyword'],
-            \ 'spinner': ['fg', 'Label'],
-            \ 'header': ['fg', 'Comment'] }
-" /FZF }}}
-
 " GitGutter
 " autocmd BufWritePost * GitGutter
 let g:gitgutter_override_sign_column_highlight = 0
@@ -154,22 +160,6 @@ let g:lightline = {
       \ },
       \ }
 
-" NERDTree, WebDevIcons  {{{
-let NERDTreeDirArrowExpandable = "\u00a0"
-let NERDTreeDirArrowCollapsible = "\u00a0"
-let g:NERDTreeDirArrows=0
-let g:NERDTreeMouseMode=3
-
-let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
-" by pattern:
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {} " needed
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['Dockerfile'] = ''
-" by extension:
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {} " needed
-" /NerdTree }}}
-
 " Python-syntax
 let g:python_highlight_all = 1
 
@@ -180,8 +170,6 @@ let g:SuperTabDefaultCompletionType = '<c-n>'
 let g:startify_custom_header = ''
 let g:startify_custom_footer = ''
 
-" toggle quickfix window
-nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
 
 " Wintabs
 let g:wintabs_ui_modified = ' (m)'

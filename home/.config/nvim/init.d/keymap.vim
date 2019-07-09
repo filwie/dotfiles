@@ -1,3 +1,6 @@
+" toggle quickfix window
+nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
+
 let g:user_mapping_run = '<F10>'
 let g:user_mapping_build = '<F9>'
 
@@ -18,14 +21,16 @@ noremap <down> gj
 " Map familiar C-p to use fzf
 map <C-p> :FZF<CR>
 map <C-t> :GFiles<CR>
-map <leader>p :Commands<CR>
+map <C-g> :Rg<CR>
 
+map <leader>p :Commands<CR>
 map <leader>t :Tags<CR>
 map <leader>b :Buffers<CR>
 
-map <leader>nt :NERDTreeToggle<CR>
+map <C-e> :Explore<CR>
+" map <C-e> :Ranger<CR>
+
 map <F8> :Vista<CR>
-map <leader>jd :YcmCompleter GoTo<CR>
 
 " Goto
 nmap <silent> gd <Plug>(coc-definition)
