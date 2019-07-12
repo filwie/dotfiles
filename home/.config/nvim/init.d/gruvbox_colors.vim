@@ -56,31 +56,34 @@ let s:faded_aqua     = '#427b58'
 let s:faded_orange   = '#af3a03'
 " /color variables }}}
 
-function! s:hifg(group, fg_rgb)
-    let l:hlstr = 'highlight ' . a:group . ' guibg=NONE guifg=' . a:fg_rgb
-    echo l:hlstr
-    execute
+function! s:hifg(group, bg, fg)
+    " Arguments: group, guibg, guifg
+    let l:hl = ['highlight ', a:group,
+                \ 'guibg=' . a:bg,
+                \ 'guifg=' . a:fg ]
+
+    execute join(l:hl, ' ')
 endfunction
 
-call s:hifg('Normal', '')
-call s:hifg('SignColumn', '')
-call s:hifg('ColorColumn', '')
-call s:hifg('LineNr', s:dark2)
-call s:hifg('CursorLineNr', s:light2)
-call s:hifg('Folded', s: dark2)
-call s:hifg('TabLineFill', '')
-call s:hifg('TabLine', '')
-call s:hifg('TabLineSel', '')
-call s:hifg('EndOfBuffer', '')
-call s:hifg('VertSplit', '')
+call s:hifg('Normal', 'NONE', s:light0)
+call s:hifg('SignColumn', 'NONE', s:light0)
+call s:hifg('ColorColumn','NONE', s:light0)
+call s:hifg('LineNr', 'NONE', s:dark2)
+call s:hifg('CursorLineNr', 'NONE',  s:light2)
+call s:hifg('Folded', 'NONE', s:dark2)
+call s:hifg('TabLineFill', 'NONE',  s:light0)
+call s:hifg('TabLine', 'NONE',  s:light0)
+call s:hifg('TabLineSel', 'NONE',  s:light0)
+call s:hifg('EndOfBuffer', 'NONE',  s:light0)
+call s:hifg('VertSplit', 'NONE',  s:light0)
 
-call s:hifg('ALEErrorSign', '')
-call s:hifg('ALEWarningSign', '')
+call s:hifg('ALEErrorSign', 'NONE',  s:light0)
+call s:hifg('ALEWarningSign', 'NONE',  s:light0)
 
-call s:hifg('GitAdd', '')
-call s:hifg('GitChange', '')
-call s:hifg('GitDelete', '')
+call s:hifg('GitAdd', 'NONE',  s:faded_green)
+call s:hifg('GitChange', 'NONE',  s:faded_yellow)
+call s:hifg('GitDelete', 'NONE',  s:faded_red)
 
 highlight link GitChangeDelete GitChange
 
-highlight Comment           cterm=italic  gui=italic
+highlight Comment cterm=italic  gui=italic
