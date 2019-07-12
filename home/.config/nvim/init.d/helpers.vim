@@ -17,16 +17,7 @@ function! UpdateRP(info)
   endif
 endfunction
 
-
-function! InstallMyCoc()
-    " https://github.com/neoclide/coc-sources
-    :CocInstall coc-tag
-    :CocInstall coc-omni
-    :CocInstall coc-gocode
-    :CocInstall coc-html
-    :CocInstall coc-tsserver
-    :CocInstall coc-css
-    :CocInstall coc-python
-    :CocInstall coc-yaml
-    :CocInstall coc-vimlsp
+function! FormatJSON()
+    execute ':%!python -m json.tool'
 endfunction
+

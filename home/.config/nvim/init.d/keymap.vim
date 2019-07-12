@@ -18,28 +18,7 @@ noremap  k gk
 noremap <up> gk
 noremap <down> gj
 
-" Map familiar C-p to use fzf
-map <C-p> :FZF<CR>
-map <C-t> :GFiles<CR>
-map <C-g> :Rg<CR>
-
-map <leader>p :Commands<CR>
-map <leader>t :Tags<CR>
-map <leader>b :Buffers<CR>
-
 map <C-e> :Explore<CR>
-" map <C-e> :Ranger<CR>
-
-map <F8> :Vista<CR>
-
-" Goto
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " maps for sourcing, opening and autosourcing .vimrc
 map <leader>vs :source $MYVIMRC<CR>

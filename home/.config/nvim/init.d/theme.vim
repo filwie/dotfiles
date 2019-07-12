@@ -65,20 +65,18 @@ function! s:hifg(group, bg, fg)
     execute join(l:hl, ' ')
 endfunction
 
-call s:hifg('Normal', 'NONE', s:light0)
+call s:hifg('Normal', 'NONE', s:light0_hard)
 call s:hifg('SignColumn', 'NONE', s:light0)
-call s:hifg('ColorColumn','NONE', s:light0)
+call s:hifg('ColorColumn','NONE', s:bright_orange)
 call s:hifg('LineNr', 'NONE', s:dark2)
 call s:hifg('CursorLineNr', 'NONE',  s:light2)
 call s:hifg('Folded', 'NONE', s:dark2)
-call s:hifg('TabLineFill', 'NONE',  s:light0)
-call s:hifg('TabLine', 'NONE',  s:light0)
-call s:hifg('TabLineSel', 'NONE',  s:light0)
-call s:hifg('EndOfBuffer', 'NONE',  s:light0)
-call s:hifg('VertSplit', 'NONE',  s:light0)
 
-call s:hifg('ALEErrorSign', 'NONE',  s:light0)
-call s:hifg('ALEWarningSign', 'NONE',  s:light0)
+call s:hifg('EndOfBuffer', 'NONE',  s:dark0_hard)
+call s:hifg('VertSplit', 'NONE',  s:dark1)
+
+call s:hifg('ALEErrorSign', 'NONE',  s:bright_red)
+call s:hifg('ALEWarningSign', 'NONE',  s:bright_yellow)
 
 call s:hifg('GitAdd', 'NONE',  s:faded_green)
 call s:hifg('GitChange', 'NONE',  s:faded_yellow)

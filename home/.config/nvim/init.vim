@@ -26,6 +26,15 @@ Plug 'skywind3000/asyncrun.vim'
 
 if g:fzf_path != '' | Plug g:fzf_path | endif
 Plug 'junegunn/fzf.vim'
+" fzf config {{{
+nnoremap <C-p> :FZF<CR>
+nnoremap <C-t> :GFiles<CR>
+
+nnoremap <leader>p :Commands<CR>
+nnoremap <leader>t :Tags<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>g :Rg<CR>
+" /fzf config }}}
 
 Plug 'morhetz/gruvbox'
 
@@ -35,10 +44,11 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " /go }}}
 
 " python {{{
-Plug 'tell-k/vim-autopep8', {'for': 'python'}  " {{{
+Plug 'tell-k/vim-autopep8', {'for': 'python'}
+" vim-autopep8 congfig {{{
 let g:autopep8_disable_show_diff=0
 let g:autopep8_ignore='E501'
-"" /autopep8 }}}
+"" /vim-autopep8 config }}}
 " /python }}}
 
 " rust {{{
@@ -52,8 +62,11 @@ let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 let g:coc_status_error_sign = '•'
 let g:coc_status_warning_sign = '•'
-
-let g:coc_global_extensions =['coc-html','coc-css','coc-snippets','coc-prettier','coc-eslint','coc-emmet','coc-tsserver','coc-pairs','coc-json','coc-python','coc-imselect','coc-highlight','coc-git','coc-emoji','coc-lists','coc-post','coc-stylelint']
+let g:coc_global_extensions = ['coc-git', 'coc-pairs', 'coc-highlight', 'coc-lists', 'coc-yank',
+      \ 'coc-tabnine',
+      \ 'coc-yaml',
+      \ 'coc-rls', 'coc-python', 'coc-vimlsp', 'coc-tsserver', 'coc-gocode',
+      \ 'coc-html', 'coc-css']
 
 function! CocCurrentFunction()
     return get(b:, 'coc_current_function', '')
@@ -85,6 +98,15 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 " /coc.nvim }}}
 
 Plug 'valloric/MatchTagAlways'
@@ -124,10 +146,17 @@ let g:startify_custom_footer = ''
 " /vim-startify config }}}
 
 Plug 'liuchengxu/vista.vim'
-
-Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
-
-Plug 'ap/vim-css-color'
+" vista config {{{
+nnoremap <F8> :Vista<CR>
+let g:vista_default_executive = 'ctags'
+let g:vista_fzf_preview = ['right:50%']
+let g:vista_executive_for = {
+  \ 'go': 'ctags',
+  \ 'javascript': 'coc',
+  \ 'javascript.jsx': 'coc',
+  \ 'python': 'coc',
+\ }
+" /vista config }}}
 
 Plug 'tpope/vim-surround'
 
@@ -136,38 +165,7 @@ Plug 'ludovicchabant/vim-gutentags'
 call plug#end()
 " /PLUGIN LIST }}}
 
-" PLUGIN SETTINGS {{{
-
-" Wintabs
-let g:wintabs_ui_modified = ' (m)'
-let g:wintabs_ui_readonly = ' (ro)'
-let g:wintabs_ui_sep_leftmost = ''
-let g:wintabs_ui_sep_inbetween = ''
-let g:wintabs_ui_sep_rightmost = ''
-
-" vista.vim
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-
-let g:vista_default_executive = 'ctags'
-let g:vista_fzf_preview = ['right:50%']
-
-let g:vista_executive_for = {
-  \ 'go': 'ctags',
-  \ 'javascript': 'coc',
-  \ 'javascript.jsx': 'coc',
-  \ 'python': 'coc',
-\ }
-
-set statusline+=%{NearestMethodOrFunction()}
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-
-" /PLUGIN SETTINGS }}}
-
 source ~/.config/nvim/init.d/general.vim
-source ~/.config/nvim/init.d/gruvbox_colors.vim
-source ~/.config/nvim/init.d/interface.vim
+source ~/.config/nvim/init.d/theme.vim
 source ~/.config/nvim/init.d/keymap.vim
 source ~/.config/nvim/init.d/filetype.vim
-source ~/.config/nvim/init.d/gvim.vim

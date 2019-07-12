@@ -73,7 +73,8 @@
         "thub.com/uudashr/gopkgs/cmd/gopkgs"
     ],
     "npm": [
-        "eslint"
+        "eslint",
+        "bash-language-server"
     ],
     "pip": [
         "IPython",

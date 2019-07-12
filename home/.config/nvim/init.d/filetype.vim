@@ -2,6 +2,13 @@ function! NNOREMAP(keys, action)
     execute 'nnoremap <buffer> ' . a:keys . ' ' . a:action . '<CR>'
 endfunction
 
+
+
+function! Filetypemap(filetypes, run, test, format, build)
+    " Arguments: filetypes - list of filetypes, run,test,format commands
+    " Variables: g:user_mapping_run, g:user_mapping_build,
+endfunction
+
 function! FileTypePython()
     let l:run = ':term python3 %'
     let l:test = ':term pytest'
@@ -80,7 +87,10 @@ function! MarkdownConvertOpen()  " {{{
     execute l:cmd
 endfunction  " }}}
 
-let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex', 'sql', 'ruby', 'jinja', 'html', 'css', 'yaml', 'ansible', 'lua', 'vim', 'java', 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
+let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex',
+                                 \ 'sql', 'ruby', 'jinja', 'html', 'css',
+                                 \ 'yaml', 'ansible', 'lua', 'vim', 'java',
+                                 \ 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
 
 function! FileTypeMarkdown()
     execute 'nnoremap <buffer> ' . g:user_mapping_run . ' :call MarkdownConvertOpen()<CR>'
