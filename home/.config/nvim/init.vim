@@ -21,6 +21,23 @@ Plug 'w0rp/ale'  " {{{
 " }}}"
 
 Plug 'sheerun/vim-polyglot'
+" vim-polyglot config {{{
+augroup CustomFileTypes
+  autocmd BufRead,BufNewFile */ansible/*.yml set filetype=yaml.ansible
+augroup END
+let g:polyglot_disabled = ['markdown']
+" /vim-polyglot config }}}
+
+Plug 'tpope/vim-markdown'
+" vim-markdown config
+augroup MarkdownCodeBlocks
+autocmd FileType markdown
+  \ let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex',
+                                     \ 'sql', 'ruby', 'jinja', 'html', 'css',
+                                     \ 'yaml', 'ansible', 'lua', 'vim', 'java',
+                                     \ 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
+augroup END
+"
 
 Plug 'skywind3000/asyncrun.vim'
 
