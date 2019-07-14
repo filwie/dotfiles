@@ -4,6 +4,10 @@
     "git.removedSign.hlGroup": "GitDelete",
     "git.topRemovedSign.hlGroup": "GitDelete",
     "git.changeRemovedSign.hlGroup": "GitChangeDelete",
+    "git.addedSign.text": "ga",
+    "git.changedSign.text": "gc",
+    "git.removedSign.text": "gc",
+    "git.changeRemovedSign.text": "gc",
     "languageserver": {
         "bash": {
           "command": "bash-language-server",
