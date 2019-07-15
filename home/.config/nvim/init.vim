@@ -202,6 +202,17 @@ Plug 'tpope/vim-surround'
 
 Plug 'ludovicchabant/vim-gutentags'
 
+Plug 'yuttie/comfortable-motion.vim'
+" comfortable motion config {{{
+nnoremap <silent> <C-j> :call comfortable_motion#flick(40)<CR>
+nnoremap <silent> <C-k> :call comfortable_motion#flick(-40)<CR>
+let g:comfortable_motion_no_default_key_mappings = 1
+let g:BASH_Ctrl_j = 'off'
+let g:BASH_Ctrl_k = 'off'
+noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+" }}}
+
 call plug#end()
 " /PLUGIN LIST }}}
 
