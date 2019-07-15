@@ -20,9 +20,6 @@ function! UpdateRP(info)
     echomsg 'Remote plugin updated: ' . a:info['name'] . '. Restart NeoVim for changes to take effect.'
   endif
 endfunction
-function! FormatJSON()
-    execute ':%!python -m json.tool'
-endfunction
 " /helpers }}}
 
 call InstallVimPlug()
@@ -343,11 +340,19 @@ function! MarkdownConvertOpen()  "{{{
         echom 'grip not found. Run: pip install -U grip'
         return
     endif
-    if has('macunix') | let l:open_html_cmd = 'open'
-    else              | let l:open_html_cmd = 'xdg-open' | endif
-    let l:cmd = ':AsyncRun grip $VIM_FILEPATH --export /tmp/$VIM_FILENOEXT.html && '
-                \ . l:open_html_cmd . ' /tmp/$VIM_FILENOEXT.html'
-    execute l:cmd
+    let l:open_html_cmd = 'xdg-open'
+    if has('macunix')
+      let l:open_html_cmd = 'open'
+    endif
+
+    let l:outfile = expand('/tmp/%:t:r.html')
+    let l:export = '!grip % --export ' . l:outfile
+    let l:open = join([l:open_html_cmd, l:outfile], ' ')
+    execute join([l:export, l:open], ' && ')
+endfunction  "}}}
+
+function! FormatJSON()  " {{{
+    execute ':%!python -m json.tool'
 endfunction  "}}}
 
 let s:_nm = ':echom "mapping not specified"'
