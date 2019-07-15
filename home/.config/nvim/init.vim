@@ -61,8 +61,6 @@ autocmd FileType markdown
 augroup END
 " /vim-markdown config }}}
 
-Plug 'skywind3000/asyncrun.vim'
-
 if g:fzf_path != '' | Plug g:fzf_path | endif
 Plug 'junegunn/fzf.vim'
 " fzf config {{{
@@ -302,7 +300,6 @@ augroup END  "}}}
 " /general settings }}}
 
 " keymap {{{
-nnoremap <leader>q :call asyncrun#quickfix_toggle(6)<CR>
 command! Q q
 command! W w
 command! Wq wq
