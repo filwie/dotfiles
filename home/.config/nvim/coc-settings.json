@@ -1,4 +1,5 @@
 {
+    "diagnostic.displayByAle": true,
     "git.addedSign.hlGroup": "GitAdd",
     "git.changedSign.hlGroup": "GitChange",
     "git.removedSign.hlGroup": "GitDelete",
