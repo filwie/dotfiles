@@ -199,6 +199,7 @@ let g:vista_executive_for = {
 " /vista config }}}
 
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 
 Plug 'ludovicchabant/vim-gutentags'
 
@@ -365,7 +366,7 @@ function! FormatJSON()  " {{{
 endfunction  "}}}
 
 let s:_nm = ':echom "mapping not specified"'
-call FileTypeMap(['python'], ':term python3 %', ':Autopep8', ':term pytest')
+call FileTypeMap(['python'], ':term python %', ':Autopep8', ':term pytest')
 call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTest!')
 call FileTypeMap(['java'], ':term javac % && java run %:r', s:_nm, s:_nm, ':term javac %')
 call FileTypeMap(['go'], ':GoRun', ':GoFmt', ':GoTest')
@@ -461,4 +462,5 @@ call s:hifg('GitDelete', 'NONE',  s:faded_red)
 highlight link GitChangeDelete GitChange
 
 highlight Comment cterm=italic  gui=italic
+execute 'highlight CursorLine guibg=' . s:dark0
 " /theme }}}
