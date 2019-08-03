@@ -1,53 +1,32 @@
 #!/usr/bin/env python3
-from pathlib import Path
-import json
-import logging
+
 import sys
-import platform
-
-
-LOG = logging.getLogger('mini-dotfiles')
-logging.basicConfig(level=logging.INFO)
+from os import environ
+from pathlib import Path
 
 try:
     script_path = Path(__file__)
     script_path = script_path.resolve()
 except NameError as err:
-    LOG.error('Unable to determine script path. (%s)', err)
+    print('Unable to determine script path:', err, file=sys.stderr)
     sys.exit(1)
 
-
-REAL_HOME = Path.home()
+HOME = Path.home()
+XDG_CONFIG_HOME = Path(environ.get('XDG_CONFIG_HOME', f'{HOME}/.config'))
 REPO_HOME = script_path.parent / 'home'
-LOG.info(f'Repository home path set to: {REPO_HOME}')
-
-
-class Dotfile():
-    def __init__(self, src_path: Path):
-        self.src_path = src_path
-
-    @property
-    def real(self) -> Path:
-        return self.src_path.resolve()
-
-    @property
-    def relative_to_repo_home(self) -> Path:
-        return self.src_path.relative_to(REPO_HOME)
-
-    @property
-    def destination(self) -> Path:
-        return REAL_HOME / self.relative_to_repo_home
-
-
-def list_available_dotfiles():
-    pass
-
-
-def detect_os():
-    platform.system()
-    platform.platform()
-    platform.release()
-
+REPO_XDG_CONFIG_HOME = REPO_HOME / '.config'
 
 if __name__ == '__main__':
-    logging.basicConfig()
+    home_dotfiles = REPO_HOME.glob('*[!.config]*')
+    xdg_dotfiles = REPO_XDG_CONFIG_HOME.glob('*')
+
+    src_dest_map = {}
+
+    for dotfile in home_dotfiles:
+        src_dest_map.update({dotfile: HOME / dotfile.relative_to(REPO_HOME)})
+
+    for dotfile in xdg_dotfiles:
+        src_dest_map.update({dotfile: XDG_CONFIG_HOME / dotfile.relative_to(REPO_XDG_CONFIG_HOME)})
+
+    for src, dest in src_dest_map.items():
+        print(f'{src} -> {dest}')
