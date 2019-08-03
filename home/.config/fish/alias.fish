@@ -13,3 +13,4 @@ alias :q exit
 
 # misc
 alias gitr 'printf (git rev-parse --show-toplevel)'
+alias cdr 'pushd (git rev-parse --show-toplevel)'
