@@ -76,5 +76,7 @@
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.editor.tabSizing": "shrink",
   "workbench.iconTheme": "file-icons",
-  "workbench.settings.editor": "json"
+  "workbench.settings.editor": "json",
+  "go.formatTool": "goimports",
+  "go.useLanguageServer": true
 }
