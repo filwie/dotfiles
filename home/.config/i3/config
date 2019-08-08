@@ -4,10 +4,11 @@
 set $mod Mod1
 set $browser "firefox"
 set $term "alacritty"
-set $lock_command "~/bin/lock_command.sh"
+set $lock_command "~/bin/lock_screen.sh || i3lock"
 set $bar_command "xfce4-panel"
+set $compositor_command "killall compton; compton --config ~/.config/compton/config -b"
 set $launcher_command "rofi -show drun -modi drun,run,window,ssh -show-icons -sidebar-mode -lines 8 -terminal $term"
-set $window_toggler "rofi -show window -show-icons"
+set $toggle_windows_command "rofi -show window -show-icons"
 set $border_size 1
 set $font "pango:Noto Sans 10"
 
@@ -43,8 +44,10 @@ set $gtk_theme_main #383838
 # /COLORS }}}
 
 # GAPS {{{
+# gaps can also have negative values
 gaps inner 8
 gaps outer 0
+gaps top 0
 # }}}
 
 # KEYMAP {{{
@@ -62,7 +65,7 @@ bindsym $mod+space         focus mode_toggle
 bindsym $mod+Return        exec --no-startup-id $term
 bindsym $mod+d             exec --no-startup-id $launcher_command
 bindsym $mod+Ctrl+l        exec --no-startup-id $lock_command
-bindsym $mod+Tab           exec --no-startup-id $window_toggler
+bindsym $mod+Tab           exec --no-startup-id $toggle_windows_command
 bindsym $mod+w             exec --no-startup-id $browser
 ## /launch programs }}}
 
@@ -179,23 +182,17 @@ client.urgent           $gtk_theme_main $brightblack     $brightwhite   $gtk_the
 floating_minimum_size     240 x 100
 for_window [class="(?i)pavucontrol"]           floating enable
 for_window [class="(?i)nm-applet"]             floating enable
-for_window [class="(?i)gpick"]                 floating enable
-for_window [class="(?i)feh"]                   floating enable
 for_window [class="(?i)blueman-manager"]       floating enable
 for_window [class="(?i)nm-connection-editor"]  floating enable
-for_window [class="(?i)jetbrains-toolbox"]     floating enable
 for_window [class="(?i)lxappearance"]          floating enable
-for_window [class="(?i)tk"]                    floating enable
-for_window [class="(?i)pyxel"]                 floating enable
-for_window [class="(?i)gsimplecal"]            floating enable
-for_window [class="(?i)yakuake"]               floating enable
+for_window [class="(?i)gpick"]                 floating enable
 for_window [class="(?i)xfce4-panel"]           floating enable
 # /FLOATING WINDOWS}}}
 
 # AUTOSTART {{{
 exec --no-startup-id "setxkbmap"
 exec --no-startup-id "setxkbmap -option ctrl:nocaps"
-exec --no-startup-id "compton --config ~/.config/compton/compton.conf -b"
+exec_always --no-startup-id $compositor_command
 exec --no-startup-id "/usr/lib/xfce4/notifyd/xfce4-notifyd"
 exec --no-startup-id "xss-lock -- i3lock"
 exec --no-startup-id "mate-power-manager"
