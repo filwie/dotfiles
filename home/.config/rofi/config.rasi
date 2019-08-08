@@ -1,12 +1,6 @@
 configuration {
   theme: "~/.config/rofi/themes/filwie.rasi";
   matching: "fuzzy";
-  font: "Noto Sans 12";
   levenshtein-sort: false;
   sort: true;
-  modi: "drun,run,window,ssh,combi";
-  combi-modi: "drun,run,window,ssh";
-  terminal: "alacritty";
-  ssh-client: "ssh";
-  ssh-command: "{terminal} -e {ssh-client} {host}";
 }
