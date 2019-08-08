@@ -79,6 +79,9 @@ Plug 'morhetz/gruvbox'
 " go {{{
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" vim-go config {{{
+let g:go_term_mode = "split"
+" /vim-go config}}}
 " /go }}}
 
 " python {{{
