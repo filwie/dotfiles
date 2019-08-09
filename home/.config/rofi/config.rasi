@@ -1,5 +1,6 @@
 configuration {
   theme: "~/.config/rofi/themes/filwie.rasi";
+  show-icons: true;
   matching: "fuzzy";
   levenshtein-sort: false;
   sort: true;

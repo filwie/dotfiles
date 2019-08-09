@@ -1,74 +1,77 @@
 /* vim: set ft=css sw=2: */
 * {
-  dark0-hard-t40: #1d202166;
-  dark0-hard-t90: #1d2021E6;
+  bg100: #1d2021;
+  bg40: #1d202166;
+  bg90: #1d2021E6;
 
-  light0-hard: #f9f5d7;
-  light4-t40: #a8998466;
+  fg100: #f9f5d7;
 
-  neutral-orange: #d65d0e;
+  border40: #a8998466;
+
+  distinct90: #318586E6;
+  contrast90: #E1943BE6;
 
   spacing: 0;
   background-color: transparent;
-  font: "Noto Sans 14";
+  font: "Noto Sans 16";
 }
 
 window {
   transparency: "real";
   fullscreen: true;
-  background-color: @dark0-hard-t40;
+  background-color: @bg40;
+  padding: 20% 30% 20% 30%;
 }
 
 mainbox {
   position: center;
-
-  margin: 20% 30% 20% 30%;
-  padding: 10px 10px 10px 10px;
-
-  border: 1px;
-  border-color: @light4-t40;
-
-  background-color: @dark0-hard-t90;
-
+  border-radius: 5;
+  background-color: @bg90;
   children: [inputbar, listview];
-
 }
 
 inputbar {
-  padding: 10px 0 20px 0;
+  padding: 5px 5px 5px 5px;
   children: [prompt, textbox-prompt-end, entry];
+
 }
 
 prompt {
-  text-color: @light0-hard;
+  text-color: @fg100;
 }
 
 textbox-prompt-end {
   expand: false;
   str: ": ";
-  text-color: @light0-hard;
+  text-color: @fg100;
 }
 
 entry {
-  text-color: @light0-hard;
+  text-color: @fg100;
 }
 
 listview {
   scrollbar: false;
-  margin: 0 0 0 0;
+  dynamic: true;
+  fixed-height: false;
 }
 
 element {
-  highlight: @neutral-orange;
+  expand: true;
+  padding: 5px 5px 5px 5px;
+  highlight: @distinct90;
+  highlight: bold;
 }
 
 element normal {
   background-color: transparent;
-  text-color: @light0-hard;
+  text-color: @fg100;
 }
 
 element selected {
-  background-color: @neutral-orange;
-  text-color: @light0-hard;
+  background-color: @distinct90;
+  text-color: @fg100;
   highlight: bold;
+  border: 0 0 0 5px;
+  border-color: @contrast90;
 }
