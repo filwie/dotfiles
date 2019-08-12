@@ -369,13 +369,13 @@ function! FormatJSON()  " {{{
 endfunction  "}}}
 
 let s:_nm = ':echom "mapping not specified"'
-call FileTypeMap(['python'], ':! python %', ':Autopep8', ':term pytest')
-call FileTypeMap(['bash', 'sh'], ':!./%')
-call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTest!')
-call FileTypeMap(['java'], ':! javac % && java run %:r', s:_nm, s:_nm, ':term javac %')
+call FileTypeMap(['python'], ':term python %', ':Autopep8', ':term pytest')
+call FileTypeMap(['bash', 'sh'], ':term./%')
+call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTestterm')
+call FileTypeMap(['java'], ':term javac % && java run %:r', s:_nm, s:_nm, ':term javac %')
 call FileTypeMap(['go'], ':GoRun', ':GoFmt', ':GoTest')
-call FileTypeMap(['json'], s:_nm, ':%!python -m json.tool')
-call FileTypeMap(['ansible', 'ansible.yaml'], ':! ansible-playbook %')
+call FileTypeMap(['json'], s:_nm, ':%termpython -m json.tool')
+call FileTypeMap(['ansible', 'ansible.yaml'], ':term ansible-playbook %')
 call FileTypeMap(['vim'], ':source %')
 call FileTypeMap(['markdown'], ':call MarkdownConvertOpen()')
 " /filetype specific config }}}
