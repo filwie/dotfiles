@@ -106,3 +106,5 @@ if __name__ == '__main__':
         dm.link_all()
     else:
         dm.link_some(filter(lambda d: d.name in args.dotfiles, dm.dotfiles))
+
+    print(dm)
