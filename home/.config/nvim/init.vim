@@ -69,6 +69,7 @@ nnoremap <C-t> :GFiles<CR>
 
 nnoremap <leader>p :Commands<CR>
 nnoremap <leader>m :Marks<CR>
+nnoremap <leader>l :Lines<CR>
 nnoremap <leader>t :Tags<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>g :Rg<CR>
