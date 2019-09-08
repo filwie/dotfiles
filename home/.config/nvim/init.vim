@@ -98,7 +98,7 @@ Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 " /rust }}}
 
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+Plug 'neoclide/coc.nvim', {'do': 'npm i package.json && npm i'}
 " coc.nvim config {{{
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
