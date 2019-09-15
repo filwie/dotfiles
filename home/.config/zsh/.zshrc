@@ -32,10 +32,15 @@ done
 
 # aliases {{{
 command -v nvim &> /dev/null && alias vim=nvim
-alias e $EDITOR
-alias o xdg-open
-command -v ranger &> /dev/null && alias r ranger
+alias e="$EDITOR"
+alias r=ranger
+alias l=ls
+alias ll='ls -la'
 
+if [[ "$(uname)" == "Linux" ]]; then
+    alias o=xdg-open
+    alias ls='ls --color=auto'
+fi
 
 # /aliases }}}
 
@@ -94,9 +99,9 @@ ZPLGM[BIN_DIR]="${ZSH_DATA_HOME}/zplugin"
 
 function install_zplugin () {
     local zplugin_repo_url="https://github.com/zdharma/zplugin.git"
-    if ! [[ -d "${zplugin_dir}" ]]; then
-        mkdir "${zplugin_dir}"
-        git clone "${zplugin_repo_url}" "${zplugin_dir}"
+    if ! [[ -d "${ZPLGM[BIN_DIR]}" ]]; then
+        mkdir -p "${ZPLGM[BIN_DIR]}"
+        git clone "${zplugin_repo_url}" "${ZPLGM[BIN_DIR]}"
     fi
 }
 
@@ -118,11 +123,15 @@ zplugin light zsh-users/zsh-autosuggestions
 
 zplugin snippet PZT::modules/directory/init.zsh
 zplugin snippet OMZ::plugins/git/git.plugin.zsh
+zplugin snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
 # /zplugin plugins }}}
 
-# theming {{{
+# completions {{{
+source <(kubectl completion zsh)
+# /completions }}}
 
-zplugin light subnixr/minimal
+# theming {{{
+[[ -f "${ZDOTDIR}/filwie.zsh-theme" ]] && source "${ZDOTDIR}/filwie.zsh-theme"
 # /theming }}}
 
 # fzf {{{
