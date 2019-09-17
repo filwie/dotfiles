@@ -31,6 +31,8 @@ done
 # /path }}}
 
 # aliases {{{
+alias ssh='env TERM=xterm-256color ssh'
+
 command -v nvim &> /dev/null && alias vim=nvim
 alias e="$EDITOR"
 alias r=ranger
