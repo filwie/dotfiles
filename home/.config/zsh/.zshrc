@@ -1,3 +1,6 @@
+autoload -Uz compinit
+compinit
+
 # env {{{
 export TMUX_ALWAYS=0
 export VIRTUAL_ENV_DISABLE_PROMPT 0
@@ -58,9 +61,6 @@ function start_attach_tmux () {
         else tmux attach-session -t "${session_id}"
         fi
     fi
-}
-function main () {
-    [[ "${TMUX_ALWAYS}" = 1 ]] && start_attach_tmux
 }
 # /functions }}}
 
@@ -129,14 +129,8 @@ zplugin ice silent wait"0" atload"_zsh_autosuggest_start"
 zplugin light zsh-users/zsh-autosuggestions
 zplugin light hlissner/zsh-autopair
 
-zplugin snippet PZT::modules/directory/init.zsh
-zplugin snippet OMZ::plugins/git/git.plugin.zsh
 zplugin snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
 zplugin snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
-
-zplugin ice atclone"dircolors -b LS_COLORS > c.zsh" atpull'%atclone' pick"c.zsh"
-zplugin light trapd00r/LS_COLORS
-zplugin light trapd00r/zsh-syntax-highlighting-filetypes
 # /zplugin plugins }}}
 
 # completions {{{
@@ -162,4 +156,6 @@ for fzf_candidate in "${fzf_candidates[@]}"; do
 done
 # /fzf }}}
 
-main
+if [[ "${TMUX_ALWAYS}" == 1 ]]; then
+    start_attach_tmux
+fi

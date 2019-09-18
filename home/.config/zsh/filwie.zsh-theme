@@ -6,65 +6,9 @@
 # env vars {{{
 VIRTUAL_ENV_DISABLE_PROMPT="${VIRTUAL_ENV_DISABLE_PROMPT:-1}"
 
-FILWIE_THEME_ENABLE_NERD="${FILWIE_THEME_ENABLE_NERD:-0}"
-FILWIE_THEME_ENABLE_EMOJI="${FILWIE_THEME_ENABLE_EMOJI:-0}"
 FILWIE_THEME_SHOW_LANGS="${FILWIE_THEME_SHOW_LANGS:-go python}"
 FILWIE_THEME_SHOW_JOBS="${FILWIE_THEME_SHOW_JOBS:-1}"
-
-[[ "${FILWIE_THEME_ENABLE_NERD}" =~ '0|1' ]] || FILWIE_THEME_ENABLE_NERD=0
-[[ "${FILWIE_THEME_ENABLE_EMOJI}" =~ '0|1' ]] || FILWIE_THEME_ENABLE_EMOJI=0
 # /env vars }}}
-
-local return_code="%?"
-local jobs_number="%j"
-
-# glyphs {{{
-typeset -A glyphs=(
-    branch    " "
-    git_dirty ""
-    git_clean ""
-    eth       " "
-    dir       " "
-    python    " "
-    banana    " "
-    root      " "
-    user      ""
-    arch      " "
-    ubuntu    " "
-    apple     " "
-    raspberry " "
-)
-# /glyphs }}}
-
-# ascii, unicode {{{
-typeset -A no_glyphs=(
-    branch    ""
-    git_dirty ""
-    git_clean ""
-    eth       ""
-    dir       ""
-    python    ""
-    banana    ""
-    root      "#"
-    user      "$"
-    arch      ""
-    ubuntu    ""
-    apple     ""
-    raspberry ""
-)
-# /ascii, unicode }}}
-
-# emojis {{{
- typeset -A emojis=(
-    whale       "🐳"
-    plus        "➕"
-    minus       "➖"
-    radiocative "☢️"
-    biohazard   "☣️ "
-    tick        "✔️"
-    cross       "❌"
-)
-# /emojis }}}
 
 # font colors and effects {{{
 declare -A font fg bg
@@ -74,27 +18,20 @@ font=(
     +italic    "%{[03m%}"  -italic    "%{[23m%}"
     +underline "%{[04m%}"  -underline "%{[24m%}"
 )
-
 for color_num in {0..16}; do
     fg[$color_num]="%{[38;5;${color_num}m%}"
     bg[$color_num]="%{[48;5;${color_num}m%}"
 done
-
 # /font colros and effects }}}
 
 # path {{{
 function _shortpath () {
     if command -v shrink_path &> /dev/null; then shrink_path -f
-    else printf "%s" "%2~"; fi
+    else printf '%s' '%2~'; fi
 }
-
 function _path () {
-    printf "%s%s%s" \
-        "${font[+bold]}" \
-        "$(_shortpath)" \
-        "${font[reset]}"
+    printf '%s%s%s' '%B' "$(_shortpath)" '%b'
 }
-
 # /path }}}
 
 # language versions {{{
@@ -125,8 +62,7 @@ function rust_info () {
 
 function _lang_ver () {
     [[ $1 =~ (go|python|node|rust) ]] || return
-    declare -A lang_color
-    lang_color=(
+    typeset -A lang_color=(
         go      12
         python  4
         node    2
@@ -143,59 +79,30 @@ function _langs () {
 # /language versions }}}
 
 # git {{{
-function _is_git_repo () { [[ "$(git rev-parse --is-inside-work-tree 2>&1)" == "true" ]] }
+# Checks if working tree is dirty
+function _is_git_repo () { [[ "$(command git rev-parse --is-inside-work-tree 2>&1)" == "true" ]] }
 function _is_git_clean () { test -z "$(git status --porcelain)" }
-function _git_branch () {
-    local branch
-    branch="${$(git symbolic-ref HEAD 2>/dev/null)##refs/heads/}" ||
-        branch="${$(git status | head -n 1)##HEAD detached at }"
-    printf "%s" "${branch}"
+function _git_branch() {
+    local ref ret
+    ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
+    ret=$?
+    if [[ $ret != 0 ]]; then
+        [[ $ret == 128 ]] && return  # no git repo.
+        ref="$(command git rev-parse --short HEAD 2> /dev/null)" || return
+    fi
+    printf '%s' "${ref#refs/heads/}"
 }
 function _git () {
     _is_git_repo || return
     local color
-    color="${fg[2]}"; _is_git_clean || color="${fg[3]}"
-    printf "%s%s%s%s" \
-        "${font[+bold]}" \
-        "${color}" \
-        "$(_git_branch)" \
-        "${font[reset]}"
+    color=2; _is_git_clean || color=3
+    printf '%s%s%s' "%F{$color}" "$(_git_branch)" '%f'
 }
 # /git}}}
 
-# error code {{{
-function _err_code () {
-    printf "%s" "${font[+bold]}${fg[1]}${return_code}${font[reset]}"
-}
-# /error code }}}
+local _jobs='%F{12}%B%(1j.j:%j.)%f%b'
+local _err_code='%F{1}%B%(?..%?)%f%b'
+local _prompt_end='%B%(?.%F{4}.%F{1})%(!.#.>)%f%b'
 
-# jobs {{{
-function _jobs () {
-    [[ "${FILWIE_THEME_SHOW_JOBS}" == 1 ]] || return
-    printf "%s" "${font[+bold]}${fg[12]}j:${jobs_number}${font[reset]}"
-}
-# /jobs }}}
-
-function _prompt_end () {  # {{{
-    local _end_color="%(?.${fg[4]}.${fg[1]})"
-    typeset -A _end_char_user=(
-        0 ">"
-        1 "${glyphs[user]}"
-    )
-    typeset -A _end_char_root=(
-        0 "#"
-        1 "${glyphs[root]}"
-    )
-    typeset -A _end_char=(
-        user "${_end_char_user[${FILWIE_THEME_ENABLE_NERD}]}"
-        root "${_end_char_root[${FILWIE_THEME_ENABLE_NERD}]}"
-    )
-    printf "%s%s%s%s" \
-        "${_end_color}" \
-        "${font[+bold]}" \
-        "%(!.${_end_char[root]}.${_end_char[user]})" \
-        "${font[reset]}"
-}  # }}}
-
-PROMPT='%(1j.$(_jobs) .)$(_path) $(_prompt_end) '
-RPROMPT='%(?..$(_err_code)) $(_git) $(_langs)'
+PROMPT='${_jobs} $(_path) ${_prompt_end} '
+RPROMPT='${_err_code} $(_git) $(_langs)'
