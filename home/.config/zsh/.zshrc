@@ -42,8 +42,9 @@ alias ll='ls -la'
 if [[ "$(uname)" == "Linux" ]]; then
     alias o=xdg-open
     alias ls='ls --color=auto'
+else
+    alias ls='ls -G'
 fi
-
 # /aliases }}}
 
 # functions {{{
@@ -59,7 +60,7 @@ function start_attach_tmux () {
     fi
 }
 function main () {
-    test "${TMUX_ALWAYS}" = 1 && start_attach_tmux
+    [[ "${TMUX_ALWAYS}" = 1 ]] && start_attach_tmux
 }
 # /functions }}}
 
@@ -99,7 +100,7 @@ bindkey "$terminfo[kRIT5]" forward-word
 bindkey "$terminfo[kLFT5]" backward-word
 # }}}
 
-# zplugin configuration {{{
+# zplugin config {{{
 declare -A ZPLGM
 ZPLGM[HOME_DIR]="${ZSH_DATA_HOME}/zplugin_plugins"
 ZPLGM[BIN_DIR]="${ZSH_DATA_HOME}/zplugin"
@@ -114,7 +115,7 @@ function install_zplugin () {
 
 [[ -f "${ZPLGM[BIN_DIR]}/zplugin.zsh" ]] || install_zplugin
 source "${ZPLGM[BIN_DIR]}/zplugin.zsh"
-# /zplugin configuration }}}
+# /zplugin config }}}
 
 # zplugin plugins {{{
 zplugin ice silent wait"0" atinit"zpcompinit; zpcdreplay"
@@ -126,11 +127,16 @@ zplugin ice silent wait"0" blockf
 zplugin light zsh-users/zsh-completions
 zplugin ice silent wait"0" atload"_zsh_autosuggest_start"
 zplugin light zsh-users/zsh-autosuggestions
-
+zplugin light hlissner/zsh-autopair
 
 zplugin snippet PZT::modules/directory/init.zsh
 zplugin snippet OMZ::plugins/git/git.plugin.zsh
 zplugin snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
+zplugin snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+
+zplugin ice atclone"dircolors -b LS_COLORS > c.zsh" atpull'%atclone' pick"c.zsh"
+zplugin light trapd00r/LS_COLORS
+zplugin light trapd00r/zsh-syntax-highlighting-filetypes
 # /zplugin plugins }}}
 
 # completions {{{
