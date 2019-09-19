@@ -18,91 +18,77 @@ font=(
     +italic    "%{[03m%}"  -italic    "%{[23m%}"
     +underline "%{[04m%}"  -underline "%{[24m%}"
 )
-for color_num in {0..16}; do
+for color_num in {0..255}; do
     fg[$color_num]="%{[38;5;${color_num}m%}"
     bg[$color_num]="%{[48;5;${color_num}m%}"
 done
 # /font colros and effects }}}
 
 # path {{{
-function _shortpath () {
+function __filwie_shortpath () {
     if command -v shrink_path &> /dev/null; then shrink_path -f
     else printf '%s' '%2~'; fi
 }
-function _path () {
-    printf '%s%s%s' '%B' "$(_shortpath)" '%b'
+function __filwie_path () {
+    printf '%s%s%s' '%B' "$(__filwie_shortpath)" '%b'
 }
 # /path }}}
 
 # language versions {{{
-function _python_venv () { [[ -n "${VIRTUAL_ENV}" ]] && printf "${VIRTUAL_ENV:t}" }
-function _python_ver () { printf "${$(python -V 2>&1)#Python *}" }
+function __filwie_python_venv () { [[ -n "${VIRTUAL_ENV}" ]] && printf "${VIRTUAL_ENV:t}" }
+function __filwie_python_ver () { printf "${$(python -V 2>&1)#Python *}" }
 
-function python_info () {
+function __filwie_python_info () {
     command -v python &> /dev/null || return
-    _python_ver
-    local venv="$(_python_venv)"
+    __filwie_python_ver
+    local venv="$(__filwie_python_venv)"
     [[ -n "${venv}" ]] && printf " (%s)" "${venv}"
 }
 
-function go_info () {
+function __filwie_go_info () {
     command -v go &> /dev/null || return
     printf "${$(go version | awk '{print $3}')#go*}"
 }
 
-function node_info () {
+function __filwie_node_info () {
     command -v node &> /dev/null || return
     node --version
 }
 
-function rust_info () {
+function __filwie_rust_info () {
     command -v rustc &> /dev/null || return
     rustc --version | awk '{print $2}'
 }
 
-function _lang_ver () {
-    [[ $1 =~ (go|python|node|rust) ]] || return
+function __filwie_ansible_info () {
+    # this one is really slow
+    command -v ansible &> /dev/null || return
+    printf "${$(ansible --version | head -n1)#ansible *}"
+}
+
+function __filwie_lang_ver () {
+    [[ $1 =~ (ansible|go|python|node|rust) ]] || return
     typeset -A lang_color=(
+        ansible 15
         go      12
         python  4
         node    2
         rust    8
     )
-    printf "%s%s%s%s%s" "${fg[${lang_color[${1}]}]}" "${1}:" "${font[+bold]}" "$(${1}_info)" "${font[reset]}"
+    printf "%s%s%s%s%s" "${fg[${lang_color[${1}]}]}" "${1}:" "${font[+bold]}" "$(__filwie_${1}_info)" "${font[reset]}"
 }
 
-function _langs () {
+function __filwie_langs () {
     for lang in ${(@s/ /)FILWIE_THEME_SHOW_LANGS}; do
-        _lang_ver "${lang}"; printf " "
+        __filwie_lang_ver "${lang}"; printf " "
     done
 }
 # /language versions }}}
-
-# git {{{
-# Checks if working tree is dirty
-function _is_git_repo () { [[ "$(command git rev-parse --is-inside-work-tree 2>&1)" == "true" ]] }
-function _is_git_clean () { test -z "$(git status --porcelain)" }
-function _git_branch() {
-    local ref ret
-    ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
-    ret=$?
-    if [[ $ret != 0 ]]; then
-        [[ $ret == 128 ]] && return  # no git repo.
-        ref="$(command git rev-parse --short HEAD 2> /dev/null)" || return
-    fi
-    printf '%s' "${ref#refs/heads/}"
-}
-function _git () {
-    _is_git_repo || return
-    local color
-    color=2; _is_git_clean || color=3
-    printf '%s%s%s' "%F{$color}" "$(_git_branch)" '%f'
-}
-# /git}}}
 
 local _jobs='%F{12}%B%(1j.j:%j.)%f%b'
 local _err_code='%F{1}%B%(?..%?)%f%b'
 local _prompt_end='%B%(?.%F{4}.%F{1})%(!.#.>)%f%b'
 
-PROMPT='${_jobs} $(_path) ${_prompt_end} '
-RPROMPT='${_err_code} $(_git) $(_langs)'
+# setopt PROMPT_SUBST
+PROMPT='${_jobs} $(__filwie_path) ${_prompt_end} '
+RPROMPT='${_err_code} $(__filwie_langs)'

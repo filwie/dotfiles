@@ -82,7 +82,7 @@ unsetopt correct_all
 setopt multios
 setopt cdablevars
 setopt prompt_subst
-setopt auto_menu         # show completion menu on succesive tab press
+setopt auto_menu
 setopt complete_in_word
 setopt completealiases
 setopt always_to_end
@@ -131,6 +131,13 @@ zplugin light hlissner/zsh-autopair
 
 zplugin snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
 zplugin snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+
+# zplugin snippet OMZ::plugins/git/git.plugin.zsh
+# zplugin ice svn; zplugin snippet PZT::modules/git
+# zplugin snippet OMZ::plugins/git/git.plugin.zsh
+# zplugin snippet PZT::modules/helper/init.zsh
+zplugin ice as"completion"
+zplugin snippet https://git.kernel.org/pub/scm/git/git.git/plain/contrib/completion/git-completion.zsh
 # /zplugin plugins }}}
 
 # completions {{{
