@@ -85,10 +85,10 @@ function __filwie_langs () {
 }
 # /language versions }}}
 
+
 local _jobs='%F{12}%B%(1j.j:%j.)%f%b'
 local _err_code='%F{1}%B%(?..%?)%f%b'
 local _prompt_end='%B%(?.%F{4}.%F{1})%(!.#.>)%f%b'
 
-# setopt PROMPT_SUBST
 PROMPT='${_jobs} $(__filwie_path) ${_prompt_end} '
 RPROMPT='${_err_code} $(__filwie_langs)'
