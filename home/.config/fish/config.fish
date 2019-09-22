@@ -63,7 +63,7 @@ function _workon_default_venv -d 'Source default Python3 venv'  # {{{
     end
 end  # }}}
 
-function  _init_fisher -d 'Make sure Fisher is installed'  # {{{
+function _install_fisher -d 'Make sure Fisher is installed'  # {{{
     if not functions -q fisher
         set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
         curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
@@ -80,7 +80,6 @@ function main
     set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
     _env_all
-    _init_fisher
     _source_other_files
     _start_or_attach_tmux
     _workon_default_venv
