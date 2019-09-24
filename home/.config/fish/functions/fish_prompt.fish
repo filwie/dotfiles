@@ -47,7 +47,7 @@ end  # }}}
 
 function fish_prompt --description 'Write out the prompt'
     set -g RC $status
-    set -g NJOBS (jobs -c | wc -l)
+    set -g NJOBS (jobs -c | wc -l | awk '{print $1}')
 
     segment (_jobs)
     segment (_path)
