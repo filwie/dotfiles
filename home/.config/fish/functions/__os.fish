@@ -22,9 +22,9 @@ function __os
     end
     if string match -q 'glyph' $argv[1]
         if contains $_os $known_glyphs
-            printf "%s" $$_os
+            printf "%s " $$_os
         else
-            printf "%s" $_unknown_glyph
+            printf "%s " $_unknown_glyph
         end
     end
 end
