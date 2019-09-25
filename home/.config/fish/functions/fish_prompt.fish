@@ -9,7 +9,10 @@ set __fish_git_prompt_showupstream 'auto'
 function _prompt_end  # {{{
     set_color blue
     test $RC -eq 0; or set_color red
-    printf '%s%s%s' (set_color --bold) ">" (set_color normal)
+    set_color --bold
+    if test (id -u) -eq 0; printf "#"
+    else; printf ">"; end
+    set_color normal
 end  # }}}
 
 function _err_code  # {{{
@@ -49,6 +52,7 @@ function fish_prompt --description 'Write out the prompt'
     set -g RC $status
     set -g NJOBS (jobs -c | wc -l | awk '{print $1}')
 
+    not set -q THEME_ENABLE_GLYPHS; or segment (__os glyph)
     segment (_jobs)
     segment (_path)
     segment (_prompt_end)
