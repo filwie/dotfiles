@@ -230,6 +230,7 @@ set hlsearch
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4 " autoindent copyindent
 set textwidth=0 wrapmargin=0 " dont break lines automatically
 set number
+set hidden
 set termencoding=utf-8
 set fileencoding=utf-8
 set encoding=utf8
@@ -295,6 +296,10 @@ if has('mouse')
 endif
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+augroup termoptions
+    autocmd!
+    autocmd TermOpen * setlocal nonumber norelativenumber bufhidden=hide
+augroup END
 augroup insertmodecursor  "{{{
 if has("nvim")
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
@@ -328,6 +333,8 @@ map <C-e> :Explore<CR>
 map <leader>vs :source $MYVIMRC<CR>
 map <leader>v :vsplit $MYVIMRC<CR>
 inoremap <C-c> <Esc><Esc>
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-x> :bprevous<CR>
 " /keymap }}}
 
 " filetype specific confg {{{
@@ -376,7 +383,7 @@ call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTestterm')
 call FileTypeMap(['java'], ':term javac % && java run %:r', s:_nm, s:_nm, ':term javac %')
 call FileTypeMap(['go'], ':GoRun', ':GoFmt', ':GoTest')
 call FileTypeMap(['json'], s:_nm, ':%termpython -m json.tool')
-call FileTypeMap(['ansible', 'ansible.yaml'], ':term ansible-playbook %')
+call FileTypeMap(['ansible', 'ansible.yaml', 'yaml.ansible'], ':term ansible-playbook %')
 call FileTypeMap(['vim'], ':source %')
 call FileTypeMap(['markdown'], ':call MarkdownConvertOpen()')
 " /filetype specific config }}}
