@@ -103,7 +103,9 @@ set -g known_oses_glyphs \
 set -g known_os_regex (printf '%s' (string join '|' $known_oses))
 
 function _distro
-    string lower (string match -ir $known_os_regex (head -n1 /etc/os-release)); or printf 'linux'
+    if test -f /etc/os-release
+        string lower (string match -ir $known_os_regex (head -n1 /etc/os-release)); or printf 'linux'
+    end
 end
 
 function _os -d "Detect os type (and Linux distro if linux)"  # {{{
@@ -119,7 +121,7 @@ function _os -d "Detect os type (and Linux distro if linux)"  # {{{
 end  # }}}
 
 function _os_glyph
-    set index (contains -i (_distro) $known_oses)
+    set index (contains -i (_os) $known_oses)
     printf $known_oses_glyphs[$index]
 end
 # /os glyph, os detection }}}
