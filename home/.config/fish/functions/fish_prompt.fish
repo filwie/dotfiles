@@ -166,8 +166,15 @@ end
 function fish_right_prompt
     segment (_err_code)
     segment (__fish_git_prompt "%s")
-    set_color --bold brblue; segment (_go_version)
-    set_color --bold blue; segment (_python_version)
+
+    set_color --bold brblue
+    not set -q THEME_ENABLE_GLYPHS; or printf ' '
+    segment (_go_version)
+
+    set_color --bold blue;
+    not set -q THEME_ENABLE_GLYPHS; or printf '  '
+    segment (_python_version)
+
     set_color --bold yellow; segment (_python_venv)
     set_color normal
 end
