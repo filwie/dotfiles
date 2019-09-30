@@ -65,76 +65,67 @@ function _git_remote_glyph  # {{{
 end  # }}}
 
 # os glyph, os detection {{{
+
+## known_oses {{{
 set -g known_oses \
     arch \
     bsd \
     centos \
+    debian \
     fedora \
+    linux \
     mac \
     manjaro \
     opensuse \
     raspbian \
     redhat \
-    suse \
-    ubuntu
+    ubuntu \
+    unknown
+## /known_oses }}}
 
-# arch ' '
-# bsd ' '
-# centos ' '
-# fedora ' '
-# linux ' '
-# mac ' '
-# manjaro ' '
-# raspbian ' '
-# redhat ' '
-# suse '  '
-# ubuntu ' '
-
+## known_oses_glyphs {{{
 set -g known_oses_glyphs \
+    ' ' \
+    ' ' \
+    ' ' \
+    ' ' \
+    ' ' \
+    ' ' \
+    ' ' \
+    ' ' \
+    '  ' \
+    ' ' \
+    ' ' \
+    ' ' \
+    ''
+## /known_oses_glyphs }}}
 
-set os_regex (printf '%s' (string join '|' $known_oses))
+set -g known_os_regex (printf '%s' (string join '|' $known_oses))
 
 function _distro
-    string lower (string match -ir $os_regex (head -n1 /etc/os-release))
+    string lower (string match -ir $known_os_regex (head -n1 /etc/os-release)); or printf 'linux'
 end
 
-function _os
+function _os -d "Detect os type (and Linux distro if linux)"  # {{{
     switch (uname)
     case Linux
-        string match -i
+        set _os (_distro)
     case Darwin
         set _os mac
     case '*'
         set _os other
     end
-end
+    printf '%s' $_os
+end  # }}}
 
 function _os_glyph
-
-    set known_glyphs arch bsd linux mac raspbian ubuntu centos redhat
-    set unknown_glyph 
-    switch (uname)
-    case Linux
-        set _os (string lower (cat /etc/issue | cut -d' ' -f1))[1]
-    case Darwin
-        set _os mac
-    case '*'
-        set _os other
-    end
-    if string match -q 'glyph' $argv[1]
-        if contains $_os $known_glyphs
-            printf "%s " $$_os
-        else
-            printf "%s " $_unknown_glyph
-        end
-    end
+    set index (contains -i (_distro) $known_oses)
+    printf $known_oses_glyphs[$index]
 end
 # /os glyph, os detection }}}
 
 function _path  # {{{
-    if set -q THEME_ENABLE_GLYPHS
-        printf '  '
-    end
+    not set -q THEME_ENABLE_GLYPHS; or printf '  '
     printf '%s%s%s' (set_color --bold) (prompt_pwd) (set_color normal)
 end  # }}}
 
