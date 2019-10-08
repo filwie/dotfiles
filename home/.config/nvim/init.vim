@@ -334,7 +334,6 @@ map <leader>vs :source $MYVIMRC<CR>
 map <leader>v :vsplit $MYVIMRC<CR>
 inoremap <C-c> <Esc><Esc>
 tnoremap <Esc> <C-\><C-n>
-tnoremap <C-x> :bprevous<CR>
 " /keymap }}}
 
 " filetype specific confg {{{
@@ -378,6 +377,7 @@ endfunction  "}}}
 
 let s:_nm = ':echom "mapping not specified"'
 call FileTypeMap(['python'], ':term python %', ':Autopep8', ':term pytest')
+call FileTypeMap(['ruby'], ':term ruby %')
 call FileTypeMap(['bash', 'sh'], ':term./%')
 call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTestterm')
 call FileTypeMap(['java'], ':term javac % && java run %:r', s:_nm, s:_nm, ':term javac %')
