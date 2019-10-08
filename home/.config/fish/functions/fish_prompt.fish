@@ -47,6 +47,11 @@ function _err_code  # {{{
     end
 end  # }}}
 
+function _incolor  # {{{
+    test (count $argv) -eq 2; or return
+    printf '%s%s%s' (set_color $argv[1]) $argv[2] (set_color normal)
+end  # }}}
+
 function _git_remote_glyph  # {{{
     set -q THEME_ENABLE_GLYPHS; or return
     if command git rev-parse --is-inside-work-tree 2>&1
@@ -85,19 +90,19 @@ set -g known_oses \
 
 ## known_oses_glyphs {{{
 set -g known_oses_glyphs \
-    ' ' \
-    ' ' \
-    ' ' \
-    ' ' \
-    ' ' \
-    ' ' \
-    ' ' \
-    ' ' \
-    '  ' \
-    ' ' \
-    ' ' \
-    ' ' \
-    ''
+    (printf '%s%s%s' (set_color 0F94D2 ) ' ' (set_color normal))\
+    (printf '%s%s%s' (set_color 770000 ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color EFA724 ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color C70036 ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color 00457E ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color black ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color FFFFFF ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color 35BF5C ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color 73BA25 ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color C31C4A ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color EE0000 ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color E95420 ) ' ' (set_color normal)) \
+    (printf '%s%s%s' (set_color AEAEAE ) '' (set_color normal))
 ## /known_oses_glyphs }}}
 
 set -g known_os_regex (printf '%s' (string join '|' $known_oses))
@@ -167,13 +172,11 @@ function fish_right_prompt
     segment (_err_code)
     segment (__fish_git_prompt "%s")
 
-    set_color --bold brblue
-    not set -q THEME_ENABLE_GLYPHS; or printf ' '
-    segment (_go_version)
+    not set -q THEME_ENABLE_GLYPHS; or _incolor '7FD5EA' ' '
+    segment (_incolor brblue (_go_version))
 
-    set_color --bold blue;
-    not set -q THEME_ENABLE_GLYPHS; or printf '  '
-    segment (_python_version)
+    not set -q THEME_ENABLE_GLYPHS; or printf '%s ' (set_color 3E7BAC)
+    segment (_incolor blue (_python_version))
 
     set_color --bold yellow; segment (_python_venv)
     set_color normal
