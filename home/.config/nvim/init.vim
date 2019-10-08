@@ -1,18 +1,26 @@
 " vim: set ts=2 sw=2 fdm=marker:
 scriptencoding utf-8
-if $VIM_SHELL ==# '' | set shell=$VIM_SHELL | endif
+
+" environment {{{
+if ! $VIM_SHELL ==# '' | set shell=$VIM_SHELL | endif
+if ! $THEME_ENABLE_GLYPHS ==# ''
+  let g:enable_glyphs=1
+else
+  let g:enable_glyphs=0
+endif
+" /environment }}}
 
 " helpers {{{
 function! InstallVimPlug ()
-    let l:plug_download_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    if has('nvim') | let l:plug_install_path = '~/.local/share/nvim/site/autoload/plug.vim'
-    else           | let l:plug_install_path = '~/.vim/autoload/plug.vim' | endif
-    if empty(glob(l:plug_install_path))
-        echo 'VimPlug not found - attempting to install.'
-        execute '!curl --create-dirs -fLo ' . l:plug_install_path  l:plug_download_url
-        echo 'Installing plugins'
-        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    endif
+  let l:plug_download_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  if has('nvim') | let l:plug_install_path = '~/.local/share/nvim/site/autoload/plug.vim'
+  else           | let l:plug_install_path = '~/.vim/autoload/plug.vim' | endif
+  if empty(glob(l:plug_install_path))
+    echo 'VimPlug not found - attempting to install.'
+    execute '!curl --create-dirs -fLo ' . l:plug_install_path  l:plug_download_url
+    echo 'Installing plugins'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
 endfunction
 function! UpdateRP(info)
   if has('nvim')
@@ -31,15 +39,66 @@ for fzf_path in ['$FZF_BASE', '~/.fzf', '/usr/share/fzf', '/usr/local/opt/fzf']
 endfor
 " plugin-variables }}}
 
+" global variables {{{
+"" gruvbox neutral colors {{{
+let g:gruvbox_palette = {
+      \  'dark0_hard':     '#1d2021',
+      \  'dark0':          '#282828',
+      \  'dark0_soft':     '#32302f',
+      \  'dark1':          '#3c3836',
+      \  'dark2':          '#504945',
+      \  'dark3':          '#665c54',
+      \  'dark4':          '#7c6f64',
+      \  'dark4_25':       '#7c6f64',
+      \  'gray_245':       '#928374',
+      \  'gray_244':       '#928374',
+      \  'light0_hard':    '#f9f5d7',
+      \  'light0':         '#fbf1c7',
+      \  'light0_soft':    '#f2e5bc',
+      \  'light1':         '#ebdbb2',
+      \  'light2':         '#d5c4a1',
+      \  'light3':         '#bdae93',
+      \  'light4':         '#a89984',
+      \  'light4_256':     '#a89984',
+      \  'bright_red':     '#fb4934',
+      \  'bright_green':   '#b8bb26',
+      \  'bright_yellow':  '#fabd2f',
+      \  'bright_blue':    '#83a598',
+      \  'bright_purple':  '#d3869b',
+      \  'bright_aqua':    '#8ec07c',
+      \  'bright_orange':  '#fe8019',
+      \  'neutral_red':    '#cc241d',
+      \  'neutral_green':  '#98971a',
+      \  'neutral_yellow': '#d79921',
+      \  'neutral_blue':   '#458588',
+      \  'neutral_purple': '#b16286',
+      \  'neutral_aqua':   '#689d6a',
+      \  'neutral_orange': '#d65d0e',
+      \  'faded_red':      '#9d0006',
+      \  'faded_green':    '#79740e',
+      \  'faded_yellow':   '#b57614',
+      \  'faded_blue':     '#076678',
+      \  'faded_purple':   '#8f3f71',
+      \  'faded_aqua':     '#427b58',
+      \  'faded_orange':   '#af3a03'
+      \}
+"" /gruvbox neutral colors }}}
+" /global variables }}}
+
 " plugins {{{
 let g:nvim_plugin_dir = '~/.local/share/nvim/plugged'
 call plug#begin(g:nvim_plugin_dir)
 
-Plug 'w0rp/ale'  " {{{
+Plug 'dense-analysis/ale'  " {{{
 let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
 let g:ale_linters = {'python': ['flake8']}
-let g:ale_sign_error = 'er'
-let g:ale_sign_warning = 'wa'
+if g:enable_glyphs
+  let g:ale_sign_error = ' '
+  let g:ale_sign_warning = ' '
+else
+  let g:ale_sign_error = 'E'
+  let g:ale_sign_warning = 'W'
+endif
 " }}}"
 
 Plug 'sheerun/vim-polyglot'
@@ -50,14 +109,16 @@ augroup END
 let g:polyglot_disabled = ['markdown']
 " /vim-polyglot config }}}
 
+Plug 'tpope/vim-fugitive'
+
 Plug 'tpope/vim-markdown'
 " vim-markdown config {{{
 augroup MarkdownCodeBlocks
-autocmd FileType markdown
-  \ let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex',
-                                     \ 'sql', 'ruby', 'jinja', 'html', 'css',
-                                     \ 'yaml', 'ansible', 'lua', 'vim', 'java',
-                                     \ 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
+  autocmd FileType markdown
+        \ let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex',
+        \ 'sql', 'ruby', 'jinja', 'html', 'css',
+        \ 'yaml', 'ansible', 'lua', 'vim', 'java',
+        \ 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
 augroup END
 " /vim-markdown config }}}
 
@@ -111,7 +172,7 @@ let g:coc_global_extensions = ['coc-git', 'coc-pairs', 'coc-highlight', 'coc-lis
       \ 'coc-html', 'coc-css']
 
 function! CocCurrentFunction()
-    return get(b:, 'coc_current_function', '')
+  return get(b:, 'coc_current_function', '')
 endfunction
 
 " Highlight symbol under cursor on CursorHold
@@ -155,28 +216,43 @@ Plug 'valloric/MatchTagAlways'
 
 Plug 'terryma/vim-multiple-cursors'
 " vim-multiple-cursors config {{{
-  let g:multi_cursor_use_default_mapping=0
-  let g:multi_cursor_start_word_key      = '<C-d>'
-  let g:multi_cursor_select_all_word_key = '<A-n>'
-  let g:multi_cursor_start_key           = 'g<C-n>'
-  let g:multi_cursor_select_all_key      = 'g<A-n>'
-  let g:multi_cursor_next_key            = '<C-d>'
-  let g:multi_cursor_prev_key            = '<C-p>'
-  let g:multi_cursor_skip_key            = '<C-x>'
-  let g:multi_cursor_quit_key            = '<Esc>'
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_start_word_key      = '<C-d>'
+let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_select_all_key      = 'g<A-n>'
+let g:multi_cursor_next_key            = '<C-d>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 " /vim-multiple-cursors config }}}
 
 Plug 'itchyny/lightline.vim'
 " lightline config {{{
+function! CocCurrentFunction()
+  return get(b:, 'coc_current_function', '')
+endfunction
+function! LightlineGitBlame() abort
+  let blame = get(b:, 'coc_git_blame', '')
+  " return blame
+  return winwidth(0) > 120 ? blame : ''
+endfunction
 let g:lightline = {
       \ 'colorscheme': 'gruvbox',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+      \   'left': [
+      \     [ 'mode', 'paste' ],
+      \     [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ]
+      \   ],
+      \   'right':[
+      \     [ 'filetype', 'fileencoding', 'blame', 'percent' ],
+      \     [ 'lineinfo' ]
+      \   ],
       \ },
       \ 'component_function': {
       \   'cocstatus': 'coc#status',
-      \   'currentfunction': 'CocCurrentFunction'
+      \   'currentfunction': 'CocCurrentFunction',
+      \   'blame': 'LightlineGitBlame'
       \ },
       \ }
 " /lightline config }}}
@@ -187,19 +263,43 @@ let g:startify_custom_header = ''
 let g:startify_custom_footer = ''
 " /vim-startify config }}}
 
-Plug 'liuchengxu/vista.vim'
+Plug 'scrooloose/nerdtree'
+" nerdtree config {{{
+map <C-n> :NERDTreeToggle<CR>
+if g:enable_glyphs
+  let NERDTreeDirArrowExpandable = "\u00a0"
+  let NERDTreeDirArrowCollapsible = "\u00a0"
+else
+  let g:NERDTreeDirArrowExpandable = '▸'
+  let g:NERDTreeDirArrowCollapsible = '▾'
+endif
+highlight! link NERDTreeFlags NERDTreeDir
+syntax clear NERDTreeFlags
+" /nerdtree config }}}
+
+if g:enable_glyphs
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  " vim-devicons config {{{
+  let g:webdevicons_enable = g:enable_glyphs
+  let g:DevIconsEnableFoldersOpenClose = 1
+  " /vim-devicons config }}}
+endif
+
+Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 " vista config {{{
 nnoremap <F8> :Vista<CR>
-let g:vista#renderer#enable_icon = 0
+
+let g:vista#renderer#enable_icon = g:enable_glyphs
 " let g:vista_default_executive = 'ctags'
 let g:vista_icon_indent = ["▸ ", ""]
 let g:vista_fzf_preview = ['right:50%']
 let g:vista_executive_for = {
-  \ 'go': 'ctags',
-  \ 'javascript': 'coc',
-  \ 'javascript.jsx': 'coc',
-  \ 'python': 'coc',
-\ }
+      \ 'go': 'ctags',
+      \ 'javascript': 'coc',
+      \ 'javascript.jsx': 'coc',
+      \ 'python': 'coc',
+      \ }
 " /vista config }}}
 
 Plug 'tpope/vim-surround'
@@ -218,13 +318,31 @@ noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
 noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 " }}}
 
+Plug 'airblade/vim-gitgutter'
+" vim-gitgutter config {{{
+if g:enable_glyphs
+  let g:gitgutter_sign_added = ' '
+  let g:gitgutter_sign_modified = ' '
+  let g:gitgutter_sign_removed = ' '
+  let g:gitgutter_sign_removed_first_line = ' '
+  let g:gitgutter_sign_modified_removed = ' '
+endif
+" /vim-gitgutter config }}}
+
 call plug#end()
 " /PLUGIN LIST }}}
 
 " general settings {{{
 filetype plugin indent on
 set diffopt+=vertical
-set laststatus=1
+set laststatus=0
+function! LastStatusToggle()
+  if &laststatus == 0 || &laststatus == 1
+    set laststatus=2
+  else
+    set laststatus=0
+  endif
+endfunction
 set foldmethod=marker
 set hlsearch
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4 " autoindent copyindent
@@ -232,7 +350,7 @@ set textwidth=0 wrapmargin=0 " dont break lines automatically
 set number
 set hidden
 set termencoding=utf-8
-set fileencoding=utf-8
+if !&modifiable | set fileencoding=utf-8 | endif
 set encoding=utf8
 set backspace=indent,eol,start
 set splitright
@@ -253,71 +371,72 @@ set colorcolumn=80
 set termguicolors
 set fillchars+=vert:\│
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o  " no automatic comment char inserting
+autocmd FileType json syntax match Comment +\/\/.\+$+
 set timeoutlen=1000 ttimeoutlen=0
 "set cmdheight=2  " better visibility of messages
 set updatetime=300  " smaller updatetime for CursorHold & CursorHoldI
 augroup clipboard
-    if has('clipboard')
-        nnoremap y "+y
-        vnoremap y "+y
-        set clipboard=unnamedplus
-    endif
+  if has('clipboard')
+    nnoremap y "+y
+    vnoremap y "+y
+    set clipboard=unnamedplus
+  endif
 augroup END
 augroup persistentundo
+  set undofile
+  set undodir=$HOME/.vim/undo
+  set undolevels=1000
+  set undoreload=10000
+  let undodir='$HOME/.vim/undo'
+  if has('persistent_undo')
+    call system('mkdir ' . undodir)
     set undofile
-    set undodir=$HOME/.vim/undo
-    set undolevels=1000
-    set undoreload=10000
-    let undodir='$HOME/.vim/undo'
-    if has('persistent_undo')
-        call system('mkdir ' . undodir)
-        set undofile
-    endif
+  endif
 augroup END
 augroup relativenumbers
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * if &modifiable | set relativenumber | endif
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * if &modifiable | set relativenumber | endif
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 augroup removetrailingwhitespaces
-    autocmd!
-    autocmd BufWritePre * :%s/\s\+$//e
+  autocmd!
+  autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 if has('mouse')
-    " try a, r, v
-    " set ttymouse=xterm2
-    set mouse+=a
-    if ! has('nvim')
-        if &term =~ '^screen' || &term =~ '^tmux'
-            " Enable extended mouse while using tmux
-            set ttymouse=xterm2
-        endif
+  " try a, r, v
+  " set ttymouse=xterm2
+  set mouse+=a
+  if ! has('nvim')
+    if &term =~ '^screen' || &term =~ '^tmux'
+      " Enable extended mouse while using tmux
+      set ttymouse=xterm2
     endif
+  endif
 endif
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 augroup termoptions
-    autocmd!
-    autocmd TermOpen * setlocal nonumber norelativenumber bufhidden=hide
+  autocmd!
+  autocmd TermOpen * setlocal nonumber norelativenumber bufhidden=hide
 augroup END
 augroup insertmodecursor  "{{{
-if has("nvim")
+  if has("nvim")
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-endif
+  endif
 
-if has("linux")
+  if has("linux")
     let &t_SI = "\<Esc>[6 q"
     let &t_SR = "\<Esc>[4 q"
     let &t_EI = "\<Esc>[2 q"
-elseif has("unix")
+  elseif has("unix")
     if exists('$TMUX')
-        let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-        let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+      let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+      let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
     else
-        let &t_SI = "\<Esc>]1337;CursorShape=1\x7"
-        let &t_EI = "\<Esc>]1337;CursorShape=0\x7"
+      let &t_SI = "\<Esc>]1337;CursorShape=1\x7"
+      let &t_EI = "\<Esc>]1337;CursorShape=0\x7"
     endif
-endif
+  endif
 augroup END  "}}}
 " /general settings }}}
 
@@ -334,6 +453,7 @@ map <leader>vs :source $MYVIMRC<CR>
 map <leader>v :vsplit $MYVIMRC<CR>
 inoremap <C-c> <Esc><Esc>
 tnoremap <Esc> <C-\><C-n>
+nnoremap <leader>s :call LastStatusToggle()<CR>
 " /keymap }}}
 
 " filetype specific confg {{{
@@ -345,34 +465,34 @@ let s:_build = '<F9>'
 let g:user_mappings=[s:_run, s:_fmt, s:_test, s:_build]
 
 function! FileTypeMap(filetypes, ...)  "{{{
-    " Arguments: filetypes, run, format, test, build
-    let l:i = 0
-    for cmd in a:000
-        let s:parts = ['autocmd FileType', join(a:filetypes, ','),
-                     \ 'nnoremap', g:user_mappings[i], cmd, '<CR>']
-        execute join(s:parts, ' ')
-        let l:i = l:i + 1
-    endfor
+  " Arguments: filetypes, run, format, test, build
+  let l:i = 0
+  for cmd in a:000
+    let s:parts = ['autocmd FileType', join(a:filetypes, ','),
+          \ 'nnoremap', g:user_mappings[i], cmd, '<CR>']
+    execute join(s:parts, ' ')
+    let l:i = l:i + 1
+  endfor
 endfunction  " }}}
 
 function! MarkdownConvertOpen()  "{{{
-    if ! executable('grip')
-        echom 'grip not found. Run: pip install -U grip'
-        return
-    endif
-    let l:open_html_cmd = 'xdg-open'
-    if has('macunix')
-      let l:open_html_cmd = 'open'
-    endif
+  if ! executable('grip')
+    echom 'grip not found. Run: pip install -U grip'
+    return
+  endif
+  let l:open_html_cmd = 'xdg-open'
+  if has('macunix')
+    let l:open_html_cmd = 'open'
+  endif
 
-    let l:outfile = expand('/tmp/%:t:r.html')
-    let l:export = '!grip % --export ' . l:outfile
-    let l:open = join([l:open_html_cmd, l:outfile], ' ')
-    execute join([l:export, l:open], ' && ')
+  let l:outfile = expand('/tmp/%:t:r.html')
+  let l:export = '!grip % --export ' . l:outfile
+  let l:open = join([l:open_html_cmd, l:outfile], ' ')
+  execute join([l:export, l:open], ' && ')
 endfunction  "}}}
 
 function! FormatJSON()  " {{{
-    execute ':%!python -m json.tool'
+  execute ':%!python -m json.tool'
 endfunction  "}}}
 
 let s:_nm = ':echom "mapping not specified"'
@@ -446,12 +566,12 @@ let s:faded_orange   = '#af3a03'
 " /color variables }}}
 
 function! s:hifg(group, bg, fg)
-    " Arguments: group, guibg, guifg
-    let l:hl = ['highlight ', a:group,
-                \ 'guibg=' . a:bg,
-                \ 'guifg=' . a:fg ]
+  " Arguments: group, guibg, guifg
+  let l:hl = ['highlight ', a:group,
+        \ 'guibg=' . a:bg,
+        \ 'guifg=' . a:fg ]
 
-    execute join(l:hl, ' ')
+  execute join(l:hl, ' ')
 endfunction
 
 call s:hifg('Normal', 'NONE', s:light0_hard)
@@ -467,11 +587,11 @@ call s:hifg('VertSplit', 'NONE',  s:dark1)
 call s:hifg('ALEErrorSign', 'NONE',  s:bright_red)
 call s:hifg('ALEWarningSign', 'NONE',  s:bright_yellow)
 
-call s:hifg('GitAdd', 'NONE',  s:faded_green)
-call s:hifg('GitChange', 'NONE',  s:faded_yellow)
-call s:hifg('GitDelete', 'NONE',  s:faded_red)
+call s:hifg('GitGutterAdd', 'NONE',  s:faded_green)
+call s:hifg('GitGutterChange', 'NONE',  s:faded_yellow)
+call s:hifg('GitGutterDelete', 'NONE',  s:faded_red)
 
-highlight link GitChangeDelete GitChange
+highlight link GitGutterChangeDelete GitGutterChange
 
 highlight Comment cterm=italic  gui=italic
 execute 'highlight CursorLine guibg=' . s:dark0
