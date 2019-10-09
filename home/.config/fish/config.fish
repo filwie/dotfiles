@@ -9,7 +9,7 @@ end  # }}}
 function _env_editors -d 'Export (Neo)Vim and Emacs variables'  # {{{
     # vim
     set -gx EDITOR nvim
-    set -gx VIM_SHELL (which sh)
+    set -gx VIM_SHELL (command -v sh)
     set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
 end  # }}}
 
@@ -20,7 +20,7 @@ function _env_all -d 'Set environment variables'  # {{{
     set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
 
     # Tmux
-    set -gx TMUX_SHELL (which fish)
+    set -gx TMUX_SHELL (command -v fish)
 
     # Fish itself
     set -gx FISH_DIR $XDG_CONFIG_HOME/fish
@@ -74,7 +74,7 @@ end  # }}}
 function main
     set -g fish_greeting
     #    set -g always_start_tmux
-    set -g always_start_venv
+    #    set -g always_start_venv
     set -e fish_theme_always_show_python
     set -g fish_theme_enable_glyphs
     set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
