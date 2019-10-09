@@ -11,6 +11,10 @@ alias vim $EDITOR
 alias :e $EDITOR
 alias :q exit
 
+# Mac OS
+command -v gwc > /dev/null  && alias wc='gwc'
+command -v gsed > /dev/null && alias sed='gsed'
+
 # misc
 alias gitr 'printf (git rev-parse --show-toplevel)'
 alias cdr 'pushd (git rev-parse --show-toplevel)'

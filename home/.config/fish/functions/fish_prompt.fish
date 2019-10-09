@@ -204,7 +204,7 @@ end  # }}}
 
 function fish_prompt --description 'Write out the prompt'
     set -g RC $status
-    set -g NJOBS (jobs -c | wc -l | awk '{print $1}')
+    set -g NJOBS (jobs -c | wc -l)
 
     not set -q THEME_ENABLE_GLYPHS; or segment (_os_glyph)
     segment (_jobs)
