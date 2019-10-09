@@ -1,0 +1,18 @@
+FROM {{ image.base }}:{{ image.tag }}
+
+ENV THEME_ENABLE_GLYPHS 1
+{%- for k, v in image.env.items() %}
+ENV {{ k }} {{ v }}
+{%- endfor %}
+
+{%- for cmd in image.run_commands %}
+RUN {{ cmd }}
+{%- endfor %}
+
+RUN {{ image.package_manager }} {{ image.package_manager_argv | join(' ') }} {{ install_packages | join(' ') }}
+
+WORKDIR /opt/dotfiles
+COPY . .
+RUN ./install.sh {{ install_sh_argv | join(' ') }}
+
+ENTRYPOINT ["{{ image.entrypoint }}"]
