@@ -150,6 +150,7 @@ end  # }}}
 
 function _git_remote_glyph  # {{{
     set -q THEME_ENABLE_GLYPHS; or return
+    command -v git > /dev/null; or return
     if command git rev-parse --is-inside-work-tree > /dev/null 2>&1
         switch (command git remote get-url origin 2> /dev/null; or echo)
         case '*github.com*'
