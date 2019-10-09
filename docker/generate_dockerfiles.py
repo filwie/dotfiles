@@ -10,7 +10,8 @@ except ImportError:
     sys.exit(1)
 
 
-dockerfile_template_file = Path(__file__).parent / 'Dockerfile.j2'
+docker_dir = Path(__file__).parent
+dockerfile_template_file = docker_dir / 'Dockerfile.j2'
 dockerfile_template = jinja2.Template(dockerfile_template_file.read_text())
 
 Image = namedtuple('Image', ['base', 'tag', 'env', 'run_commands',
@@ -18,26 +19,30 @@ Image = namedtuple('Image', ['base', 'tag', 'env', 'run_commands',
                    defaults=['latest', {}, [], '', [], 'fish'])
 
 template_args = {
-    'install_packages': ['fish', 'neovim', 'git'],
+    'install_packages': ['fish', 'neovim', 'git', 'python3'],
     'install_sh_argv': ['fish'],
 }
 
 images = dict(
     arch=Image('archlinux/base',
                package_manager='pacman',
-               package_manager_argv=['--noninteractive', '-Syu']
+               package_manager_argv=['--noconfirm', '-Syu']
                ),
     opensuse=Image('opensuse/tumbleweed',
+                   run_commands=['zypper up'],
                    package_manager='zypper',
-                   package_manager_argv=['--non-interactive']),
+                   package_manager_argv=['--non-interactive install']),
     ubuntu=Image('ubuntu', tag='18.04',
-                 run_commands=['apt update'],
+                 run_commands=['apt update', 'apt upgrade --yes'],
                  package_manager='apt',
-                 package_manager_argv=['--yes'],
+                 package_manager_argv=['--yes', 'install'],
                  env={'DEBIAN_FRONTEND': 'noninteractive'})
 )
 
 
 for name, image in images.items():
-    print(name, '----------------')
-    print(dockerfile_template.render(image=image, **template_args))
+    image_dir = docker_dir / name
+    dockerfile = image_dir / 'Dockerfile'
+    image_dir.mkdir(exist_ok=True)
+    dockerfile.write_text(dockerfile_template.render(image=image, **template_args))
+    print('Generated', dockerfile)

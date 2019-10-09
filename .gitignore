@@ -2,13 +2,23 @@ home/.config/nvim/*
 !home/.config/nvim/init*
 !home/.config/nvim/coc-settings.json
 
+home/.config/fish/functions/*
+!home/.config/fish/functions/fish_prompt.fish
+
 home/.config/Code/*
 !home/.config/Code/User
+
+docker/*
+!docker/*.j2
+!docker/*.sh
+
 home/.config/Code/User/*
 !home/.config/Code/User/keybindings.json
 !home/.config/Code/User/settings.json
 !home/.config/Code/User/extensions.list
 !home/.config/Code/User/snippets/
+
+.zcompdump*
 
 *.swp
 tags
@@ -100,4 +110,4 @@ flycheck_*.el
 eshell
 irony
 ac-comphist.dat
-.zcompdump
+

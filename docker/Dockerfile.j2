@@ -5,14 +5,14 @@ ENV THEME_ENABLE_GLYPHS 1
 ENV {{ k }} {{ v }}
 {%- endfor %}
 
-{%- for cmd in image.run_commands %}
-RUN {{ cmd }}
-{%- endfor %}
+{%- if image.run_commands %}
+RUN {{ image.run_commands | join(' && \\\n\t') }}
+{%- endif %}
 
 RUN {{ image.package_manager }} {{ image.package_manager_argv | join(' ') }} {{ install_packages | join(' ') }}
 
 WORKDIR /opt/dotfiles
 COPY . .
-RUN ./install.sh {{ install_sh_argv | join(' ') }}
+RUN ./install.py {{ install_sh_argv | join(' ') }}
 
 ENTRYPOINT ["{{ image.entrypoint }}"]
