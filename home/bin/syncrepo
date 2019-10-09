@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -eu
+
+REPO_ROOT="$(realpath "$(git rev-parse --show-toplevel)")"
+GITIGNORE="${REPO_ROOT}/.gitignore"
+
+_sync_destination_help="set this variable first. Example value: user@host:~/dest"
+SYNC_DESTINATION="${SYNC_DESTIANTION:?${_sync_destination_help}}"
+
+
+#function single_sync () {
+#    rsync -avz $repo --filter=':- '$gitignore $dest
+#}
+
+
+#     set -l repo (realpath (git rev-parse --show-toplevel))
+#     set -l gitignore (realpath (git rev-parse --show-toplevel)/.gitignore)
+#     echo $repo $gitignore
+#
+#
+#     while command inotifywait -r -e modify,attrib,close_write,move,create,delete $repo
+#         rsync -avz $repo --filter=':- '$gitignore $dest
+#     end
+# end
