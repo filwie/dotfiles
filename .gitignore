@@ -4,6 +4,7 @@ home/.config/nvim/*
 
 home/.config/fish/functions/*
 !home/.config/fish/functions/fish_prompt.fish
+!home/.config/fish/functions/fish_mode_prompt.fish
 
 home/.config/Code/*
 !home/.config/Code/User
