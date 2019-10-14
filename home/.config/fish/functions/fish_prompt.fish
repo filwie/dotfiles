@@ -5,7 +5,6 @@ set __fish_git_prompt_show_informative_status
 set __fish_git_prompt_showcolorhints
 set __fish_git_prompt_showupstream 'auto'
 set __fish_git_prompt_showdirtystate 1
-# set __fish_git_prompt_showstashstate 1
 
 if set -q THEME_ENABLE_GLYPHS
     set __fish_git_prompt_char_upstream_prefix ''
@@ -69,7 +68,7 @@ set -g known_oses_colors \
 ## /known_oses_colors }}}
 
 ## known_oses_glyphs {{{
-set -g known_oses_glyphs \
+not set -g known_oses_glyphs; or set -g known_oses_glyphs \
     (printf '%s%s%s' (set_color 0F94D2 ) ' ' (set_color normal))\
     (printf '%s%s%s' (set_color 770000 ) ' ' (set_color normal)) \
     (printf '%s%s%s' (set_color EFA724 ) ' ' (set_color normal)) \
@@ -88,9 +87,12 @@ set -g known_oses_glyphs \
 set -g known_os_regex (printf '%s' (string join '|' $known_oses))
 
 function _distro
-    if test -f /etc/os-release
-        string lower (string match -ir $known_os_regex (head -n1 /etc/os-release)); or printf 'linux'
+    if not set -q THEME_DISTRO
+        if test -f /etc/os-release
+            set -gx THEME_DISTRO (string lower (string match -ir $known_os_regex (head -n1 /etc/os-release))); or set -gx THEME_DISTRO 'linux'
+        end
     end
+    printf '%s' $THEME_DISTRO
 end
 
 function _os -d "Detect os type (and Linux distro if linux)"  # {{{
