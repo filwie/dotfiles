@@ -1,41 +1,17 @@
-set _path $HOME/.local/bin $HOME/bin /usr/local/sbin
+set -l add_to_path_if_exists \
+    /usr/local/bin \
+    $HOME/bin \
+    $HOME/.local/bin \
+    $FZF_BASE/bin \
+    $HOME/.cargo/bin
 
-# Java
-if set -q JAVA_BIN
-    set _path $_path $JAVA_BIN
+switch (uname)
+case Darwin
+    set -Ux fish_user_paths $HOME/Library/Python/**/bin/ $fish_user_paths
 end
 
-# MacOS
-if string match -q 'Darwin' (uname)
-    set _path $_path $HOME/Library/Python/**/bin/
-end
-
-# FZF
-set _fzf_bin $FZF_BASE/bin
-if test -d $_fzf_bin
-    set _path $_path $_fzf_bin
-end
-
-# Go
-if command -v go >> /dev/null
-    set _go (command -v go)
-else if test -x /usr/local/go/bin/go
-    set _go /usr/local/go/bin/go
-end
-if set -q _go
-    set -gx GOPATH ($_go env GOPATH)
-    if test (__os) = "mac"
-        set -gx GOROOT /usr/local/opt/go/libexec
-    else
-        set -gx GOROOT (dirname (dirname $_go))
+for bin_dir in $add_to_path_if_exists
+    if test -d
+        set -Ux fish_user_paths $bin_dir $fish_user_paths
     end
-    set _path $_path $GOPATH/bin $GOROOT/bin
 end
-
-# Rust
-set _cargo_bin $HOME/.cargo/bin
-if test -d $_cargo_bin
-    set _path $_path $_cargo_bin
-end
-
-set -gx fish_user_paths $_path

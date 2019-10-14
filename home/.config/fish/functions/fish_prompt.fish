@@ -181,7 +181,7 @@ end  # }}}
 
 function _running_docker_containers  # {{{
     command -v docker > /dev/null; or return
-    set -l cn (docker ps -q | wc -l)
+    set -l cn (docker ps -q 2> /dev/null | wc -l)
     printf '%s%s' $cn
 end  # }}}
 
