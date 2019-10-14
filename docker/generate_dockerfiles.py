@@ -20,20 +20,19 @@ Image = namedtuple('Image', ['base', 'tag', 'env', 'run_commands',
 
 template_args = {
     'install_packages': ['fish', 'neovim', 'git', 'python3'],
-    'install_sh_argv': ['fish'],
+    'install_sh_argv': ['fish', 'nvim'],
 }
 
 images = dict(
     arch=Image('archlinux/base',
                package_manager='pacman',
-               package_manager_argv=['--noconfirm', '-Syu']
+               package_manager_argv=['--noconfirm', '-Sy']
                ),
     opensuse=Image('opensuse/tumbleweed',
-                   run_commands=['zypper up'],
                    package_manager='zypper',
                    package_manager_argv=['--non-interactive install']),
     ubuntu=Image('ubuntu', tag='18.04',
-                 run_commands=['apt update', 'apt upgrade --yes'],
+                 run_commands=['apt update'],
                  package_manager='apt',
                  package_manager_argv=['--yes', 'install'],
                  env={'DEBIAN_FRONTEND': 'noninteractive'})
