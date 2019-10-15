@@ -152,25 +152,12 @@ function _incolor  # {{{
 end  # }}}
 
 function _git_remote_glyph  # {{{
-    set -q THEME_ENABLE_GLYPHS; or return
-    command -v git > /dev/null; or return
-    if command git rev-parse --is-inside-work-tree > /dev/null 2>&1
-        switch (command git remote get-url origin 2> /dev/null; or echo)
-        case '*github.com*'
-            set dir_glyph ' '
-            set dir_glyph_color FFFFFF
-        case '*gitlab.com*'
-            set dir_glyph ' '
-            set dir_glyph_color E24329
-        case '*bitbucket.com*'
-            set dir_glyph ' '
-            set dir_glyph_color 2684FF
-        case '*'
-            set dir_glyph ' '
-            set dir_glyph_color F05033
-        end
+    # NOTE: utilizes handler _set_git_remote_glyph
+    if set -q _git_dir_glyph && set -q _git_dir_color
+        set_color $_git_dir_color
+        printf '%s' $_git_dir_glyph
+        set_color normal
     end
-    printf '%s%s%s' (set_color $dir_glyph_color) $dir_glyph (set_color normal)
 end  # }}}
 
 function _path  # {{{
@@ -216,14 +203,13 @@ function _go_version  # {{{
     if set -q THEME_ENABLE_GLYPHS
         printf ' '
     end
-    string match -r '\d+.\d+[.\d]*' (command python -V 2>&1)
+    string match -r '\d+.\d+[.\d]*' (command go version 2>&1)
 end  # }}}
 # language versions }}}
 
 function fish_prompt --description 'Write out the prompt'
     set -g RC $status
     set -g NJOBS (jobs -c | wc -l)
-
     _os_glyph       ; printf ' '
     _jobs           ; printf ' '
     _path           ; printf ' '
@@ -234,8 +220,8 @@ function fish_right_prompt
     _err_code                  ; printf ' '
     _git_remote_glyph          ; printf ' '
     __fish_git_prompt "%s"     ; printf ' '
-    _go_version                ; printf ' '
-    _python_version            ; printf ' '
-    _python_venv
-    _running_docker_containers
+    # _go_version                ; printf ' '
+    # _python_version            ; printf ' '
+    # _python_venv
+    # _running_docker_containers
 end

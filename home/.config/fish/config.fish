@@ -1,5 +1,6 @@
 source $FISH_DIR/path.fish
 source $FISH_DIR/alias.fish
+source $FISH_DIR/event_handlers.fish
 
 set -gx EDITOR nvim
 set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
