@@ -1,7 +1,3 @@
-source $FISH_DIR/path.fish
-source $FISH_DIR/alias.fish
-source $FISH_DIR/event_handlers.fish
-
 set -gx EDITOR nvim
 set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
 
@@ -37,5 +33,4 @@ function _start_or_attach_tmux  -d 'Start new tmux session or attach to existing
 end  # }}}
 
 _start_or_attach_tmux
-# https://fishshell.com/docs/current/#vi-mode-command
 fish_vi_key_bindings
