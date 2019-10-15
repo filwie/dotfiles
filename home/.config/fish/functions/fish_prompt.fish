@@ -219,7 +219,10 @@ end
 function fish_right_prompt
     _err_code                  ; printf ' '
     _git_remote_glyph          ; printf ' '
+
+    printf '%s ' $_git_remote_glyph
     __fish_git_prompt "%s"     ; printf ' '
+
     # _go_version                ; printf ' '
     # _python_version            ; printf ' '
     # _python_venv
