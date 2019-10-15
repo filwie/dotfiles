@@ -275,6 +275,7 @@ else
 endif
 highlight! link NERDTreeFlags NERDTreeDir
 syntax clear NERDTreeFlags
+let g:NERDTreeMouseMode=3
 " /nerdtree config }}}
 
 if g:enable_glyphs
