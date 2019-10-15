@@ -9,6 +9,29 @@
 #     set -l cmd $argv
 # end
 
+function _git_get_remote_glyph  # {{{
+    command -v git > /dev/null; or return
+    if command git rev-parse --is-inside-work-tree > /dev/null 2>&1
+        switch (command git remote get-url origin 2> /dev/null; or echo)
+        case '*github.com*'
+            set glyph ' '
+            set color FFFFFF
+        case '*gitlab.com*'
+            set glyph ' '
+            set color E24329
+        case '*bitbucket.com*'
+            set glyph ' '
+            set color 2684FF
+        case '*'
+            set glyph ' '
+            set color F05033
+        end
+        set_color $color
+        printf '%s' $glyph
+        set_color normal
+    end
+end  # }}}
+
 set -gx _git_remote_glyph (_git_get_remote_glyph)
 function _set_git_remote_glyph --on-variable PWD  # {{{
     set -q THEME_ENABLE_GLYPHS; or return
