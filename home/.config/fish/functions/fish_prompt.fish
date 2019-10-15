@@ -34,7 +34,7 @@ end
 # os glyph, os detection {{{
 
 ## known_oses {{{
-set -g known_oses \
+set -q known_oses; or set -g known_oses \
     arch \
     bsd \
     centos \
@@ -51,7 +51,7 @@ set -g known_oses \
 ## /known_oses }}}
 
 ## known_oses_colors {{{
-set -g known_oses_colors \
+set -q known_oses_colors; or set -g known_oses_colors \
     0F94D2 \
     770000 \
     EFA724 \
@@ -68,7 +68,7 @@ set -g known_oses_colors \
 ## /known_oses_colors }}}
 
 ## known_oses_glyphs {{{
-not set -g known_oses_glyphs; or set -g known_oses_glyphs \
+set -q known_oses_glyphs; or set -g known_oses_glyphs \
     (printf '%s%s%s' (set_color 0F94D2 ) ' ' (set_color normal))\
     (printf '%s%s%s' (set_color 770000 ) ' ' (set_color normal)) \
     (printf '%s%s%s' (set_color EFA724 ) ' ' (set_color normal)) \
@@ -110,6 +110,7 @@ function _os -d "Detect os type (and Linux distro if linux)"  # {{{
 end  # }}}
 
 function _os_glyph
+    set -q THEME_ENABLE_GLYPHS; or return
     if not set -q THEME_OS_GLYPH
         set index (contains -i (_os) $known_oses)
         set -gx THEME_OS_GLYPH $known_oses_glyphs[$index]
@@ -183,50 +184,58 @@ end  # }}}
 
 function _running_docker_containers  # {{{
     command -v docker > /dev/null; or return
-    set -l cn (docker ps -q 2> /dev/null | wc -l)
-    printf '%s%s' $cn
+    set_color 099CEC
+    if set -q THEME_ENABLE_GLYPHS
+        printf '  '
+    end
+    docker ps -q 2> /dev/null | wc -l
+    set_color normal
 end  # }}}
 
 # language versions {{{
-function _python_venv
-    not set -q VIRTUAL_ENV; or printf "%s" (basename $VIRTUAL_ENV)
-end
-
-function _python_version
-    not command -v python > /dev/null 2>&1; or string match -r '\d+.\d+[.\d]*' (command python -V 2>&1)
-end
-
-function _go_version
-    not command -v go > /dev/null 2>&1; or string match -r '\d+.\d+[.\d]*' (command go version)
-end
-# language versions }}}
-
-function segment  # {{{
-    test -z "$argv"; or printf '%s ' "$argv"
+function _python_venv  # {{{
+    if set -q VIRTUAL_ENV
+        set -q __venv; or set -g __venv (basename $VIRTUAL_ENV)
+        printf "%s" $__venv
+    end
 end  # }}}
+
+function _python_version  # {{{
+    command -v python > /dev/null; or return
+    if set -q THEME_ENABLE_GLYPHS
+        set_color FFDC54
+        printf '  '
+    end
+    set_color 3E7BAC
+    string match -r '\d+.\d+[.\d]*' (command python -V 2>&1)
+end  # }}}
+
+function _go_version  # {{{
+    command -v go > /dev/null; or return
+    set_color 7FD5EA
+    if set -q THEME_ENABLE_GLYPHS
+        printf ' '
+    end
+    string match -r '\d+.\d+[.\d]*' (command python -V 2>&1)
+end  # }}}
+# language versions }}}
 
 function fish_prompt --description 'Write out the prompt'
     set -g RC $status
     set -g NJOBS (jobs -c | wc -l)
 
-    not set -q THEME_ENABLE_GLYPHS; or segment (_os_glyph)
-    segment (_jobs)
-    segment (_path)
-    segment (_prompt_end)
+    _os_glyph       ; printf ' '
+    _jobs           ; printf ' '
+    _path           ; printf ' '
+    _prompt_end     ; printf ' '
 end
 
 function fish_right_prompt
-    segment (_err_code)
-    segment (_git_remote_glyph)
-    segment (__fish_git_prompt "%s")
-
-    not set -q THEME_ENABLE_GLYPHS; or _incolor '7FD5EA' ' '
-    segment (_incolor brblue (_go_version))
-
-    not set -q THEME_ENABLE_GLYPHS; or _incolor '3E7BAC' ' '
-    segment (_incolor blue (_python_version))
-    segment (_incolor yellow (_python_venv))
-
-    not set -q THEME_ENABLE_GLYPHS; or _incolor '099CEC' '  '
-    segment (_incolor blue (_running_docker_containers))
+    _err_code                  ; printf ' '
+    _git_remote_glyph          ; printf ' '
+    __fish_git_prompt "%s"     ; printf ' '
+    _go_version                ; printf ' '
+    _python_version            ; printf ' '
+    _python_venv
+    _running_docker_containers
 end
