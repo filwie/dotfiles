@@ -43,8 +43,11 @@ function _set_git_remote_glyph --on-variable PWD  # {{{
     end
 end  # }}}
 
-set -gx _python_ver (string match -r '\d+.\d+[.\d]*' (command python -V 2>&1))
-function _set_python_venv_ver --on-variable VIRTUAL_ENV
+if command -v python > /dev/null
+    set -gx _python_ver (string match -r '\d+.\d+[.\d]*' (command python -V 2>&1))
+end
+function _set_python_venv_ver --on-variable VIRTUAL_ENV  # {{{
+    command -v python > /dev/null; or return
     switch $argv[2]
     case 'ERASE'
         set -e _python_venv
@@ -55,4 +58,4 @@ function _set_python_venv_ver --on-variable VIRTUAL_ENV
             set -gx _python_ver (string match -r '\d+.\d+[.\d]*' ($VIRTUAL_ENV/bin/python -V 2>&1))
         end
     end
-end
+end  # }}}

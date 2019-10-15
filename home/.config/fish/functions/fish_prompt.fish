@@ -180,21 +180,19 @@ function _running_docker_containers  # {{{
 end  # }}}
 
 # language versions {{{
-function _python_venv  # {{{
-    if set -q VIRTUAL_ENV
-        set -q __venv; or set -g __venv (basename $VIRTUAL_ENV)
-        printf "%s" $__venv
-    end
-end  # }}}
-
 function _python_version  # {{{
     command -v python > /dev/null; or return
     if set -q THEME_ENABLE_GLYPHS
         set_color FFDC54
         printf '  '
     end
-    set_color 3E7BAC
-    string match -r '\d+.\d+[.\d]*' (command python -V 2>&1)
+    set_color --bold 3E7BAC
+    printf '%s' $_python_ver
+    if set -q _python_venv
+        set_color --bold FFDC54
+        printf ' %s' $_python_venv
+    end
+    set_color normal
 end  # }}}
 
 function _go_version  # {{{
@@ -224,7 +222,7 @@ function fish_right_prompt
     __fish_git_prompt "%s"     ; printf ' '
 
     # _go_version                ; printf ' '
-    # _python_version            ; printf ' '
+    _python_version
     # _python_venv
     # _running_docker_containers
 end
