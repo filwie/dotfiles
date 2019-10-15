@@ -1,20 +1,18 @@
 function fish_mode_prompt
+    set_color --bold black
     switch $fish_bind_mode
     case default
         set_color -b brblack
-        set_color --bold black
-        echo ' N '
+        printf ' N '
     case insert
         set_color -b brblue
-        set_color --bold black
-        echo ' I '
+        printf ' I '
     case replace_one
         set_color brgreen
-        echo ' R '
+        printf ' R '
     case visual
         set_color -b bryellow
-        set_color --bold black
-        echo ' V '
+        printf ' V '
     end
-    set_color normal
+    set_color normal; printf ' '
 end
