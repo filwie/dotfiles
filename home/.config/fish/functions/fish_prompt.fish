@@ -153,7 +153,7 @@ end  # }}}
 
 function _git_remote_glyph  # {{{
     # NOTE: utilizes handler _set_git_remote_glyph
-    if set -q _git_dir_glyph && set -q _git_dir_color
+    if set -q _git_dir_glyph; and set -q _git_dir_color
         set_color $_git_dir_color
         printf '%s' $_git_dir_glyph
         set_color normal
@@ -201,7 +201,8 @@ function _go_version  # {{{
     if set -q THEME_ENABLE_GLYPHS
         printf ' '
     end
-    string match -r '\d+.\d+[.\d]*' (command go version 2>&1)
+    printf '%s' $_go_ver
+    set_color normal
 end  # }}}
 # language versions }}}
 
@@ -209,7 +210,7 @@ function fish_prompt --description 'Write out the prompt'
     set -g RC $status
     set -g NJOBS (jobs -c | wc -l)
     _os_glyph       ; printf ' '
-    _jobs           ; printf ' '
+    # _jobs           ; printf ' '
     _path           ; printf ' '
     _prompt_end     ; printf ' '
 end
@@ -221,8 +222,7 @@ function fish_right_prompt
     printf '%s ' $_git_remote_glyph
     __fish_git_prompt "%s"     ; printf ' '
 
-    # _go_version                ; printf ' '
+    _go_version                ; printf ' '
     _python_version
-    # _python_venv
     # _running_docker_containers
 end

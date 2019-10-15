@@ -11,7 +11,7 @@ case Darwin
 end
 
 for bin_dir in $add_to_path_if_exists
-    if test -d $bin_dir && not contains $bin_dir $PATH
+    if test -d $bin_dir; and not contains $bin_dir $PATH
         set --append PATH $bin_dir
     end
 end

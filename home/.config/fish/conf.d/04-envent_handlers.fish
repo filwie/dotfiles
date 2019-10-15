@@ -59,3 +59,18 @@ function _set_python_venv_ver --on-variable VIRTUAL_ENV  # {{{
         end
     end
 end  # }}}
+
+if command -v go > /dev/null
+    set -gx _go_ver (string match -r '\d+.\d+[.\d]*' (command go version 2>&1))
+end
+function _set_go_ver --on-variable GOROOT  # {{{
+    command -v python > /dev/null; or return
+    switch $argv[2]
+    case 'ERASE'
+        set -gx _go_ver (string match -r '\d+.\d+[.\d]*' (command go version 2>&1))
+    case 'SET'
+        if test -x $GOROOT/bin/go
+            set -gx _go_ver (string match -r '\d+.\d+[.\d]*' ($GOROOT/bin/go version 2>&1))
+        end
+    end
+end  # }}}
