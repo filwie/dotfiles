@@ -1,63 +1,72 @@
-## #TODO
-- [ ] automate https://github.com/sebastianmarkow/deoplete-rust, https://github.com/racer-rust/racer
-- [ ] autocd in fish
-
-## Prerequirements
-###### Packages
-``` sh
-vim tmux zsh ncurses
-```
-###### Fonts
-One of [NERD Fonts](https://nerdfonts.com/). I prefer Iosevka.
-
-###### Terminal emulator
-One that supports emoji (only used in Docker container so kind of optional) and NERD font glyphs (best effect with double-width characters).
-I personally recommend `alacritty` or `terminator` on Linux and `iTerm2` on Mac OS.
-
-###### Using `wisp` Zsh theme without the rest of dotfiles
-For theme to work copy functions from `UTILS` section of `zshrc` to the top of `wisp.zsh-theme`.
-
+# Dotfiles
 ## Quickstart
-###### HTTPS
-``` sh
-git clone --depth 1 "https://github.com/filwie/mini-dotfiles.git" "${HOME}/.mini-dotfiles" && ${HOME}/.mini-dotfiles/install.sh
+Installation of all dotfiles or a subset of them can be done using `install.py` script (requires `Python3.6+`).
+
+To list available dotfiles:
+```sh
+./install.py --list
 ```
 
-###### SSH
-``` sh
-git clone "git@github.com:filwie/mini-dotfiles.git" "${HOME}/.mini-dotfiles" && ${HOME}/.mini-dotfiles/install.sh
+To install dotfiles, execute the script without arguments (installs all available dotfiles)
+or pass one or more names from list displayed as a result of above command. If dotfiles
+already exist in specified location they will be backed up and then replaced.
+
+
+## Fish
+### Theme
+Make sure your terminal emulator handles truecolor and glyphs and
+you have installed one of [Nerd Fonts](https://www.nerdfonts.com/)
+I use `Iosevka` and that's what can be seen on screenshots below.
+As for terminal emulator I've been enjoying [Kitty](https://sw.kovidgoyal.net/kitty/)
+even though I don't use most of it's features.
+
+Colorscheme visible on all screenshots is [Gruvbox](https://github.com/morhetz/gruvbox)
+
+Glyphs are not enabled by default - to enable them set environment variable `THEME_ENABLE_GLYPHS` to anything but empty string. I put below line in `kitty.conf`:
+
+``` conf
+env THEME_ENABLE_GLYPHS=1
 ```
 
-## Description
-This repository contains minimal subset of all my dotfiles:
-- Zsh (including custom theme)
-- Vim
-- Tmux
+Theme relies on following files from this repository:
+- `$FISH_DIR/functions/fish_prompt.fish`
+- `$FISH_DIR/functions/fish_mode_prompt.fish` (when using Vi mode)
+- `$FISH_DIR/conf.d/03-event_handlers.fish` (for setting variables
+   holding Python, Go versions, git remote etc.)
 
-Zsh theme displays information about:
-- [x] SSH connection
-- [x] being in Docker container
-- [x] having Python virtualenv activated (virtualenv name and Python version)
-- [x] Python version outside of virtualenv (if desired)
-- [x] OS (currently works for Raspbian, Arch, Mac OS, Ubuntu)
+Currently implemented theme features:
+- [x] distinct prompt for different operating systems:
+<img src="https://raw.githubusercontent.com/filwie/images/master/dotfiles/oses.png" align="center" alt="oses"/>
 
-<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-os.png" alt="zsh-theme-os" width="50%"/>
+- [x] informative git status along with different glyphs depending on origin URL
+<img src="https://raw.githubusercontent.com/filwie/images/master/dotfiles/remotes.png" align="center" alt="remotes"/>
 
-Root types in red. <b>How distinguishable!</b>
+### Try it out in a container
+It is possible to check out theme in Docker container. Currently,
+dockerfiles for following distributions are available:
+- [ ] OpenSUSE Tumbleweed
+- [ ] Arch Linux
+- [ ] Ubuntu 18.04
 
-<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-root.png" alt="zsh-theme-root" width="50%"/>
+To build those images execute below commands from repo root (__requirements:__ `Docker`,
+`Python 3`, `Jinja2` `Python` package)
+``` sh
+cd docker
+./build_images.sh
+```
 
-Git branch and status (clean/dirty):
+By default, the images are tagged `latest` and are named according to `dotfiles-{{ short distro name }}` convention. It can be customized via `IMAGE_TAG`, `IMAGE_PREFIX` and `IMAGE_SUFFIX` environment variables.
 
-<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-git.png" alt="zsh-theme-git" width="50%"/>
+To run container and see theme in action simply run:
 
+``` sh
+# opensuse, arch or ubuntu
+docker run -it --rm dotfiles-opensuse:latest
+```
 
-## Configuration
-#### Zsh theme configuration options
-1. To pick box character set `ZSH_THEME_BOX_CHAR` env var to value from `1` to `5`.
-
-<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-box-char.png" alt="zsh-theme-box" width="50%"/>
-
-2. To display Python version outside of virtual environments set `ZSH_THEME_ALWAYS_SHOW_PYTHON` env var to `1`.
-
-<img src="https://raw.githubusercontent.com/filwie/images/master/mini-dotfiles/zsh-theme-python.png" alt="zsh-theme-python" width="50%"/>
+## NeoVim
+## Tmux
+## Kitty
+## i3
+## rofi
+## VSCode
