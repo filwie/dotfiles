@@ -68,7 +68,7 @@ set -q known_oses_colors; or set -g known_oses_colors \
 ## /known_oses_colors }}}
 
 ## known_oses_glyphs {{{
-set -q known_oses_glyphs; or set -g known_oses_glyphs \
+set -q known_oses_glyphs; or set -Ux known_oses_glyphs \
     (printf '%s%s%s' (set_color 0F94D2 ) ' ' (set_color normal))\
     (printf '%s%s%s' (set_color 770000 ) ' ' (set_color normal)) \
     (printf '%s%s%s' (set_color EFA724 ) ' ' (set_color normal)) \
@@ -84,12 +84,12 @@ set -q known_oses_glyphs; or set -g known_oses_glyphs \
     (printf '%s%s%s' (set_color AEAEAE ) '' (set_color normal))
 ## /known_oses_glyphs }}}
 
-set -g known_os_regex (printf '%s' (string join '|' $known_oses))
+set -q known_os_regex; or set -Ux known_os_regex (printf '%s' (string join '|' $known_oses))
 
 function _distro
     if not set -q THEME_DISTRO
         if test -f /etc/os-release
-            set -gx THEME_DISTRO (string lower (string match -ir $known_os_regex (head -n1 /etc/os-release))); or set -gx THEME_DISTRO 'linux'
+            set -Ux THEME_DISTRO (string lower (string match -ir $known_os_regex (head -n1 /etc/os-release))); or set -Ux THEME_DISTRO 'linux'
         end
     end
     printf '%s' $THEME_DISTRO
@@ -99,11 +99,11 @@ function _os -d "Detect os type (and Linux distro if linux)"  # {{{
     if not set -q THEME_OS
         switch (uname)
         case Linux
-            set -gx THEME_OS (_distro)
+            set -Ux THEME_OS (_distro)
         case Darwin
-            set -gx THEME_OS mac
+            set -Ux THEME_OS mac
         case '*'
-            set -gx THEME_OS other
+            set -Ux THEME_OS other
         end
     end
     printf $THEME_OS
@@ -113,7 +113,7 @@ function _os_glyph
     set -q THEME_ENABLE_GLYPHS; or return
     if not set -q THEME_OS_GLYPH
         set index (contains -i (_os) $known_oses)
-        set -gx THEME_OS_GLYPH $known_oses_glyphs[$index]
+        set -Ux THEME_OS_GLYPH $known_oses_glyphs[$index]
     end
     printf $THEME_OS_GLYPH
 end
@@ -121,7 +121,7 @@ end
 function _os_color
     if not set -q THEME_OS_COLOR
         set index (contains -i (_os) $known_oses)
-        set -gx THEME_OS_COLOR $known_oses_colors[$index]
+        set -Ux THEME_OS_COLOR $known_oses_colors[$index]
     end
     printf $THEME_OS_COLOR
 end
@@ -161,7 +161,9 @@ function _git_remote_glyph  # {{{
 end  # }}}
 
 function _path  # {{{
-    printf '%s%s%s' (set_color --bold) (prompt_pwd) (set_color normal)
+    set_color --bold
+    printf '%s'(prompt_pwd)
+    set_color normal
 end  # }}}
 
 function _jobs  # {{{
@@ -181,7 +183,7 @@ end  # }}}
 
 # language versions {{{
 function _python_version  # {{{
-    command -v python > /dev/null; or return
+    set -q _python_ver; or return
     if set -q THEME_ENABLE_GLYPHS
         set_color FFDC54
         printf '  '
@@ -196,7 +198,7 @@ function _python_version  # {{{
 end  # }}}
 
 function _go_version  # {{{
-    command -v go > /dev/null; or return
+    set -q _go_ver; or return
     set_color 7FD5EA
     if set -q THEME_ENABLE_GLYPHS
         printf ' '
@@ -208,9 +210,7 @@ end  # }}}
 
 function fish_prompt --description 'Write out the prompt'
     set -g RC $status
-    set -g NJOBS (jobs -c | wc -l)
     _os_glyph       ; printf ' '
-    # _jobs           ; printf ' '
     _path           ; printf ' '
     _prompt_end     ; printf ' '
 end
@@ -224,5 +224,4 @@ function fish_right_prompt
 
     _go_version                ; printf ' '
     _python_version
-    # _running_docker_containers
 end
