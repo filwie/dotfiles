@@ -32,7 +32,12 @@ images = dict(
                    package_manager='zypper',
                    package_manager_argv=['--non-interactive install']),
     ubuntu=Image('ubuntu', tag='18.04',
-                 run_commands=['apt update'],
+                 run_commands=[
+                     'apt update',
+                     'apt install -y software-properties-common',
+                     'apt-add-repository ppa:fish-shell/release-3',
+                     'apt update'
+                 ],
                  package_manager='apt',
                  package_manager_argv=['--yes', 'install'],
                  env={'DEBIAN_FRONTEND': 'noninteractive'})
