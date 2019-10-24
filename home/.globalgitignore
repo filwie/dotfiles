@@ -1,11 +1,15 @@
 # vim: set ft=sh:
 ### Mine
 # CTags
-**/tags
+tags
+tags.*
 # Ansible retry files
 **/*.retry
 
 ###Python###
+
+# Pytest
+.pytest_cache
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -17,7 +21,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+# build/
 develop-eggs/
 dist/
 downloads/
