@@ -99,6 +99,8 @@ else
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
 endif
+nnoremap ]e :ALENext<CR>
+nnoremap [e :ALEPrevious<CR>
 " }}}"
 
 Plug 'sheerun/vim-polyglot'
