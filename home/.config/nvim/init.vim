@@ -492,7 +492,12 @@ function! FormatJSON()  " {{{
 endfunction  "}}}
 
 let s:_nm = ':echom "mapping not specified"'
-call FileTypeMap(['python'], ':term python %', ':Autopep8', ':term pytest')
+
+let g:python_interpreter = 'python'
+if $PYTHON_INTERPRETER != '' && executable($PYTHON_INTERPRETER)
+  let g:python_interpreter = $PYTHON_INTERPRETER
+endif
+call FileTypeMap(['python'], ':term ' . g:python_interpreter . ' %', ':Autopep8', ':term pytest')
 call FileTypeMap(['ruby'], ':term ruby %')
 call FileTypeMap(['bash', 'sh'], ':term./%')
 call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTestterm')
