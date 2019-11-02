@@ -32,13 +32,6 @@ endfunction
 
 call InstallVimPlug()
 
-" plugin-variables {{{
-let g:fzf_path = ''
-for fzf_path in ['$FZF_BASE', '~/.fzf', '/usr/share/fzf', '/usr/local/opt/fzf']
-  if !empty(glob(fzf_path)) | let g:fzf_path = fzf_path | break | endif
-endfor
-" plugin-variables }}}
-
 " global variables {{{
 "" gruvbox neutral colors {{{
 let g:gruvbox_palette = {
@@ -124,7 +117,7 @@ augroup MarkdownCodeBlocks
 augroup END
 " /vim-markdown config }}}
 
-if g:fzf_path != '' | Plug g:fzf_path | endif
+Plug 'junegunn/fzf', { 'dir': g:nvim_plugin_dir . '/fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 " fzf config {{{
 nnoremap <C-p> :FZF<CR>
