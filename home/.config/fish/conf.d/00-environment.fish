@@ -4,6 +4,7 @@ set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
 set -gx VIM_SHELL (command -v sh)
 set -gx TMUX_SHELL (command -v fish)
 
+set -gx CARGO_HOME $XDG_DATA_HOME/cargo
 
 set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
 set -q XDG_DATA_HOME; or set -gx XDG_DATA_HOME $HOME/.local/share
