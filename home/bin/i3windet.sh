@@ -5,7 +5,7 @@
 
 for cmd in xwininfo xprop; do
     if ! command -v $cmd &> /dev/null; then
-        echo "$(basename): ${cmd}: command not found" > /dev/stderr
+        echo "${cmd}: command not found" > /dev/stderr
         exit 1
     fi
 done
