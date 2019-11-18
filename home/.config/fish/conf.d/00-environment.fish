@@ -6,6 +6,8 @@ set -gx TMUX_SHELL (command -v fish)
 
 set -gx CARGO_HOME $XDG_DATA_HOME/cargo
 
+set -gx GOPATH $XDG_DATA_HOME/go
+
 set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
 set -q XDG_DATA_HOME; or set -gx XDG_DATA_HOME $HOME/.local/share
 set -q XDG_CACHE_HOME; or set -gx XDG_CACHE_HOME $HOME/.cache

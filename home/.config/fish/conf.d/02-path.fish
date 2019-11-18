@@ -3,6 +3,7 @@ set -l add_to_path_if_exists \
     $HOME/bin \
     $HOME/.local/bin \
     $FZF_BASE/bin \
+    $GOPATH/bin \
     $CARGO_HOME/bin
 
 switch (uname)
