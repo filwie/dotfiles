@@ -160,11 +160,21 @@ let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 let g:coc_status_error_sign = '•'
 let g:coc_status_warning_sign = '•'
-let g:coc_global_extensions = ['coc-git', 'coc-pairs', 'coc-highlight', 'coc-lists', 'coc-yank',
-      \ 'coc-tabnine',
+let g:coc_global_extensions = [
+      \ 'coc-git',
+      \ 'coc-pairs',
+      \ 'coc-highlight',
+      \ 'coc-lists',
+      \ 'coc-yank',
       \ 'coc-yaml',
-      \ 'coc-rls', 'coc-python', 'coc-vimlsp', 'coc-tsserver', 'coc-gocode',
-      \ 'coc-html', 'coc-css']
+      \ 'coc-rls',
+      \ 'coc-python',
+      \ 'coc-vimlsp',
+      \ 'coc-tsserver',
+      \ 'coc-gocode',
+      \ 'coc-html',
+      \ 'coc-css'
+      \]
 
 function! CocCurrentFunction()
   return get(b:, 'coc_current_function', '')
