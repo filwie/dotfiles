@@ -122,6 +122,7 @@ Plug 'junegunn/fzf.vim'
 " fzf config {{{
 nnoremap <C-p> :FZF<CR>
 nnoremap <C-t> :GFiles<CR>
+nnoremap <C-h> :History:<CR>
 
 nnoremap <leader>p :Commands<CR>
 nnoremap <leader>m :Marks<CR>
@@ -144,7 +145,12 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-" /fzf config }}}
+augroup FZF
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0 noshowmode noruler
+        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
+"/fzf config }}}
 
 Plug 'morhetz/gruvbox'
 
