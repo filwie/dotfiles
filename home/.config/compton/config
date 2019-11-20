@@ -14,9 +14,8 @@ unredir-if-possible = true;
 vsync = "opengl-swc";
 vsync-aggressive = true;
 
-#
-# # Fading
-# fading = true;
-# fade-delta = 5;
-# fade-in-step = 0.05;
-# fade-out-step = 0.05;
+# Fading
+fading = true;
+fade-delta = 1;
+fade-in-step = 0.01;
+fade-out-step = 0.01;
