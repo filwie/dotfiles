@@ -19,3 +19,5 @@ set -g fish_greeting
 set -e fish_theme_always_show_python
 set -g fish_theme_enable_glyphs
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
+
+set -gx ANSIBLE_CONFIG $XDG_CONFIG_HOME/ansible/ansible.cfg
