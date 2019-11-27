@@ -1,21 +1,19 @@
 {
     "diagnostic.displayByAle": true,
+    "coc.preferences.colorSupport": true,
+    "highlight.document.enable": false,
+    "highlight.colors.enable": false,
     "git.enableGutters": false,
-    // "git.addedSign.hlGroup": "GitAdd",
-    // "git.changedSign.hlGroup": "GitChange",
-    // "git.removedSign.hlGroup": "GitDelete",
-    // "git.topRemovedSign.hlGroup": "GitDelete",
-    // "git.changeRemovedSign.hlGroup": "GitChangeDelete",
-    // "git.addedSign.text": "+",
-    // "git.changedSign.text": "~",
-    // "git.removedSign.text": "-",
-    // "git.changeRemovedSign.text": "~",
     "languageserver": {
         "bash": {
-          "command": "bash-language-server",
-          "args": ["start"],
-          "filetypes": ["sh"],
-          "ignoredRootPaths": ["~"]
+            "command": "bash-language-server",
+            "args": ["start"],
+            "filetypes": ["sh"],
+            "ignoredRootPaths": ["~"]
+        },
+        "nim": {
+            "command": "nimlsp",
+            "filetypes": ["nim"]
         }
-      }
+    }
 }
