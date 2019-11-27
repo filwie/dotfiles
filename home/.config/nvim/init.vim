@@ -123,6 +123,8 @@ Plug 'junegunn/fzf.vim'
 nnoremap <C-p> :FZF<CR>
 nnoremap <C-t> :GFiles<CR>
 nnoremap <C-h> :History:<CR>
+vnoremap <C-h> :History:<CR>
+
 
 nnoremap <leader>p :Commands<CR>
 nnoremap <leader>m :Marks<CR>
