@@ -550,6 +550,7 @@ call FileTypeMap(['json'], s:_nm, ':%termpython -m json.tool')
 call FileTypeMap(['ansible', 'ansible.yaml', 'yaml.ansible'], ':term ansible-playbook %')
 call FileTypeMap(['vim'], ':source %')
 call FileTypeMap(['markdown'], ':call MarkdownConvertOpen()')
+call FileTypeMap(['nim'], ':term nim compile --run %')
 " /filetype specific config }}}
 
 " theme {{{
