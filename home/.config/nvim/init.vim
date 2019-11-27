@@ -306,6 +306,14 @@ endif
 highlight! link NERDTreeFlags NERDTreeDir
 syntax clear NERDTreeFlags
 let g:NERDTreeMouseMode=3
+let NERDTreeHighlightCursorline=1
+augroup NerdCursor
+  autocmd!
+  autocmd BufEnter NERD_tree_* highlight CursorLine gui=bold
+  autocmd BufEnter NERD_tree_* highlight Cursor guibg=NONE guifg=NONE
+  autocmd BufLeave NERD_tree_* highlight clear CursorLine
+  autocmd BufAdd * highlight clear CursorLine
+augroup END
 " /nerdtree config }}}
 
 if g:enable_glyphs
