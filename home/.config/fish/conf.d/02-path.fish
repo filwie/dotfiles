@@ -4,7 +4,9 @@ set -l add_to_path_if_exists \
     $HOME/.local/bin \
     $FZF_BASE/bin \
     $GOPATH/bin \
-    $CARGO_HOME/bin
+    $CARGO_HOME/bin \
+    $NIM_HOME/bin \
+    $NIMBLE_HOME/bin
 
 switch (uname)
 case Darwin

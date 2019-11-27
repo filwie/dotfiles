@@ -6,6 +6,9 @@ set -gx TMUX_SHELL (command -v fish)
 
 set -gx CARGO_HOME $XDG_DATA_HOME/cargo
 
+set -gx NIM_HOME $XDG_DATA_HOME/nim
+set -gx NIMBLE_HOME $XDG_DATA_HOME/nimble
+
 set -gx GOPATH $XDG_DATA_HOME/go
 
 set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
@@ -21,3 +24,6 @@ set -g fish_theme_enable_glyphs
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
 set -gx ANSIBLE_CONFIG $XDG_CONFIG_HOME/ansible/ansible.cfg
+
+set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
+set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
