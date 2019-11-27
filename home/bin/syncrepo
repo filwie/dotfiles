@@ -1,24 +1,34 @@
 #!/usr/bin/env bash
 set -eu
 
-REPO_ROOT="$(realpath "$(git rev-parse --show-toplevel)")"
-GITIGNORE="${REPO_ROOT}/.gitignore"
+REPO="$(realpath "$(git rev-parse --show-toplevel)")"
+GITIGNORE="${REPO}/.gitignore"
 
 _sync_destination_help="set this variable first. Example value: user@host:~/dest"
-SYNC_DESTINATION="${SYNC_DESTIANTION:?${_sync_destination_help}}"
+DEST="${DEST:?${_sync_destination_help}}"
+
+BOLD="$(tput bold)"
+RESET="$(tput sgr0)"
+
+function _cmd () {
+    echo -e "${BOLD}RUNNING:${RESET}\t${*}"
+    eval "${@}"
+}
+
+function single_sync () {
+    _cmd rsync -avz "${REPO}" --filter="':- ${GITIGNORE}'" "${DEST}"
+}
 
 
-#function single_sync () {
-#    rsync -avz $repo --filter=':- '$gitignore $dest
-#}
+function continous_sync () {
+    while command inotifywait -r -e modify,attrib,close_write,move,create,delete "${REPO}"; do
+        single_sync
+    done
+}
 
+function main () {
+    single_sync
+    continous_sync
+}
 
-#     set -l repo (realpath (git rev-parse --show-toplevel))
-#     set -l gitignore (realpath (git rev-parse --show-toplevel)/.gitignore)
-#     echo $repo $gitignore
-#
-#
-#     while command inotifywait -r -e modify,attrib,close_write,move,create,delete $repo
-#         rsync -avz $repo --filter=':- '$gitignore $dest
-#     end
-# end
+main
