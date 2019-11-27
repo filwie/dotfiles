@@ -147,10 +147,12 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+let g:_laststatus=&laststatus
 augroup FZF
   autocmd! FileType fzf
   autocmd  FileType fzf set laststatus=0 noshowmode noruler
-        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+        \| autocmd BufLeave <buffer> let &laststatus=g:_laststatus | set showmode ruler
 augroup END
 "/fzf config }}}
 
