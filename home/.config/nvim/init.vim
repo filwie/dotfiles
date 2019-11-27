@@ -554,9 +554,15 @@ call FileTypeMap(['nim'], ':term nim compile --run %')
 " /filetype specific config }}}
 
 " theme {{{
-set background=dark
+if $THEME_BACKGROUND ==# 'light'
+  set background=light
+else
+  set background=dark
+endif
+
 let g:gruvbox_italic = 1
-let g:gruvbox_contrast_light = 'hard'
+let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_termcolors = 0
 let g:gruvbox_sign_column = 'bg1'
 let g:gruvbox_color_column = 'bg1'
@@ -619,25 +625,45 @@ function! s:hifg(group, bg, fg)
   execute join(l:hl, ' ')
 endfunction
 
-call s:hifg('Normal', 'NONE', s:light0_hard)
-call s:hifg('SignColumn', 'NONE', s:light0)
-call s:hifg('ColorColumn','NONE', s:bright_orange)
-call s:hifg('LineNr', 'NONE', s:dark2)
-call s:hifg('CursorLineNr', 'NONE',  s:light2)
-call s:hifg('Folded', 'NONE', s:dark2)
+if &background ==# 'dark'
+  call s:hifg('Normal', 'NONE', s:light0_hard)
+  call s:hifg('SignColumn', 'NONE', s:light0)
+  call s:hifg('ColorColumn','NONE', s:bright_orange)
+  call s:hifg('LineNr', 'NONE', s:dark2)
+  call s:hifg('CursorLineNr', 'NONE',  s:light2)
+  call s:hifg('Folded', 'NONE', s:dark2)
 
-call s:hifg('EndOfBuffer', 'NONE',  s:dark0_hard)
-call s:hifg('VertSplit', 'NONE',  s:dark1)
+  call s:hifg('EndOfBuffer', 'NONE',  s:dark0_hard)
+  call s:hifg('VertSplit', 'NONE',  s:dark1)
 
-call s:hifg('ALEErrorSign', 'NONE',  s:bright_red)
-call s:hifg('ALEWarningSign', 'NONE',  s:bright_yellow)
+  call s:hifg('ALEErrorSign', 'NONE',  s:bright_red)
+  call s:hifg('ALEWarningSign', 'NONE',  s:bright_yellow)
 
-call s:hifg('GitGutterAdd', 'NONE',  s:faded_green)
-call s:hifg('GitGutterChange', 'NONE',  s:faded_yellow)
-call s:hifg('GitGutterDelete', 'NONE',  s:faded_red)
+  call s:hifg('GitGutterAdd', 'NONE',  s:faded_green)
+  call s:hifg('GitGutterChange', 'NONE',  s:faded_yellow)
+  call s:hifg('GitGutterDelete', 'NONE',  s:faded_red)
+  execute 'highlight CursorLine guibg=' . s:dark0
+else
+  call s:hifg('Normal', 'NONE', s:dark0_soft)
+  call s:hifg('SignColumn', 'NONE', s:dark0_soft)
+  call s:hifg('ColorColumn','NONE', s:faded_orange)
+  call s:hifg('LineNr', 'NONE', s:light2)
+  call s:hifg('CursorLine', s:light2,  'NONE')
+  call s:hifg('CursorLineNr', 'NONE',  s:dark2)
+  call s:hifg('Folded', 'NONE', s:dark2)
+
+  call s:hifg('EndOfBuffer', 'NONE',  s:dark0_hard)
+  call s:hifg('VertSplit', 'NONE',  s:dark1)
+
+  call s:hifg('ALEErrorSign', 'NONE',  s:faded_red)
+  call s:hifg('ALEWarningSign', 'NONE',  s:faded_yellow)
+
+  call s:hifg('GitGutterAdd', 'NONE',  s:faded_green)
+  call s:hifg('GitGutterChange', 'NONE',  s:faded_yellow)
+  call s:hifg('GitGutterDelete', 'NONE',  s:faded_red)
+  execute 'highlight CursorLine guibg=' . s:dark0
+endif
 
 highlight link GitGutterChangeDelete GitGutterChange
-
 highlight Comment cterm=italic  gui=italic
-execute 'highlight CursorLine guibg=' . s:dark0
 " /theme }}}
