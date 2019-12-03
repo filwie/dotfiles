@@ -114,4 +114,7 @@ eshell
 irony
 ac-comphist.dat
 
+.*gnupg/*
+!.*gnupg/gpg-agent.conf
+
 tmux*.log
