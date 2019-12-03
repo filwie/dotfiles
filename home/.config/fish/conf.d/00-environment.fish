@@ -1,3 +1,7 @@
+set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
+set -q XDG_DATA_HOME; or set -gx XDG_DATA_HOME $HOME/.local/share
+set -q XDG_CACHE_HOME; or set -gx XDG_CACHE_HOME $HOME/.cache
+
 set -gx EDITOR nvim
 set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
 
@@ -10,10 +14,6 @@ set -gx NIM_HOME $XDG_DATA_HOME/nim
 set -gx NIMBLE_HOME $XDG_DATA_HOME/nimble
 
 set -gx GOPATH $XDG_DATA_HOME/go
-
-set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
-set -q XDG_DATA_HOME; or set -gx XDG_DATA_HOME $HOME/.local/share
-set -q XDG_CACHE_HOME; or set -gx XDG_CACHE_HOME $HOME/.cache
 
 set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
 set -gx FISH_DIR $XDG_CONFIG_HOME/fish
