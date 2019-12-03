@@ -1,0 +1,7 @@
+{
+  "home/.config/*": "~/.config/",
+  "home/.local/bin/*": "~/.local/bin/",
+  "home/.local/share/*": "~/.local/share/",
+  "home/.gitignore": "~/",
+  "home/.emacs.d": "~/"
+}
