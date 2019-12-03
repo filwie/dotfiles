@@ -27,3 +27,5 @@ set -gx ANSIBLE_CONFIG $XDG_CONFIG_HOME/ansible/ansible.cfg
 
 set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
 set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
+
+set -gx GNUPGHOME $XDG_DATA_HOME/gnupg
