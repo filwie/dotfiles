@@ -7,6 +7,7 @@ set -gx NVIM_TUI_ENABLE_TRUE_COLOR 1
 
 set -gx VIM_SHELL (command -v sh)
 set -gx TMUX_SHELL (command -v fish)
+set -gx TMUX_PLUGIN_MANAGER_PATH $XDG_DATA_HOME/tmux/plugins
 
 set -gx CARGO_HOME $XDG_DATA_HOME/cargo
 
