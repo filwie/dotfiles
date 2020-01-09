@@ -21,7 +21,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-# build/
+build/
 develop-eggs/
 dist/
 downloads/
@@ -390,3 +390,9 @@ flycheck_*.el
 !.vscode/extensions.json
 
 # End of https://www.gitignore.io/api/code
+
+# local
+.local/bin/authors_rights.sh
+.local/bin/lock_screen.sh
+.local/bin/ssh_tunnels.sh
+
