@@ -388,7 +388,7 @@ set tabstop=4 softtabstop=4 expandtab shiftwidth=4 " autoindent copyindent
 set textwidth=0 wrapmargin=0 " dont break lines automatically
 set number
 set hidden
-set termencoding=utf-8
+if &termencoding | set termencoding=utf-8 | endif
 if !&modifiable | set fileencoding=utf-8 | endif
 set encoding=utf8
 set backspace=indent,eol,start
