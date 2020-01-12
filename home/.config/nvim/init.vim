@@ -368,6 +368,7 @@ if g:enable_glyphs
 endif
 " /vim-gitgutter config }}}
 
+Plug 'lmeijvogel/vim-yaml-helper', { 'for': 'yaml' }
 call plug#end()
 " /PLUGIN LIST }}}
 
