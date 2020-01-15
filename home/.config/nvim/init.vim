@@ -369,6 +369,19 @@ endif
 " /vim-gitgutter config }}}
 
 Plug 'lmeijvogel/vim-yaml-helper', { 'for': 'yaml' }
+" vim-yaml-helper config {{{
+let g:vim_yaml_helper#auto_display_path = 0
+function! YamlPathYank()
+  if &filetype !=# 'yaml'
+    echo 'Not a yaml file'
+    return 1
+  endif
+  redir @a
+  :YamlGetFullPath
+  redir END
+endfunction
+nnoremap <F3> :call YamlPathYank() <CR>
+" /vim-yaml-helper config }}}
 call plug#end()
 " /PLUGIN LIST }}}
 
