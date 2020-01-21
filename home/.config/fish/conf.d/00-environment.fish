@@ -20,6 +20,7 @@ set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
 set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'cat {}'"
 set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
 set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
+set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS "--color=16"
 
 set -gx FISH_DIR $XDG_CONFIG_HOME/fish
 # set -gx FISH_ENABLE_VI_MODE 1
