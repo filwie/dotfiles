@@ -151,12 +151,30 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-let g:_laststatus=&laststatus
-augroup FZF
+augroup fzf_window_tweak
   autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 noshowmode noruler
-        \| autocmd BufLeave <buffer> let &laststatus=g:_laststatus | set showmode ruler
+  autocmd  FileType fzf set noshowmode noruler laststatus=0
+        \| autocmd BufLeave <buffer> set showmode ruler laststatus=0
 augroup END
+
+if has('nvim')
+  let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2 --reverse'
+
+  function! FloatingFZF()
+    let width = float2nr(&columns * 0.8)
+    let height = float2nr(&lines * 0.6)
+    let opts = { 'relative': 'editor',
+               \ 'row': (&lines - height) / 2,
+               \ 'col': (&columns - width) / 2,
+               \ 'width': width,
+               \ 'height': height }
+
+    let win = nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+    call setwinvar(win, '&winhighlight', 'NormalFloat:Normal')
+  endfunction
+
+  let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+endif
 "/fzf config }}}
 
 Plug 'morhetz/gruvbox'
