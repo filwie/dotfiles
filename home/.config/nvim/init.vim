@@ -157,6 +157,12 @@ augroup END
 "/fzf config }}}
 
 Plug 'morhetz/gruvbox'
+Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+" goyo.vim config {{{
+augroup goyofixhighlight
+autocmd! User GoyoLeave silent! source $MYVIMRC
+augroup END
+" / goyo.vim config }}}
 
 " go {{{
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
