@@ -17,6 +17,9 @@ set -gx NIMBLE_HOME $XDG_DATA_HOME/nimble
 set -gx GOPATH $XDG_DATA_HOME/go
 
 set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
+set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'cat {}'"
+set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
+set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
 
 set -gx FISH_DIR $XDG_CONFIG_HOME/fish
 # set -gx FISH_ENABLE_VI_MODE 1
@@ -27,8 +30,5 @@ set -g fish_theme_enable_glyphs
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
 set -gx ANSIBLE_CONFIG $XDG_CONFIG_HOME/ansible/ansible.cfg
-
-set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
-set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
 
 set -gx GNUPGHOME $XDG_DATA_HOME/gnupg
