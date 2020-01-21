@@ -152,12 +152,10 @@ function _incolor  # {{{
 end  # }}}
 
 function _git_remote_glyph  # {{{
-    # NOTE: utilizes handler _set_git_remote_glyph
-    if set -q _git_dir_glyph; and set -q _git_dir_color
-        set_color $_git_dir_color
-        printf '%s' $_git_dir_glyph
-        set_color normal
+    if not set -q THEME_ENABLE_GLYPHS
+        return
     end
+    printf '%s' $_git_remote_glyph
 end  # }}}
 
 function _path  # {{{
@@ -219,7 +217,6 @@ function fish_right_prompt
     _err_code                  ; printf ' '
     _git_remote_glyph          ; printf ' '
 
-    printf '%s ' $_git_remote_glyph
     __fish_git_prompt "%s"     ; printf ' '
 
     _go_version                ; printf ' '
