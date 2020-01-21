@@ -17,7 +17,9 @@ set -gx NIMBLE_HOME $XDG_DATA_HOME/nimble
 set -gx GOPATH $XDG_DATA_HOME/go
 
 set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
+
 set -gx FISH_DIR $XDG_CONFIG_HOME/fish
+# set -gx FISH_ENABLE_VI_MODE 1
 
 set -g fish_greeting
 set -e fish_theme_always_show_python

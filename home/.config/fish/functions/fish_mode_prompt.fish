@@ -1,4 +1,7 @@
 function fish_mode_prompt
+    if not set -q FISH_ENABLE_VIM_MODE
+        return
+    end
     set_color --bold black
     switch $fish_bind_mode
     case default
