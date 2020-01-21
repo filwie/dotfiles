@@ -82,7 +82,9 @@ let g:gruvbox_palette = {
 let g:nvim_plugin_dir = '~/.local/share/nvim/plugged'
 call plug#begin(g:nvim_plugin_dir)
 
-Plug 'dense-analysis/ale'  " {{{
+" For running linters asyncronously
+Plug 'dense-analysis/ale'
+" ale config {{{
 let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
 let g:ale_linters = {'python': ['flake8']}
 if g:enable_glyphs
@@ -94,19 +96,19 @@ else
 endif
 nnoremap ]e :ALENext<CR>
 nnoremap [e :ALEPrevious<CR>
-" }}}"
+" /ale config}}}
 
 Plug 'sheerun/vim-polyglot'
 " vim-polyglot config {{{
 augroup CustomFileTypes
-  autocmd BufRead,BufNewFile */ansible/*.yml set filetype=yaml.ansible
+  autocmd BufRead,BufNewFile **/ansible/**/*.\(yml\|yaml\) set filetype=yaml.ansible
 augroup END
 let g:polyglot_disabled = ['markdown']
 " /vim-polyglot config }}}
 
 Plug 'tpope/vim-fugitive'
 
-Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
 " vim-markdown config {{{
 augroup MarkdownCodeBlocks
   autocmd FileType markdown
@@ -120,11 +122,12 @@ augroup END
 Plug 'junegunn/fzf', { 'dir': g:nvim_plugin_dir . '/fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 " fzf config {{{
+nnoremap <C-f><C-p> :FZF<CR>
+
 nnoremap <C-p> :FZF<CR>
 nnoremap <C-t> :GFiles<CR>
 nnoremap <C-h> :History:<CR>
 vnoremap <C-h> :History:<CR>
-
 
 nnoremap <leader>p :Commands<CR>
 nnoremap <leader>m :Marks<CR>
@@ -169,6 +172,7 @@ Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " vim-go config {{{
 let g:go_term_mode = "split"
+
 " /vim-go config}}}
 " /go }}}
 
@@ -248,7 +252,7 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 " /coc.nvim }}}
 
-Plug 'valloric/MatchTagAlways'
+Plug 'valloric/MatchTagAlways', {'for': ['jinja', 'html']}
 
 Plug 'terryma/vim-multiple-cursors'
 " vim-multiple-cursors config {{{
@@ -293,13 +297,7 @@ let g:lightline = {
       \ }
 " /lightline config }}}
 
-Plug 'mhinz/vim-startify'
-" vim-startify config {{{
-let g:startify_custom_header = ''
-let g:startify_custom_footer = ''
-" /vim-startify config }}}
-
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 " nerdtree config {{{
 map <C-n> :NERDTreeToggle<CR>
 if g:enable_glyphs
@@ -352,17 +350,6 @@ Plug 'tpope/vim-repeat'
 
 Plug 'ludovicchabant/vim-gutentags'
 
-Plug 'yuttie/comfortable-motion.vim'
-" comfortable motion config {{{
-nnoremap <silent> <C-j> :call comfortable_motion#flick(40)<CR>
-nnoremap <silent> <C-k> :call comfortable_motion#flick(-40)<CR>
-let g:comfortable_motion_no_default_key_mappings = 1
-let g:BASH_Ctrl_j = 'off'
-let g:BASH_Ctrl_k = 'off'
-noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
-noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
-" }}}
-
 Plug 'airblade/vim-gitgutter'
 " vim-gitgutter config {{{
 if g:enable_glyphs
@@ -389,11 +376,22 @@ function! YamlPathYank()
     return 1
   endif
   redir @a
-  :YamlGetFullPath
+  :YamlDisplayFullPath
   redir END
+
+  normal! f:
+  normal! "Ay$
 endfunction
-nnoremap <F3> :call YamlPathYank() <CR>
+
+augroup YamlPluginMapping
+  autocmd FileType yaml nnoremap <F3> :call YamlPathYank() <CR>
+augroup END
+
+nnoremap <leader>a "ap
+nnoremap <leader>* *<C-O>:%s///gn<CR>
+
 " /vim-yaml-helper config }}}
+
 call plug#end()
 " /PLUGIN LIST }}}
 
@@ -416,6 +414,7 @@ set number
 set hidden
 if &termencoding | set termencoding=utf-8 | endif
 if !&modifiable | set fileencoding=utf-8 | endif
+set autowrite
 set encoding=utf8
 set backspace=indent,eol,start
 set splitright
@@ -571,7 +570,7 @@ call FileTypeMap(['ruby'], ':term ruby %')
 call FileTypeMap(['bash', 'sh'], ':term./%')
 call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTestterm')
 call FileTypeMap(['java'], ':term javac % && java run %:r', s:_nm, s:_nm, ':term javac %')
-call FileTypeMap(['go'], ':GoRun', ':GoFmt', ':GoTest')
+call FileTypeMap(['go'], ':GoRun', ':GoFmt', ':GoTest', ':GoBuild')
 call FileTypeMap(['json'], s:_nm, ':%termpython -m json.tool')
 call FileTypeMap(['ansible', 'ansible.yaml', 'yaml.ansible'], ':term ansible-playbook %')
 call FileTypeMap(['vim'], ':source %')
