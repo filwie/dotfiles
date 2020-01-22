@@ -11,6 +11,52 @@ endif
 " /environment }}}
 
 " helpers {{{
+" color variables {{{
+let s:dark0_hard     = '#1d2021'
+let s:dark0          = '#282828'
+let s:dark0_soft     = '#32302f'
+let s:dark1          = '#3c3836'
+let s:dark2          = '#504945'
+let s:dark3          = '#665c54'
+let s:dark4          = '#7c6f64'
+let s:dark4_256      = '#7c6f64'
+
+let s:gray_245       = '#928374'
+let s:gray_244       = '#928374'
+
+let s:light0_hard    = '#f9f5d7'
+let s:light0         = '#fbf1c7'
+let s:light0_soft    = '#f2e5bc'
+let s:light1         = '#ebdbb2'
+let s:light2         = '#d5c4a1'
+let s:light3         = '#bdae93'
+let s:light4         = '#a89984'
+let s:light4_256     = '#a89984'
+
+let s:bright_red     = '#fb4934'
+let s:bright_green   = '#b8bb26'
+let s:bright_yellow  = '#fabd2f'
+let s:bright_blue    = '#83a598'
+let s:bright_purple  = '#d3869b'
+let s:bright_aqua    = '#8ec07c'
+let s:bright_orange  = '#fe8019'
+
+let s:neutral_red    = '#cc241d'
+let s:neutral_green  = '#98971a'
+let s:neutral_yellow = '#d79921'
+let s:neutral_blue   = '#458588'
+let s:neutral_purple = '#b16286'
+let s:neutral_aqua   = '#689d6a'
+let s:neutral_orange = '#d65d0e'
+
+let s:faded_red      = '#9d0006'
+let s:faded_green    = '#79740e'
+let s:faded_yellow   = '#b57614'
+let s:faded_blue     = '#076678'
+let s:faded_purple   = '#8f3f71'
+let s:faded_aqua     = '#427b58'
+let s:faded_orange   = '#af3a03'
+" /color variables }}}
 function! InstallVimPlug ()
   let l:plug_download_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   if has('nvim') | let l:plug_install_path = '~/.local/share/nvim/site/autoload/plug.vim'
@@ -82,6 +128,17 @@ let g:gruvbox_palette = {
 let g:nvim_plugin_dir = '~/.local/share/nvim/plugged'
 call plug#begin(g:nvim_plugin_dir)
 
+Plug 'morhetz/gruvbox'
+" gruvbox config {{{
+let g:gruvbox_italic = 1
+let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_termcolors = 0
+let g:gruvbox_sign_column = 'bg1'
+let g:gruvbox_color_column = 'bg1'
+
+" /gruvbox config }}}
+
 " For running linters asyncronously
 Plug 'dense-analysis/ale'
 " ale config {{{
@@ -122,34 +179,16 @@ augroup END
 Plug 'junegunn/fzf', { 'dir': g:nvim_plugin_dir . '/fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 " fzf config {{{
-nnoremap <C-f><C-p> :FZF<CR>
-
+let g:fzf_buffers_jump = 1
 nnoremap <C-p> :FZF<CR>
 nnoremap <C-t> :GFiles<CR>
 nnoremap <C-h> :History:<CR>
-vnoremap <C-h> :History:<CR>
-
 nnoremap <leader>p :Commands<CR>
 nnoremap <leader>m :Marks<CR>
 nnoremap <leader>l :Lines<CR>
 nnoremap <leader>t :Tags<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>g :Rg<CR>
-
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
 
 augroup fzf_window_tweak
   autocmd! FileType fzf
@@ -159,7 +198,7 @@ augroup END
 
 if has('nvim')
   let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2 --reverse'
-
+  let $FZF_DEFAULT_OPTS .= ' --color bg:' . g:gruvbox_palette['dark0'] . ',bg+:' . g:gruvbox_palette['dark1']
   function! FloatingFZF()
     let width = float2nr(&columns * 0.8)
     let height = float2nr(&lines * 0.6)
@@ -177,7 +216,6 @@ if has('nvim')
 endif
 "/fzf config }}}
 
-Plug 'morhetz/gruvbox'
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 " goyo.vim config {{{
 augroup goyofixhighlight
@@ -597,67 +635,18 @@ call FileTypeMap(['nim'], ':term nim compile --run %')
 " /filetype specific config }}}
 
 " theme {{{
+
 if $THEME_BACKGROUND ==# 'light'
   set background=light
 else
   set background=dark
 endif
-
-let g:gruvbox_italic = 1
-let g:gruvbox_contrast_light = 'soft'
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_termcolors = 0
-let g:gruvbox_sign_column = 'bg1'
-let g:gruvbox_color_column = 'bg1'
-
 silent! colorscheme gruvbox
 
-" color variables {{{
-let s:dark0_hard     = '#1d2021'
-let s:dark0          = '#282828'
-let s:dark0_soft     = '#32302f'
-let s:dark1          = '#3c3836'
-let s:dark2          = '#504945'
-let s:dark3          = '#665c54'
-let s:dark4          = '#7c6f64'
-let s:dark4_256      = '#7c6f64'
 
-let s:gray_245       = '#928374'
-let s:gray_244       = '#928374'
 
-let s:light0_hard    = '#f9f5d7'
-let s:light0         = '#fbf1c7'
-let s:light0_soft    = '#f2e5bc'
-let s:light1         = '#ebdbb2'
-let s:light2         = '#d5c4a1'
-let s:light3         = '#bdae93'
-let s:light4         = '#a89984'
-let s:light4_256     = '#a89984'
 
-let s:bright_red     = '#fb4934'
-let s:bright_green   = '#b8bb26'
-let s:bright_yellow  = '#fabd2f'
-let s:bright_blue    = '#83a598'
-let s:bright_purple  = '#d3869b'
-let s:bright_aqua    = '#8ec07c'
-let s:bright_orange  = '#fe8019'
 
-let s:neutral_red    = '#cc241d'
-let s:neutral_green  = '#98971a'
-let s:neutral_yellow = '#d79921'
-let s:neutral_blue   = '#458588'
-let s:neutral_purple = '#b16286'
-let s:neutral_aqua   = '#689d6a'
-let s:neutral_orange = '#d65d0e'
-
-let s:faded_red      = '#9d0006'
-let s:faded_green    = '#79740e'
-let s:faded_yellow   = '#b57614'
-let s:faded_blue     = '#076678'
-let s:faded_purple   = '#8f3f71'
-let s:faded_aqua     = '#427b58'
-let s:faded_orange   = '#af3a03'
-" /color variables }}}
 
 function! s:hifg(group, bg, fg)
   " Arguments: group, guibg, guifg

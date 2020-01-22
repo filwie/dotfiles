@@ -1,3 +1,4 @@
+
 set -q XDG_CONFIG_HOME; or set -gx XDG_CONFIG_HOME $HOME/.config
 set -q XDG_DATA_HOME; or set -gx XDG_DATA_HOME $HOME/.local/share
 set -q XDG_CACHE_HOME; or set -gx XDG_CACHE_HOME $HOME/.cache
@@ -20,7 +21,12 @@ set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
 set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'cat {}'"
 set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
 set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
-set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS "--color=16"
+if set -q __theme_color0
+    set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS "--color=16,border:$__theme_color8,hl:$__theme_url_color,hl+:$__theme_url_color,bg+:$__theme_color0" \
+                                               "--reverse" \
+                                               "--height=100"
+end
+
 
 set -gx FISH_DIR $XDG_CONFIG_HOME/fish
 # set -gx FISH_ENABLE_VI_MODE 1
