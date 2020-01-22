@@ -462,6 +462,7 @@ function! LastStatusToggle()
     set laststatus=0
   endif
 endfunction
+set autochdir
 set foldmethod=marker
 set hlsearch
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4 " autoindent copyindent
