@@ -1,132 +1,27 @@
 " vim: set ts=2 sw=2 fdm=marker:
 scriptencoding utf-8
 
-" environment {{{
-if ! $VIM_SHELL ==# '' | set shell=$VIM_SHELL | endif
-if ! $THEME_ENABLE_GLYPHS ==# ''
-  let g:enable_glyphs=1
-else
-  let g:enable_glyphs=0
-endif
-" /environment }}}
+let $XDG_DATA_HOME = get(environ(), 'XDG_DATA_HOME', $HOME . '/.local/share/')
+let g:filwie#enable_glyphs = ! $THEME_ENABLE_GLYPHS ==# ''
+let g:filwie#_autoload_directories = [
+      \ $HOME . '/.vim/autoload/',
+      \ $XDG_DATA_HOME . '/nvim/site/autoload'
+      \ ]
+let g:filwie#autoload_directory =
+      \ g:filwie#_autoload_directories[has('nvim')]
+let g:filwie#vimplug_download_url =
+      \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+let g:filwie#vimplug_install_path = g:filwie#autoload_directory . '/plug.vim'
+let g:filwie#vimplug_plugin_directory = $XDG_DATA_HOME . '/nvim/plugged'
 
-" helpers {{{
-" color variables {{{
-let s:dark0_hard     = '#1d2021'
-let s:dark0          = '#282828'
-let s:dark0_soft     = '#32302f'
-let s:dark1          = '#3c3836'
-let s:dark2          = '#504945'
-let s:dark3          = '#665c54'
-let s:dark4          = '#7c6f64'
-let s:dark4_256      = '#7c6f64'
-
-let s:gray_245       = '#928374'
-let s:gray_244       = '#928374'
-
-let s:light0_hard    = '#f9f5d7'
-let s:light0         = '#fbf1c7'
-let s:light0_soft    = '#f2e5bc'
-let s:light1         = '#ebdbb2'
-let s:light2         = '#d5c4a1'
-let s:light3         = '#bdae93'
-let s:light4         = '#a89984'
-let s:light4_256     = '#a89984'
-
-let s:bright_red     = '#fb4934'
-let s:bright_green   = '#b8bb26'
-let s:bright_yellow  = '#fabd2f'
-let s:bright_blue    = '#83a598'
-let s:bright_purple  = '#d3869b'
-let s:bright_aqua    = '#8ec07c'
-let s:bright_orange  = '#fe8019'
-
-let s:neutral_red    = '#cc241d'
-let s:neutral_green  = '#98971a'
-let s:neutral_yellow = '#d79921'
-let s:neutral_blue   = '#458588'
-let s:neutral_purple = '#b16286'
-let s:neutral_aqua   = '#689d6a'
-let s:neutral_orange = '#d65d0e'
-
-let s:faded_red      = '#9d0006'
-let s:faded_green    = '#79740e'
-let s:faded_yellow   = '#b57614'
-let s:faded_blue     = '#076678'
-let s:faded_purple   = '#8f3f71'
-let s:faded_aqua     = '#427b58'
-let s:faded_orange   = '#af3a03'
-" /color variables }}}
-function! InstallVimPlug ()
-  let l:plug_download_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  if has('nvim') | let l:plug_install_path = '~/.local/share/nvim/site/autoload/plug.vim'
-  else           | let l:plug_install_path = '~/.vim/autoload/plug.vim' | endif
-  if empty(glob(l:plug_install_path))
-    echo 'VimPlug not found - attempting to install.'
-    execute '!curl --create-dirs -fLo ' . l:plug_install_path  l:plug_download_url
-    echo 'Installing plugins'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
-endfunction
-function! UpdateRP(info)
-  if has('nvim')
-    silent UpdateRemotePlugins
-    echomsg 'Remote plugin updated: ' . a:info['name'] . '. Restart NeoVim for changes to take effect.'
-  endif
-endfunction
-" /helpers }}}
-
-call InstallVimPlug()
-
-" global variables {{{
-"" gruvbox neutral colors {{{
-let g:gruvbox_palette = {
-      \  'dark0_hard':     '#1d2021',
-      \  'dark0':          '#282828',
-      \  'dark0_soft':     '#32302f',
-      \  'dark1':          '#3c3836',
-      \  'dark2':          '#504945',
-      \  'dark3':          '#665c54',
-      \  'dark4':          '#7c6f64',
-      \  'dark4_25':       '#7c6f64',
-      \  'gray_245':       '#928374',
-      \  'gray_244':       '#928374',
-      \  'light0_hard':    '#f9f5d7',
-      \  'light0':         '#fbf1c7',
-      \  'light0_soft':    '#f2e5bc',
-      \  'light1':         '#ebdbb2',
-      \  'light2':         '#d5c4a1',
-      \  'light3':         '#bdae93',
-      \  'light4':         '#a89984',
-      \  'light4_256':     '#a89984',
-      \  'bright_red':     '#fb4934',
-      \  'bright_green':   '#b8bb26',
-      \  'bright_yellow':  '#fabd2f',
-      \  'bright_blue':    '#83a598',
-      \  'bright_purple':  '#d3869b',
-      \  'bright_aqua':    '#8ec07c',
-      \  'bright_orange':  '#fe8019',
-      \  'neutral_red':    '#cc241d',
-      \  'neutral_green':  '#98971a',
-      \  'neutral_yellow': '#d79921',
-      \  'neutral_blue':   '#458588',
-      \  'neutral_purple': '#b16286',
-      \  'neutral_aqua':   '#689d6a',
-      \  'neutral_orange': '#d65d0e',
-      \  'faded_red':      '#9d0006',
-      \  'faded_green':    '#79740e',
-      \  'faded_yellow':   '#b57614',
-      \  'faded_blue':     '#076678',
-      \  'faded_purple':   '#8f3f71',
-      \  'faded_aqua':     '#427b58',
-      \  'faded_orange':   '#af3a03'
-      \}
-"" /gruvbox neutral colors }}}
-" /global variables }}}
+if empty(glob(g:filwie#vimplug_install_path))
+    call helpers#EnsureVimPlugIsInstalled(
+                \ g:filwie#vimplug_download_url,
+                \ g:filwie#vimplug_install_path)
+end
 
 " plugins {{{
-let g:nvim_plugin_dir = '~/.local/share/nvim/plugged'
-call plug#begin(g:nvim_plugin_dir)
+call plug#begin(g:filwie#vimplug_plugin_directory)
 
 Plug 'morhetz/gruvbox'
 " gruvbox config {{{
@@ -144,7 +39,7 @@ Plug 'dense-analysis/ale'
 " ale config {{{
 let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
 let g:ale_linters = {'python': ['flake8']}
-if g:enable_glyphs
+if g:filwie#enable_glyphs
   let g:ale_sign_error = ' '
   let g:ale_sign_warning = ' '
 else
@@ -176,7 +71,7 @@ augroup MarkdownCodeBlocks
 augroup END
 " /vim-markdown config }}}
 
-Plug 'junegunn/fzf', { 'dir': g:nvim_plugin_dir . '/fzf', 'do': './install --bin'}
+Plug 'junegunn/fzf', { 'dir': g:filwie#vimplug_plugin_directory . '/fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 " fzf config {{{
 let g:fzf_buffers_jump = 1
@@ -198,7 +93,7 @@ augroup END
 
 if has('nvim')
   let $FZF_DEFAULT_OPTS .= ' --border --margin=0,2 --reverse'
-  let $FZF_DEFAULT_OPTS .= ' --color bg:' . g:gruvbox_palette['dark0'] . ',bg+:' . g:gruvbox_palette['dark1']
+  let $FZF_DEFAULT_OPTS .= ' --color bg:' . g:colors#palette['dark0'] . ',bg+:' . g:colors#palette['dark1']
   function! FloatingFZF()
     let width = float2nr(&columns * 0.8)
     let height = float2nr(&lines * 0.6)
@@ -259,6 +154,7 @@ let g:coc_global_extensions = [
       \ 'coc-yank',
       \ 'coc-yaml',
       \ 'coc-rls',
+      \ 'coc-solargraph',
       \ 'coc-python',
       \ 'coc-vimlsp',
       \ 'coc-tsserver',
@@ -356,7 +252,7 @@ let g:lightline = {
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 " nerdtree config {{{
 map <C-n> :NERDTreeToggle<CR>
-if g:enable_glyphs
+if g:filwie#enable_glyphs
   let NERDTreeDirArrowExpandable = "\u00a0"
   let NERDTreeDirArrowCollapsible = "\u00a0"
 else
@@ -376,11 +272,11 @@ augroup NerdCursor
 augroup END
 " /nerdtree config }}}
 
-if g:enable_glyphs
+if g:filwie#enable_glyphs
   Plug 'ryanoasis/vim-devicons'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   " vim-devicons config {{{
-  let g:webdevicons_enable = g:enable_glyphs
+  let g:webdevicons_enable = g:filwie#enable_glyphs
   let g:DevIconsEnableFoldersOpenClose = 1
   " /vim-devicons config }}}
 endif
@@ -389,7 +285,7 @@ Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 " vista config {{{
 nnoremap <F8> :Vista<CR>
 
-let g:vista#renderer#enable_icon = g:enable_glyphs
+let g:vista#renderer#enable_icon = g:filwie#enable_glyphs
 " let g:vista_default_executive = 'ctags'
 let g:vista_icon_indent = ["▸ ", ""]
 let g:vista_fzf_preview = ['right:50%']
@@ -408,7 +304,7 @@ Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'airblade/vim-gitgutter'
 " vim-gitgutter config {{{
-if g:enable_glyphs
+if g:filwie#enable_glyphs
   let g:gitgutter_sign_added = ' '
   let g:gitgutter_sign_modified = ' '
   let g:gitgutter_sign_removed = ' '
@@ -455,7 +351,7 @@ call plug#end()
 filetype plugin indent on
 set diffopt+=vertical
 set laststatus=0
-function! LastStatusToggle()
+function! LastStatusToggle() abort
   if &laststatus == 0 || &laststatus == 1
     set laststatus=2
   else
@@ -469,8 +365,12 @@ set tabstop=4 softtabstop=4 expandtab shiftwidth=4 " autoindent copyindent
 set textwidth=0 wrapmargin=0 " dont break lines automatically
 set number
 set hidden
-if &termencoding | set termencoding=utf-8 | endif
-if !&modifiable | set fileencoding=utf-8 | endif
+if &termencoding
+  set termencoding=utf-8
+endif
+if ! &modifiable
+  set fileencoding=utf-8
+endif
 set autowrite
 set encoding=utf8
 set backspace=indent,eol,start
@@ -494,42 +394,33 @@ set fillchars+=vert:\│
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o  " no automatic comment char inserting
 autocmd FileType json syntax match Comment +\/\/.\+$+
 set timeoutlen=1000 ttimeoutlen=0
-"set cmdheight=2  " better visibility of messages
 set updatetime=300  " smaller updatetime for CursorHold & CursorHoldI
-augroup clipboard
-  if has('clipboard')
-    nnoremap y "+y
-    vnoremap y "+y
-    set clipboard=unnamedplus
-  endif
-augroup END
-augroup persistentundo
+if has('clipboard')
+  nnoremap y "+y
+  vnoremap y "+y
+  set clipboard=unnamedplus
+endif
+set undofile
+set undodir=$XDG_DATA_HOME/nvim/undo
+set undolevels=1000
+set undoreload=10000
+if has('persistent_undo')
+  call system('mkdir ' . &undodir)
   set undofile
-  set undodir=$HOME/.vim/undo
-  set undolevels=1000
-  set undoreload=10000
-  let undodir='$HOME/.vim/undo'
-  if has('persistent_undo')
-    call system('mkdir ' . undodir)
-    set undofile
-  endif
-augroup END
-augroup relativenumbers
+endif
+augroup relative_line_numbers
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave * if &modifiable | set relativenumber | endif
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
-augroup removetrailingwhitespaces
+augroup remove_dangling_spaces
   autocmd!
   autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 if has('mouse')
-  " try a, r, v
-  " set ttymouse=xterm2
   set mouse+=a
   if ! has('nvim')
-    if &term =~ '^screen' || &term =~ '^tmux'
-      " Enable extended mouse while using tmux
+    if &term =~# '^screen' || &term =~# '^tmux'
       set ttymouse=xterm2
     endif
   endif
@@ -540,25 +431,22 @@ augroup termoptions
   autocmd!
   autocmd TermOpen * setlocal nonumber norelativenumber bufhidden=hide
 augroup END
-augroup insertmodecursor  "{{{
-  if has("nvim")
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+if has("nvim")
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+endif
+if has("linux")
+  let &t_SI = "\<Esc>[6 q"
+  let &t_SR = "\<Esc>[4 q"
+  let &t_EI = "\<Esc>[2 q"
+elseif has("unix")
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+  else
+    let &t_SI = "\<Esc>]1337;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]1337;CursorShape=0\x7"
   endif
-
-  if has("linux")
-    let &t_SI = "\<Esc>[6 q"
-    let &t_SR = "\<Esc>[4 q"
-    let &t_EI = "\<Esc>[2 q"
-  elseif has("unix")
-    if exists('$TMUX')
-      let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-      let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-    else
-      let &t_SI = "\<Esc>]1337;CursorShape=1\x7"
-      let &t_EI = "\<Esc>]1337;CursorShape=0\x7"
-    endif
-  endif
-augroup END  "}}}
+endif
 " /general settings }}}
 
 " keymap {{{
@@ -659,42 +547,42 @@ function! s:hifg(group, bg, fg)
 endfunction
 
 if &background ==# 'dark'
-  call s:hifg('Normal', 'NONE', s:light0_hard)
-  call s:hifg('SignColumn', 'NONE', s:light0)
-  call s:hifg('ColorColumn','NONE', s:bright_orange)
-  call s:hifg('LineNr', 'NONE', s:dark2)
-  call s:hifg('CursorLineNr', 'NONE',  s:light2)
-  call s:hifg('Folded', 'NONE', s:dark2)
+  call s:hifg('Normal', 'NONE', g:colors#palette['light0_hard'])
+  call s:hifg('SignColumn', 'NONE', g:colors#palette['light0'])
+  call s:hifg('ColorColumn','NONE', g:colors#palette['bright_orange'])
+  call s:hifg('LineNr', 'NONE', g:colors#palette['dark2'])
+  call s:hifg('CursorLineNr', 'NONE',  g:colors#palette['light2'])
+  call s:hifg('Folded', 'NONE', g:colors#palette['dark2'])
 
-  call s:hifg('EndOfBuffer', 'NONE',  s:dark0_hard)
-  call s:hifg('VertSplit', 'NONE',  s:dark1)
+  call s:hifg('EndOfBuffer', 'NONE',  g:colors#palette['dark0_hard'])
+  call s:hifg('VertSplit', 'NONE',  g:colors#palette['dark1'])
 
-  call s:hifg('ALEErrorSign', 'NONE',  s:bright_red)
-  call s:hifg('ALEWarningSign', 'NONE',  s:bright_yellow)
+  call s:hifg('ALEErrorSign', 'NONE',  g:colors#palette['bright_red'])
+  call s:hifg('ALEWarningSign', 'NONE',  g:colors#palette['bright_yellow'])
 
-  call s:hifg('GitGutterAdd', 'NONE',  s:faded_green)
-  call s:hifg('GitGutterChange', 'NONE',  s:faded_yellow)
-  call s:hifg('GitGutterDelete', 'NONE',  s:faded_red)
-  execute 'highlight CursorLine guibg=' . s:dark0
+  call s:hifg('GitGutterAdd', 'NONE',  g:colors#palette['faded_green'])
+  call s:hifg('GitGutterChange', 'NONE',  g:colors#palette['faded_yellow'])
+  call s:hifg('GitGutterDelete', 'NONE',  g:colors#palette['faded_red'])
+  execute 'highlight CursorLine guibg=' . g:colors#palette['dark0']
 else
-  call s:hifg('Normal', 'NONE', s:dark0_soft)
-  call s:hifg('SignColumn', 'NONE', s:dark0_soft)
-  call s:hifg('ColorColumn','NONE', s:faded_orange)
-  call s:hifg('LineNr', 'NONE', s:light2)
-  call s:hifg('CursorLine', s:light2,  'NONE')
-  call s:hifg('CursorLineNr', 'NONE',  s:dark2)
-  call s:hifg('Folded', 'NONE', s:dark2)
+  call s:hifg('Normal', 'NONE', g:colors#palette['dark0_soft'])
+  call s:hifg('SignColumn', 'NONE', g:colors#palette['dark0_soft'])
+  call s:hifg('ColorColumn','NONE', g:colors#palette['faded_orange'])
+  call s:hifg('LineNr', 'NONE', g:colors#palette['light2'])
+  call s:hifg('CursorLine', g:colors#palette['light2'], 'NONE')
+  call s:hifg('CursorLineNr', 'NONE',  g:colors#palette['dark2'])
+  call s:hifg('Folded', 'NONE', g:colors#palette['dark2'])
 
-  call s:hifg('EndOfBuffer', 'NONE',  s:dark0_hard)
-  call s:hifg('VertSplit', 'NONE',  s:dark1)
+  call s:hifg('EndOfBuffer', 'NONE',  g:colors#palette['dark0_hard'])
+  call s:hifg('VertSplit', 'NONE',  g:colors#palette['dark1'])
 
-  call s:hifg('ALEErrorSign', 'NONE',  s:faded_red)
-  call s:hifg('ALEWarningSign', 'NONE',  s:faded_yellow)
+  call s:hifg('ALEErrorSign', 'NONE',  g:colors#palette['faded_red'])
+  call s:hifg('ALEWarningSign', 'NONE',  g:colors#palette['faded_yellow'])
 
-  call s:hifg('GitGutterAdd', 'NONE',  s:faded_green)
-  call s:hifg('GitGutterChange', 'NONE',  s:faded_yellow)
-  call s:hifg('GitGutterDelete', 'NONE',  s:faded_red)
-  execute 'highlight CursorLine guibg=' . s:dark0
+  call s:hifg('GitGutterAdd', 'NONE',  g:colors#palette['faded_green'])
+  call s:hifg('GitGutterChange', 'NONE',  g:colors#palette['faded_yellow'])
+  call s:hifg('GitGutterDelete', 'NONE',  g:colors#palette['faded_red'])
+  execute 'highlight CursorLine guibg=' . g:colors#palette['dark0']
 endif
 
 highlight link GitGutterChangeDelete GitGutterChange
