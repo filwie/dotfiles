@@ -1,0 +1,25 @@
+ansible
+ansible-lint
+molecule
+molecule[docker]
+
+docker
+docker-compose
+
+IPython
+
+pipenv
+
+yamllint
+flake8
+pylint
+ansible-lint
+gitlint
+
+# markdown to html
+grip
+
+# google code formatter
+yapf
+
+autopep8
