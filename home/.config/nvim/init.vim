@@ -1,14 +1,16 @@
 " vim: set ts=2 sw=2 fdm=marker:
+set encoding=utf-8
 scriptencoding utf-8
 
 let $XDG_DATA_HOME = get(environ(), 'XDG_DATA_HOME', $HOME . '/.local/share/')
+let $THEME_BACKGROUND = get(environ(), 'THEME_BACKGROUND', 'dark')
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
 let g:filwie#enable_glyphs = ! $THEME_ENABLE_GLYPHS ==# ''
-let g:filwie#_autoload_directories = [
+let g:filwie#autoload_directory = [
       \ $HOME . '/.vim/autoload/',
       \ $XDG_DATA_HOME . '/nvim/site/autoload'
-      \ ]
-let g:filwie#autoload_directory =
-      \ g:filwie#_autoload_directories[has('nvim')]
+      \ ][has('nvim')]
 let g:filwie#vimplug_download_url =
       \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 let g:filwie#vimplug_install_path = g:filwie#autoload_directory . '/plug.vim'
@@ -19,6 +21,8 @@ if empty(glob(g:filwie#vimplug_install_path))
                 \ g:filwie#vimplug_download_url,
                 \ g:filwie#vimplug_install_path)
 end
+
+let g:filwie#python_interpreter = get(environ(), 'PYTHON_INTERPRETER', 'python')
 
 " plugins {{{
 call plug#begin(g:filwie#vimplug_plugin_directory)
@@ -31,14 +35,15 @@ let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_termcolors = 0
 let g:gruvbox_sign_column = 'bg1'
 let g:gruvbox_color_column = 'bg1'
-
 " /gruvbox config }}}
 
 " For running linters asyncronously
 Plug 'dense-analysis/ale'
 " ale config {{{
 let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
-let g:ale_linters = {'python': ['flake8']}
+let g:ale_linters = {
+      \ 'python': ['flake8']
+      \}
 if g:filwie#enable_glyphs
   let g:ale_sign_error = ' '
   let g:ale_sign_warning = ' '
@@ -118,27 +123,21 @@ autocmd! User GoyoLeave silent! source $MYVIMRC
 augroup END
 " / goyo.vim config }}}
 
-" go {{{
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " vim-go config {{{
 let g:go_term_mode = "split"
 
 " /vim-go config}}}
-" /go }}}
 
-" python {{{
 Plug 'tell-k/vim-autopep8', {'for': 'python'}
 " vim-autopep8 congfig {{{
 let g:autopep8_disable_show_diff=0
 let g:autopep8_ignore='E501'
 "" /vim-autopep8 config }}}
-" /python }}}
 
-" rust {{{
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
-" /rust }}}
 
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 " coc.nvim config {{{
@@ -162,45 +161,35 @@ let g:coc_global_extensions = [
       \ 'coc-html',
       \ 'coc-css'
       \]
-
 function! CocCurrentFunction()
   return get(b:, 'coc_current_function', '')
 endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
+augroup highlight_word_under_cursor
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
-
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
-
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
-
 "Use tab for trigger completion with characters ahead and navigate
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
 nnoremap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> gy <Plug>(coc-type-definition)
 nnoremap <silent> gi <Plug>(coc-implementation)
 nnoremap <silent> gr <Plug>(coc-references)
-
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 " /coc.nvim }}}
 
@@ -263,7 +252,7 @@ highlight! link NERDTreeFlags NERDTreeDir
 syntax clear NERDTreeFlags
 let g:NERDTreeMouseMode=3
 let NERDTreeHighlightCursorline=1
-augroup NerdCursor
+augroup nerdtree_cursor
   autocmd!
   autocmd BufEnter NERD_tree_* highlight CursorLine gui=bold
   autocmd BufEnter NERD_tree_* highlight Cursor guibg=NONE guifg=NONE
@@ -372,7 +361,6 @@ if ! &modifiable
   set fileencoding=utf-8
 endif
 set autowrite
-set encoding=utf8
 set backspace=indent,eol,start
 set splitright
 set ruler
@@ -388,11 +376,13 @@ set wildmenu
 set wildmode=list:longest,full
 set autoread
 set modeline  " WARNING: there have been modeline-based vulnerabilities in the past
-set colorcolumn=80
 set termguicolors
 set fillchars+=vert:\│
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o  " no automatic comment char inserting
-autocmd FileType json syntax match Comment +\/\/.\+$+
+set formatoptions-=c formatoptions-=r formatoptions-=o
+augroup json_comments
+  autocmd!
+  autocmd FileType json syntax match Comment +\/\/.\+$+
+augroup END
 set timeoutlen=1000 ttimeoutlen=0
 set updatetime=300  " smaller updatetime for CursorHold & CursorHoldI
 if has('clipboard')
@@ -425,28 +415,10 @@ if has('mouse')
     endif
   endif
 endif
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 augroup termoptions
   autocmd!
   autocmd TermOpen * setlocal nonumber norelativenumber bufhidden=hide
 augroup END
-if has("nvim")
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-endif
-if has("linux")
-  let &t_SI = "\<Esc>[6 q"
-  let &t_SR = "\<Esc>[4 q"
-  let &t_EI = "\<Esc>[2 q"
-elseif has("unix")
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-  else
-    let &t_SI = "\<Esc>]1337;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]1337;CursorShape=0\x7"
-  endif
-endif
 " /general settings }}}
 
 " keymap {{{
@@ -466,125 +438,89 @@ nnoremap <leader>s :call LastStatusToggle()<CR>
 " /keymap }}}
 
 " filetype specific confg {{{
-let s:_run = '<F10>'
-let s:_fmt = '<leader>8'
-let s:_test = '<leader>te'
-let s:_build = '<F9>'
+let g:filwie#filetype_keymap = {
+  \ 'run': '<F10>',
+  \ 'fmt': '<leader>8',
+  \ 'test': '<leader>te',
+  \ 'build': '<F9>',
+  \ }
+let g:filwie#filetype_default_command = ':echom "Mapping is not specified"'
+let g:filwie#filetype_commands = {
+            \ 'ansible': {
+            \   'run': ':term ansible-playbook %:%p',
+            \   },
+            \ 'json': {
+            \   'fmt': ':%!python -m json.tool',
+            \   },
+            \ 'markdown': {
+            \   'run': ':call helpers#MarkdownConvertOpen()',
+            \   },
+            \ 'ruby': {
+            \   'run': ':term ruby %:p',
+            \   },
+            \ 'python': {
+            \   'run': ':term ' . g:filwie#python_interpreter . ' %:p',
+            \   'fmt': ':%!autopep8 %:p',
+            \   'test': ':term cd %:p:h && pytest',
+            \   },
+            \ 'sh': {
+            \   'run': ':term ./%:p',
+            \   },
+            \ 'go': {
+            \   'run': ':GoRun',
+            \   'fmt': ':GoFmt',
+            \   'test': ':GoTest',
+            \   'build': ':GoBuild',
+            \   },
+            \ 'rust': {
+            \   'run': ':RustRun',
+            \   'fmt': ':RustFmt',
+            \   'test': ':GoTest',
+            \   },
+            \ 'vim': {
+            \   'run': ':source %:p',
+            \   },
+            \ 'nim': {
+            \   'run': ':source %',
+            \   },
+            \ }
+let g:filwie#filetype_commands['bash'] = g:filwie#filetype_commands['sh']
+let g:filwie#filetype_commands['fish'] = g:filwie#filetype_commands['sh']
+let g:filwie#filetype_commands['yaml.ansible'] = g:filwie#filetype_commands['ansible']
+let g:filwie#filetype_commands['ansible.yaml'] = g:filwie#filetype_commands['ansible']
 
-let g:user_mappings=[s:_run, s:_fmt, s:_test, s:_build]
-
-function! FileTypeMap(filetypes, ...)  "{{{
-  " Arguments: filetypes, run, format, test, build
-  let l:i = 0
-  for cmd in a:000
-    let s:parts = ['autocmd FileType', join(a:filetypes, ','),
-          \ 'nnoremap', g:user_mappings[i], cmd, '<CR>']
-    execute join(s:parts, ' ')
-    let l:i = l:i + 1
-  endfor
-endfunction  " }}}
-
-function! MarkdownConvertOpen()  "{{{
-  if ! executable('grip')
-    echom 'grip not found. Run: pip install -U grip'
-    return
-  endif
-  let l:open_html_cmd = 'xdg-open'
-  if has('macunix')
-    let l:open_html_cmd = 'open'
-  endif
-
-  let l:outfile = expand('/tmp/%:t:r.html')
-  let l:export = '!grip % --export ' . l:outfile
-  let l:open = join([l:open_html_cmd, l:outfile], ' ')
-  execute join([l:export, l:open], ' && ')
-endfunction  "}}}
-
-function! FormatJSON()  " {{{
-  execute ':%!python -m json.tool'
-endfunction  "}}}
-
-let s:_nm = ':echom "mapping not specified"'
-
-let g:python_interpreter = 'python'
-if $PYTHON_INTERPRETER != '' && executable($PYTHON_INTERPRETER)
-  let g:python_interpreter = $PYTHON_INTERPRETER
-endif
-call FileTypeMap(['python'], ':term ' . g:python_interpreter . ' %', ':Autopep8', ':term pytest')
-call FileTypeMap(['ruby'], ':term ruby %')
-call FileTypeMap(['bash', 'sh'], ':term./%')
-call FileTypeMap(['rust'], ':RustRun', ':RustFmt', ':RustTestterm')
-call FileTypeMap(['java'], ':term javac % && java run %:r', s:_nm, s:_nm, ':term javac %')
-call FileTypeMap(['go'], ':GoRun', ':GoFmt', ':GoTest', ':GoBuild')
-call FileTypeMap(['json'], s:_nm, ':%termpython -m json.tool')
-call FileTypeMap(['ansible', 'ansible.yaml', 'yaml.ansible'], ':term ansible-playbook %')
-call FileTypeMap(['vim'], ':source %')
-call FileTypeMap(['markdown'], ':call MarkdownConvertOpen()')
-call FileTypeMap(['nim'], ':term nim compile --run %')
+for s:_filetype in keys(g:filwie#filetype_commands)
+  for s:_command in keys(g:filwie#filetype_keymap)
+    execute 'autocmd FileType ' . s:_filetype .
+          \ ' nnoremap ' . g:filwie#filetype_keymap[s:_command] . ' ' .
+          \ get(g:filwie#filetype_commands[s:_filetype], s:_command, g:filwie#filetype_default_command)
+          \ . '<CR>'
+    endfor
+endfor
 " /filetype specific config }}}
 
 " theme {{{
-
-if $THEME_BACKGROUND ==# 'light'
-  set background=light
-else
-  set background=dark
-endif
+let &background = $THEME_BACKGROUND
 silent! colorscheme gruvbox
 
+call helpers#PaletteHighlight('SignColumn', '', 'light0', 'dark0')
+call helpers#PaletteHighlight('ColorColumn', '', 'bright_orange', 'faded_orange')
+
+call helpers#PaletteHighlight('LineNr', '', 'dark4', 'light4')
+call helpers#PaletteHighlight('CursorLineNr', '', 'bright_orange', 'faded_orange')
+call helpers#PaletteHighlight('Folded', '', 'dark4', 'faded_orange')
+
+call helpers#PaletteHighlight('EndOfBuffer', '', 'dark0_hard', 'light0_hard')
+call helpers#PaletteHighlight('VertSplit', '', 'dark1', 'light1')
+
+call helpers#PaletteHighlight('GitGutterAdd', '', 'neutral_green', 'neutral_green')
+call helpers#PaletteHighlight('GitGutterChange', '', 'neutral_yellow', 'neutral_yellow')
+call helpers#PaletteHighlight('GitGutterDelete', '', 'neutral_red', 'neutral_red')
 
 
-
-
-
-function! s:hifg(group, bg, fg)
-  " Arguments: group, guibg, guifg
-  let l:hl = ['highlight ', a:group,
-        \ 'guibg=' . a:bg,
-        \ 'guifg=' . a:fg ]
-
-  execute join(l:hl, ' ')
-endfunction
-
-if &background ==# 'dark'
-  call s:hifg('Normal', 'NONE', g:colors#palette['light0_hard'])
-  call s:hifg('SignColumn', 'NONE', g:colors#palette['light0'])
-  call s:hifg('ColorColumn','NONE', g:colors#palette['bright_orange'])
-  call s:hifg('LineNr', 'NONE', g:colors#palette['dark2'])
-  call s:hifg('CursorLineNr', 'NONE',  g:colors#palette['light2'])
-  call s:hifg('Folded', 'NONE', g:colors#palette['dark2'])
-
-  call s:hifg('EndOfBuffer', 'NONE',  g:colors#palette['dark0_hard'])
-  call s:hifg('VertSplit', 'NONE',  g:colors#palette['dark1'])
-
-  call s:hifg('ALEErrorSign', 'NONE',  g:colors#palette['bright_red'])
-  call s:hifg('ALEWarningSign', 'NONE',  g:colors#palette['bright_yellow'])
-
-  call s:hifg('GitGutterAdd', 'NONE',  g:colors#palette['faded_green'])
-  call s:hifg('GitGutterChange', 'NONE',  g:colors#palette['faded_yellow'])
-  call s:hifg('GitGutterDelete', 'NONE',  g:colors#palette['faded_red'])
-  execute 'highlight CursorLine guibg=' . g:colors#palette['dark0']
-else
-  call s:hifg('Normal', 'NONE', g:colors#palette['dark0_soft'])
-  call s:hifg('SignColumn', 'NONE', g:colors#palette['dark0_soft'])
-  call s:hifg('ColorColumn','NONE', g:colors#palette['faded_orange'])
-  call s:hifg('LineNr', 'NONE', g:colors#palette['light2'])
-  call s:hifg('CursorLine', g:colors#palette['light2'], 'NONE')
-  call s:hifg('CursorLineNr', 'NONE',  g:colors#palette['dark2'])
-  call s:hifg('Folded', 'NONE', g:colors#palette['dark2'])
-
-  call s:hifg('EndOfBuffer', 'NONE',  g:colors#palette['dark0_hard'])
-  call s:hifg('VertSplit', 'NONE',  g:colors#palette['dark1'])
-
-  call s:hifg('ALEErrorSign', 'NONE',  g:colors#palette['faded_red'])
-  call s:hifg('ALEWarningSign', 'NONE',  g:colors#palette['faded_yellow'])
-
-  call s:hifg('GitGutterAdd', 'NONE',  g:colors#palette['faded_green'])
-  call s:hifg('GitGutterChange', 'NONE',  g:colors#palette['faded_yellow'])
-  call s:hifg('GitGutterDelete', 'NONE',  g:colors#palette['faded_red'])
-  execute 'highlight CursorLine guibg=' . g:colors#palette['dark0']
-endif
+call helpers#PaletteHighlight('ALEErrorSign', '', 'neutral_red', 'neutral_red')
+call helpers#PaletteHighlight('ALEWarningSign', '', 'neutral_yellow', 'neutral_yellow')
 
 highlight link GitGutterChangeDelete GitGutterChange
-highlight Comment cterm=italic  gui=italic
+highlight Comment gui=italic
 " /theme }}}
