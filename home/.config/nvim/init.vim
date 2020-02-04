@@ -309,13 +309,6 @@ call plug#end()
 filetype plugin indent on
 set diffopt+=vertical
 set laststatus=0
-function! LastStatusToggle() abort
-  if &laststatus == 0 || &laststatus == 1
-    set laststatus=2
-  else
-    set laststatus=0
-  endif
-endfunction
 set autochdir
 set foldmethod=marker
 set hlsearch
@@ -406,7 +399,9 @@ map <leader>vs :source $MYVIMRC<CR>
 map <leader>v :vsplit $MYVIMRC<CR>
 inoremap <C-c> <Esc><Esc>
 tnoremap <Esc> <C-\><C-n>
-nnoremap <leader>s :call LastStatusToggle()<CR>
+
+command! -nargs=0 LastStatusToggle :let &laststatus = [2, 0, 0][&laststatus]
+nnoremap <leader>s :LastStatusToggle<CR>
 " /keymap }}}
 
 " filetype specific confg {{{
@@ -488,7 +483,6 @@ call helpers#PaletteHighlight('VertSplit', '', 'dark1', 'light1')
 call helpers#PaletteHighlight('GitGutterAdd', '', 'neutral_green', 'neutral_green')
 call helpers#PaletteHighlight('GitGutterChange', '', 'neutral_yellow', 'neutral_yellow')
 call helpers#PaletteHighlight('GitGutterDelete', '', 'neutral_red', 'neutral_red')
-
 
 call helpers#PaletteHighlight('ALEErrorSign', '', 'neutral_red', 'neutral_red')
 call helpers#PaletteHighlight('ALEWarningSign', '', 'neutral_yellow', 'neutral_yellow')
