@@ -4,9 +4,10 @@ scriptencoding utf-8
 
 let $XDG_DATA_HOME = get(environ(), 'XDG_DATA_HOME', $HOME . '/.local/share/')
 let $THEME_BACKGROUND = get(environ(), 'THEME_BACKGROUND', 'dark')
+let $THEME_ENABLE_GLYPHS = get(environ(),'THEME_ENABLE_GLYPHS', 0)
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
-let g:filwie#enable_glyphs = ! $THEME_ENABLE_GLYPHS ==# ''
+let g:filwie#enable_glyphs = $THEME_ENABLE_GLYPHS ==# 1
 let g:filwie#autoload_directory = [
       \ $HOME . '/.vim/autoload/',
       \ $XDG_DATA_HOME . '/nvim/site/autoload'
@@ -15,16 +16,14 @@ let g:filwie#vimplug_download_url =
       \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 let g:filwie#vimplug_install_path = g:filwie#autoload_directory . '/plug.vim'
 let g:filwie#vimplug_plugin_directory = $XDG_DATA_HOME . '/nvim/plugged'
+let g:filwie#python_interpreter = get(environ(), 'PYTHON_INTERPRETER', 'python')
 
+" plugins {{{
 if empty(glob(g:filwie#vimplug_install_path))
     call helpers#EnsureVimPlugIsInstalled(
                 \ g:filwie#vimplug_download_url,
                 \ g:filwie#vimplug_install_path)
 end
-
-let g:filwie#python_interpreter = get(environ(), 'PYTHON_INTERPRETER', 'python')
-
-" plugins {{{
 call plug#begin(g:filwie#vimplug_plugin_directory)
 
 Plug 'morhetz/gruvbox'
@@ -37,20 +36,12 @@ let g:gruvbox_sign_column = 'bg1'
 let g:gruvbox_color_column = 'bg1'
 " /gruvbox config }}}
 
-" For running linters asyncronously
 Plug 'dense-analysis/ale'
 " ale config {{{
 let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
-let g:ale_linters = {
-      \ 'python': ['flake8']
-      \}
-if g:filwie#enable_glyphs
-  let g:ale_sign_error = ' '
-  let g:ale_sign_warning = ' '
-else
-  let g:ale_sign_error = 'E'
-  let g:ale_sign_warning = 'W'
-endif
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_sign_error = ['E', ' '][g:filwie#enable_glyphs]
+let g:ale_sign_warning = ['W', ' '][g:filwie#enable_glyphs]
 nnoremap ]e :ALENext<CR>
 nnoremap [e :ALEPrevious<CR>
 " /ale config}}}
@@ -67,7 +58,7 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-markdown', {'for': 'markdown'}
 " vim-markdown config {{{
-augroup MarkdownCodeBlocks
+augroup markdown_inline_code_blocks
   autocmd FileType markdown
         \ let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex',
         \ 'sql', 'ruby', 'jinja', 'html', 'css',
@@ -118,23 +109,14 @@ endif
 
 Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
 " goyo.vim config {{{
-augroup goyofixhighlight
-autocmd! User GoyoLeave silent! source $MYVIMRC
+augroup goyou_fix_hlgroups
+  autocmd!
+  autocmd User GoyoLeave silent! source $MYVIMRC
 augroup END
 " / goyo.vim config }}}
 
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-" vim-go config {{{
-let g:go_term_mode = "split"
-
-" /vim-go config}}}
-
-Plug 'tell-k/vim-autopep8', {'for': 'python'}
-" vim-autopep8 congfig {{{
-let g:autopep8_disable_show_diff=0
-let g:autopep8_ignore='E501'
-"" /vim-autopep8 config }}}
 
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
@@ -168,23 +150,21 @@ augroup highlight_word_under_cursor
   autocmd!
   autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
-"Use tab for trigger completion with characters ahead and navigate
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+
+command! -nargs=0 OrganizeImports :call CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 Format :call CocAction('format')
+
+nnoremap <silent> gn <Plug>(coc-rename)
 nnoremap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> gy <Plug>(coc-type-definition)
 nnoremap <silent> gi <Plug>(coc-implementation)
@@ -244,9 +224,6 @@ map <C-n> :NERDTreeToggle<CR>
 if g:filwie#enable_glyphs
   let NERDTreeDirArrowExpandable = "\u00a0"
   let NERDTreeDirArrowCollapsible = "\u00a0"
-else
-  let g:NERDTreeDirArrowExpandable = '▸'
-  let g:NERDTreeDirArrowCollapsible = '▾'
 endif
 highlight! link NERDTreeFlags NERDTreeDir
 syntax clear NERDTreeFlags
@@ -272,13 +249,13 @@ endif
 
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 " vista config {{{
-nnoremap <F8> :Vista<CR>
+nnoremap <F8> :Vista finder<CR>
 
 let g:vista#renderer#enable_icon = g:filwie#enable_glyphs
-" let g:vista_default_executive = 'ctags'
-let g:vista_icon_indent = ["▸ ", ""]
-let g:vista_fzf_preview = ['right:50%']
-let g:vista_executive_for = {
+" let g:vista_default_executive = 'coc'
+" let g:vista_icon_indent = ['▸ ', '']
+" let g:vista_fzf_preview = ['right:50%']
+" let g:vista_executive_for = {
       \ 'go': 'ctags',
       \ 'javascript': 'coc',
       \ 'javascript.jsx': 'coc',
@@ -293,19 +270,11 @@ Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'airblade/vim-gitgutter'
 " vim-gitgutter config {{{
-if g:filwie#enable_glyphs
-  let g:gitgutter_sign_added = ' '
-  let g:gitgutter_sign_modified = ' '
-  let g:gitgutter_sign_removed = ' '
-  let g:gitgutter_sign_removed_first_line = ' '
-  let g:gitgutter_sign_modified_removed = ' '
-else
-  let g:gitgutter_sign_added = '█ '
-  let g:gitgutter_sign_modified = '█ '
-  let g:gitgutter_sign_removed = '█ '
-  let g:gitgutter_sign_removed_first_line = '█ '
-  let g:gitgutter_sign_modified_removed = '█ '
-endif
+let g:gitgutter_sign_added =              ['█ ', ' '][g:filwie#enable_glyphs]
+let g:gitgutter_sign_modified =           ['█ ', ' '][g:filwie#enable_glyphs]
+let g:gitgutter_sign_removed =            ['█ ', ' '][g:filwie#enable_glyphs]
+let g:gitgutter_sign_removed_first_line = ['█ ', ' '][g:filwie#enable_glyphs]
+let g:gitgutter_sign_modified_removed =   ['█ ', ' '][g:filwie#enable_glyphs]
 " /vim-gitgutter config }}}
 
 Plug 'lmeijvogel/vim-yaml-helper', { 'for': 'yaml' }
@@ -378,7 +347,10 @@ set autoread
 set modeline  " WARNING: there have been modeline-based vulnerabilities in the past
 set termguicolors
 set fillchars+=vert:\│
-set formatoptions-=c formatoptions-=r formatoptions-=o
+augroup do_not_insert_comment_character
+  autocmd!
+  autocmd BufEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
 augroup json_comments
   autocmd!
   autocmd FileType json syntax match Comment +\/\/.\+$+
