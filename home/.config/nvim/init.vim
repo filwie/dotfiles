@@ -431,7 +431,7 @@ let g:filwie#filetype_commands = {
             \   'test': ':term cd %:p:h && pytest',
             \   },
             \ 'sh': {
-            \   'run': ':term ./%:p',
+            \   'run': ':term %:p',
             \   },
             \ 'go': {
             \   'run': ':GoRun',
