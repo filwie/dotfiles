@@ -414,7 +414,7 @@ let g:filwie#filetype_keymap = {
 let g:filwie#filetype_default_command = ':echom "Mapping is not specified"'
 let g:filwie#filetype_commands = {
             \ 'ansible': {
-            \   'run': ':term ansible-playbook %:%p',
+            \   'run': ':term ansible-playbook %:p',
             \   },
             \ 'json': {
             \   'fmt': ':%!python -m json.tool',

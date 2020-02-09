@@ -1,8 +1,8 @@
 {
     "diagnostic.displayByAle": true,
     "coc.preferences.colorSupport": true,
-    "highlight.document.enable": false,
-    "highlight.colors.enable": false,
+    "highlight.document.enable": true,
+    "highlight.colors.enable": true,
     "git.enableGutters": false,
     "languageserver": {
         "bash": {
