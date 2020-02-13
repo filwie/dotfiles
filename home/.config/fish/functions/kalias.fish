@@ -1,4 +1,4 @@
-function kubeabbreviations -d 'Loads Kubernetes abbreviations'
+function kalias -d 'Load Kubernetes abbreviations'
     abbr --add --global k 'kubectl'
     abbr --add --global ksys 'kubectl --namespace=kube-system'
     abbr --add --global ka 'kubectl apply --recursive -f'
