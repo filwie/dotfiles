@@ -24,7 +24,14 @@ if empty(glob(g:filwie#vimplug_install_path))
                 \ g:filwie#vimplug_download_url,
                 \ g:filwie#vimplug_install_path)
 end
+
+nnoremap <leader>d :call helpers#GoToPluginsGitHub()<CR>
+
 call plug#begin(g:filwie#vimplug_plugin_directory)
+Plug 'tpope/vim-scriptease', {'on': 'PP'}
+" vim-scriptease config {{{
+command! -nargs=0 REPL :PP
+" /vim-scriptease config}}}
 
 Plug 'morhetz/gruvbox'
 " gruvbox config {{{

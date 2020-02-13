@@ -46,3 +46,21 @@ function! helpers#PaletteHighlight(hlgroup, bg, fg_dark, fg_light) abort
 
   execute 'highlight ' . a:hlgroup . ' guibg=' . l:bg_hex . ' guifg=' . l:fg_hex
 endfunction
+
+
+function! helpers#GoToPluginsGitHub() abort
+  let l:line_contents = split(getline('.'))
+  let l:os_open = ['!xdg-open', '!open'][has('macunix')]
+
+  if l:line_contents[0] !=# 'Plug'
+      echom 'No plugin detected on cursor line!'
+      return 1
+  end
+
+  let l:_squote = "'"
+  let l:plugin = substitute(l:line_contents[1], '[",' . l:_squote . ']', '', 'g')
+  let l:plugin_url = 'https://github.com/' . l:plugin
+
+  echo 'Visiting: ' . l:plugin_url
+  execute join([l:os_open, l:plugin_url], ' ')
+endfunction
