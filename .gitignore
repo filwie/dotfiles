@@ -1,9 +1,6 @@
 # Neovim
-home/.config/nvim/*
-!home/.config/nvim/init*
+home/.config/nvim/ftplugin/go/gocomplete.vim
 home/.config/nvim/autoload/gocomplete.vim
-!home/.config/nvim/autoload/*
-!home/.config/nvim/coc-settings.json
 
 # VSCode
 home/.config/Code/*

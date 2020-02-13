@@ -25,7 +25,7 @@ function! helpers#MarkdownConvertOpen() abort
   let l:export = '!grip % --export ' . l:outfile
 
   if ! executable('grip')
-    echoerr 'grip not found. Run: pip install -U grip'
+    echoerr 'grip not found. Run: pip install --user grip'
     return
   endif
 
