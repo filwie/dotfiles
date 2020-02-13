@@ -1,11 +1,11 @@
+# Neovim
 home/.config/nvim/*
 !home/.config/nvim/init*
+home/.config/nvim/autoload/gocomplete.vim
+!home/.config/nvim/autoload/*
 !home/.config/nvim/coc-settings.json
 
-home/.config/fish/functions/*
-!home/.config/fish/functions/fish_prompt.fish
-!home/.config/fish/functions/fish_mode_prompt.fish
-
+# VSCode
 home/.config/Code/*
 !home/.config/Code/User
 
@@ -23,7 +23,6 @@ home/.config/Code/User/*
 
 *.swp
 tags
-fzf_key_bindings.fish
 .idea
 fish_variables
 elpa
