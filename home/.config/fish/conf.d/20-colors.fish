@@ -1,11 +1,11 @@
 set -U fish_color_normal              normal
-set -U fish_color_command             cyan
-set -U fish_color_param               yellow
-set -U fish_color_quote               green --italics
+set -U fish_color_command             blue --bold
+set -U fish_color_param               brblue
+set -U fish_color_quote               brgreen --italics
 
-set -U fish_color_operator            brred --bold
-set -U fish_color_redirection         brred
-set -U fish_color_end                 brred --bold
+set -U fish_color_operator            yellow --bold
+set -U fish_color_redirection         yellow
+set -U fish_color_end                 yellow --bold
 
 set -U fish_color_error               red --underline
 
