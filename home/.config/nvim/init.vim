@@ -137,6 +137,7 @@ let g:coc_status_warning_sign = '•'
 let g:coc_global_extensions = [
       \ 'coc-git',
       \ 'coc-pairs',
+      \ 'coc-emoji',
       \ 'coc-highlight',
       \ 'coc-lists',
       \ 'coc-yank',
