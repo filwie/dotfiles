@@ -17,6 +17,9 @@ set -gx NIMBLE_HOME $XDG_DATA_HOME/nimble
 
 set -gx GOPATH $XDG_DATA_HOME/go
 
+set -gx GEM_HOME $XDG_DATA_HOME/gem
+set -gx GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
+
 set -gx FZF_BASE $XDG_CONFIG_HOME/fzf
 # set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'bat --theme=ansi-dark --style=numbers,changes --color=always {} | head -n 100'"
 set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'highlight --stdout --force --out-format ansi {} | head -n 100'"
