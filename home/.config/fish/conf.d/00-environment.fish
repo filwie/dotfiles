@@ -43,3 +43,5 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx ANSIBLE_CONFIG $XDG_CONFIG_HOME/ansible/ansible.cfg
 
 set -gx GNUPGHOME $XDG_DATA_HOME/gnupg
+
+set -gx GRIPHOME $XDG_DATA_HOME/grip
