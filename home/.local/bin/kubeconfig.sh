@@ -22,12 +22,12 @@ function error () { cprintf 1 "${@}"; }
 function cmd () { info "[$(date +'%T')] ${*}\n"; eval "${@}"; }
 
 function usage () {
-    echo -e "USAGE: $0 {command} {options}         "
-    echo -e "COMMANDS:                             "
-    echo -e "  - fetch {kubectl_name} {scp_remote}:"
-    echo -e "  - edit  {kubectl_name}              "
-    echo -e "  - ip    {kubectl_name} {new_ip}:    "
-    echo -e "  - use   {kubectl_name}              "
+    echo -e "USAGE: $0 {command} {options}                                            \n"
+    echo -e "COMMANDS:                                                                \n"
+    echo -e "  fetch {kubectl_name} {scp_remote} - fetches ~/.kube/config from remote \n"
+    echo -e "  edit  {kubectl_name}              - opens config in ${EDITOR:-vim}     \n"
+    echo -e "  ip    {kubectl_name} {new_ip}:    - changes API address                \n"
+    echo -e "  use   {kubectl_name}              - sets specified config as default   \n"
     exit 1
 }
 
