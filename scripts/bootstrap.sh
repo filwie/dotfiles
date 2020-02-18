@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eu
-SCRIPT_DIR="$(dirname $(realpath $0))"
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 source "$SCRIPT_DIR/lib.sh"
 # source "$SCRIPT_DIR/bootstrap/"* || true
@@ -14,4 +14,10 @@ declare -A CLONE_MAP=(
     ["https://github.com/tmux-plugins/tpm "]="${TMUX_PLUGIN_MANAGER_PATH:-$XDG_DATA_HOME/tmux/plugins/tpm}"
 )
 
-display_as_table CLONE_MAP
+lib.sep
+lib.display_as_table CLONE_MAP
+lib.sep
+for url in "${!CLONE_MAP[@]}"; do
+    dest="${CLONE_MAP[$url]}"
+    lib.clone_repo "$url" "$dest"
+done
