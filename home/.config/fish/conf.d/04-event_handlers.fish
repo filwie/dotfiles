@@ -44,7 +44,9 @@ function _set_git_remote_glyph --on-variable PWD  # {{{
 end  # }}}
 
 if command -v python > /dev/null
-    set -q _python_ver; or set -gx _python_ver (string match -r '\d+.\d+[.\d]*' (command python -V 2>&1))
+    if not set -q _python_ver
+        set -gx _python_ver (string match -r '\d+.\d+[.\d]*' (command python -V 2>&1))
+    end
 end
 function _set_python_venv_ver --on-variable VIRTUAL_ENV  # {{{
     command -v python > /dev/null; or return

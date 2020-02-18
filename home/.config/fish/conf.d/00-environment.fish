@@ -46,3 +46,5 @@ set -gx GNUPGHOME $XDG_DATA_HOME/gnupg
 
 set -gx GRIPHOME $XDG_DATA_HOME/grip
 set -gx SOLARGRAPH_CACHE $XDG_CACHE_HOME/solargraph
+
+set -gx PYENV_ROOT $XDG_DATA_HOME/pyenv
