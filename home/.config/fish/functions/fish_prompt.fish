@@ -219,6 +219,6 @@ function fish_right_prompt
 
     __fish_git_prompt "%s"     ; printf ' '
 
-    _go_version                ; printf ' '
-    _python_version
+    # _go_version                ; printf ' '
+    # _python_version
 end
