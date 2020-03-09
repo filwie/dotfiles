@@ -3,6 +3,19 @@ set -eu
 
 BOLD="$(tput bold)"
 RESET="$(tput sgr0)"
+declare -A BOX=(
+    [horizontal]='━'
+    [vertical]='┃'
+    [top-left]='┏'
+    [top-right]='┓'
+    [top-mid]='┳'
+    [left-mid]='┣'
+    [mid]='╋'
+    [right-mid]='┫'
+    [bot-mid]='┻'
+    [bot-right]='┛'
+    [bot-left]='┗'
+)
 
 function lib.sep () {
     eval "printf '=%.0s' {1..$(tput cols)}"
@@ -45,6 +58,34 @@ function lib.max_length () {
     printf "%s" "${len}"
 }
 
+function lib.border () {
+    printf "%s" "${1:?start character}"
+    count="$(( $(tput cols) -2 ))"
+    for ((i=1; i<=count; i++ )); do printf "%s" "${BOX[horizontal]}"; done
+    printf "%s" "${2:?end character}"
+}
+
+function lib.border_top () {
+    printf "%s" "${BOX[bot-left]}"
+    count="$(( $(tput cols) -2 ))"
+    for ((i=1; i<=count; i++ )); do printf "%s" "${BOX[horizontal]}"; done
+    printf "%s" "${BOX[bot-right]}"
+}
+
+function lib.border_mid () {
+    printf "%s" "${BOX[left-mid]}"
+    count="$(( $(tput cols) -2 ))"
+    for ((i=1; i<=count; i++ )); do printf '━'; done
+    printf "%s" "${BOX[right-mid]}"
+}
+
+function lib.border_bot () {
+    printf "%s" "${BOX[bot-left]}"
+    count="$(( $(tput cols) -2 ))"
+    for ((i=1; i<=count; i++ )); do printf '━'; done
+    printf "%s" "${BOX[bot-right]}"
+}
+
 function lib.display_as_table () {
     local assoc_arr left_col_width right_col_width pad_char pad_key pad_val
     typeset -n assoc_arr=$1
@@ -54,6 +95,12 @@ function lib.display_as_table () {
         pad_char=' '
         pad_key=$(( left_col_width - ${#key} ))
         pad_val=$(( right_col_width - ${#assoc_arr[${key}]}))
-        printf "| %s%${pad_key}s| %s%${pad_val}s|\n" "${key}" "${pad_char}" "${assoc_arr[${key}]}" "${pad_char}"
+        border="${BOX[vertical]}"
+        mid="${BOX[mid]}"
+        printf "$border %s%${pad_key}s$border %s%${pad_val}s$border\\n" \
+            "$key" \
+            "$pad_char" \
+            "${assoc_arr[${key}]}" \
+            "$pad_char"
     done
 }
