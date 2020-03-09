@@ -7,12 +7,16 @@
   },
   "bookmarks.navigateThroughAllFiles": true,
   "bookmarks.saveBookmarksInProject": true,
-  "breadcrumbs.enabled": false,
+  "breadcrumbs.enabled": true,
   "code-runner.executorMap": {
     "python": "python3"
   },
-  "editor.fontFamily": "'Iosevka'",
+  "editor.fontFamily": "Fantasque Sans Mono",
+  "editor.fontSize": 15,
+  "terminal.integrated.env.linux": {"THEME_ENABLE_GLYPHS": null},
+  "terminal.integrated.fontSize": 15,
   "editor.minimap.enabled": false,
+  "terminal.integrated.fontWeight": "normal",
   "files.associations": {
     "**/ansible/**/*.yaml": "ansible",
     "**/roles/**/*.yaml": "ansible",
