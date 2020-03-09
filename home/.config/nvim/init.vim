@@ -31,7 +31,9 @@ call plug#begin(g:filwie#vimplug_plugin_directory)
 Plug 'tpope/vim-scriptease', {'on': 'PP'}
 " vim-scriptease config {{{
 command! -nargs=0 REPL :PP
-" /vim-scriptease config}}}
+" /vim-scriptease config }}}
+
+Plug 'tpope/vim-commentary'
 
 Plug 'morhetz/gruvbox'
 " gruvbox config {{{
@@ -317,7 +319,6 @@ call plug#end()
 filetype plugin indent on
 set diffopt+=vertical
 set laststatus=0
-set autochdir
 set foldmethod=marker
 set hlsearch
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4 " autoindent copyindent
