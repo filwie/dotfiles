@@ -10,6 +10,10 @@ set -l add_to_path_if_exists \
     $FZF_BASE/bin \
     /usr/local/bin
 
+if command -v brew > /dev/null 2>&1
+    set --prepend PATH (brew --prefix)/bin
+end
+
 switch (uname)
 case Darwin
     set --prepend PATH $HOME/Library/Python/**/bin/

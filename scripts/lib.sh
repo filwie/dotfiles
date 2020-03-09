@@ -59,10 +59,14 @@ function lib.max_length () {
 }
 
 function lib.border () {
+    columns="${4:-2}"
     printf "%s" "${1:?start character}"
-    count="$(( $(tput cols) -2 ))"
-    for ((i=1; i<=count; i++ )); do printf "%s" "${BOX[horizontal]}"; done
-    printf "%s" "${2:?end character}"
+    count="$(( ($(tput cols) - columns) / columns ))"
+    for ((col=1; col<=columns; col++)); do
+        for ((i=1; i<=count; i++ )); do printf "%s" "${BOX[horizontal]}"; done
+        [[ $col < $columns ]] && printf "%s" "${2:?mid character}"
+    done
+    printf "%s" "${3:?end character}"
 }
 
 function lib.border_top () {
@@ -73,10 +77,7 @@ function lib.border_top () {
 }
 
 function lib.border_mid () {
-    printf "%s" "${BOX[left-mid]}"
-    count="$(( $(tput cols) -2 ))"
-    for ((i=1; i<=count; i++ )); do printf '━'; done
-    printf "%s" "${BOX[right-mid]}"
+    lib.border "${BOX[left-mid]}" "${BOX[mid]}" "${BOX[right-mid]}"
 }
 
 function lib.border_bot () {
