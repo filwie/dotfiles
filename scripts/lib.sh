@@ -9,9 +9,9 @@ declare -A BOX=(
     [top-left]='┏'
     [top-right]='┓'
     [top-mid]='┳'
-    [left-mid]='┣'
+    [mid-left]='┣'
     [mid]='╋'
-    [right-mid]='┫'
+    [mid-right]='┫'
     [bot-mid]='┻'
     [bot-right]='┛'
     [bot-left]='┗'
@@ -59,32 +59,27 @@ function lib.max_length () {
 }
 
 function lib.border () {
+    term_width="$(tput cols)"
     columns="${4:-2}"
     printf "%s" "${1:?start character}"
-    count="$(( ($(tput cols) - columns) / columns ))"
+    count="$(( term_width / columns - 2 ))"
     for ((col=1; col<=columns; col++)); do
-        for ((i=1; i<=count; i++ )); do printf "%s" "${BOX[horizontal]}"; done
+        for ((i=1; i<count; i++ )); do printf "%s" "${BOX[horizontal]}"; done
         [[ $col < $columns ]] && printf "%s" "${2:?mid character}"
     done
-    printf "%s" "${3:?end character}"
+    printf "%s\n" "${3:?end character}"
 }
 
 function lib.border_top () {
-    printf "%s" "${BOX[bot-left]}"
-    count="$(( $(tput cols) -2 ))"
-    for ((i=1; i<=count; i++ )); do printf "%s" "${BOX[horizontal]}"; done
-    printf "%s" "${BOX[bot-right]}"
+    lib.border "${BOX[top-left]}" "${BOX[mid]}" "${BOX[top-right]}" "${1:-2}"
 }
 
 function lib.border_mid () {
-    lib.border "${BOX[left-mid]}" "${BOX[mid]}" "${BOX[right-mid]}"
+    lib.border "${BOX[mid-left]}" "${BOX[mid]}" "${BOX[mid-right]}" "${1:-2}"
 }
 
 function lib.border_bot () {
-    printf "%s" "${BOX[bot-left]}"
-    count="$(( $(tput cols) -2 ))"
-    for ((i=1; i<=count; i++ )); do printf '━'; done
-    printf "%s" "${BOX[bot-right]}"
+    lib.border "${BOX[bot-left]}" "${BOX[mid]}" "${BOX[bot-right]}" "${1:-2}"
 }
 
 function lib.display_as_table () {

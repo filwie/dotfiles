@@ -12,5 +12,7 @@ declare -A LINK_MAP=(
     ["${REPO_ROOT}/home/.config/*"]="${HOME}/.local/config/"
 )
 
-lib.display_as_table LINK_MAP
-lib.border_lower
+# lib.display_as_table LINK_MAP
+lib.border_top "${1}"
+lib.border_mid "${1}"
+lib.border_bot "${1}"
