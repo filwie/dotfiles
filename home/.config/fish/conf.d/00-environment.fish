@@ -24,7 +24,7 @@ set -gx FZF_BASE $XDG_DATA_HOME/fzf
 # set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'bat --theme=ansi-dark --style=numbers,changes --color=always {} | head -n 100'"
 set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'highlight --stdout --force --out-format ansi {} | head -n 100'"
 
-set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
+set -g FZF_CTRL_T_COMMAND "command find -L \$dir -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
 set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
 if set -q __theme_color0
     set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS "--color=16,border:$__theme_color8,hl:$__theme_url_color,hl+:$__theme_url_color,bg+:$__theme_color0,spinner:$__theme_color8" \
