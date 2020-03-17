@@ -1,27 +1,69 @@
 #!/usr/bin/env bash
 
 NOTES_DIR="${NOTES_DIR:-"$HOME/.local/share/notes"}"
-NOTES_EXT="${NOTES_EXT:-".md"}"
-NOTE_FILENAME="${NOTES_DIR}/$(date '+%Y-%m-%d')"
+DATE_FORMAT='+%Y-%m-%d'
+NOTE_FILENAME="${NOTES_DIR}/$(date "${DATE_FORMAT}")"
 HEADING="## $(date '+%a, %B %d %Y')"
+NOTE_TITLE=""
 
-[ -d "$NOTES_DIR" ] ||  mkdir -p "$NOTES_DIR"
-# shellcheck disable=SC2048
-for word in ${*}; do
-    NOTE_FILENAME+="-${word,,}"
-done
-NOTE_FILENAME+="${NOTES_EXT}"
 
-[ -n "${*}" ] && HEADING+=" - ${*}"
+display_help_and_exit () {
+    echo "USAGE: note [-h/--help] [-t/--title {title}] [-l/--list] [-d/--date {date}] [-n/--number {num}]"
+    exit 1
+}
 
-if [ -f "${NOTE_FILENAME}" ]; then
-    if [[ "$(head -n1 "${NOTE_FILENAME}")" != "${HEADING}" ]]; then
-        sed -i "1s/^/${HEADING}\\n/" "${NOTE_FILENAME}"
+list_notes () {
+    existing_notes="$(find "${NOTES_DIR}" -type f -exec basename {} \;)"
+    if [[ "${existing_notes}" == "" ]]; then
+        echo "There are no notes."
     fi
-else
-    echo "${HEADING}" > "${NOTE_FILENAME}"
-fi
+    echo "${existing_notes}"
+}
 
-vim +'normal o' +'startinsert' "${NOTE_FILENAME}"
+select_note () {
+    IFS=$'\n'
+    select note in $(find "${NOTES_DIR}" -type f -exec basename {} \;); do
+        echo "${NOTES_DIR}/${note}"
+        return
+    done
+    unset IFS
+    return 1
+}
 
-echo "wrote: $(tput bold)${NOTE_FILENAME}$(tput sgr0)"
+edit_note () {
+    local note="${1}"
+    if [ -z "${note}" ]; then
+        return 1
+    fi
+    if [ -f "${note}" ]; then
+        if ! [[ "$(head -n1 "${note}")" =~ "${HEADING}"* ]]; then
+            sed -i "1s/^/${HEADING}\\n/" "${note}"
+        fi
+    else
+        echo "${HEADING}" > "${note}"
+    fi
+    nvim +"set ft=markdown" "${note}" +
+}
+
+main () {
+    [ -d "$NOTES_DIR" ] ||  mkdir -p "$NOTES_DIR"
+    while [ $# -gt 0 ]; do
+        case $1 in
+            -l|--list)
+                list_notes; exit 0 ;;
+            -t|--title)
+                [ $# -lt 2 ] && usage
+                local title_lowercase="${2,,}"
+                NOTE_FILENAME+="-${title_lowercase// /-}"
+                HEADING+=" - ${2}"
+                shift 2 ;;
+            -s|--select)
+                NOTE_FILENAME="$(select_note)"; shift ;;
+            *)
+                display_help_and_exit ;;
+        esac
+    done
+    edit_note "${NOTE_FILENAME}"
+}
+
+main "${@}"
