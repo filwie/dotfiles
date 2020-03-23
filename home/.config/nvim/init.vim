@@ -479,6 +479,8 @@ endfor
 let &background = $THEME_BACKGROUND
 silent! colorscheme gruvbox
 
+highlight Normal guibg=NONE guifg=NONE
+
 call helpers#PaletteHighlight('SignColumn', '', 'light0', 'dark0')
 call helpers#PaletteHighlight('ColorColumn', '', 'bright_orange', 'faded_orange')
 
