@@ -16,7 +16,7 @@ end
 
 switch (uname)
 case Darwin
-    set --prepend PATH $HOME/Library/Python/**/bin/
+    set --append PATH $HOME/Library/Python/**/bin/
 end
 
 for bin_dir in $add_to_path_if_exists
