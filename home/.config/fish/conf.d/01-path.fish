@@ -8,7 +8,9 @@ set -l add_to_path_if_exists \
     $HOME/bin \
     $HOME/.local/bin \
     $FZF_BASE/bin \
-    /usr/local/bin
+    $XDG_DATA_HOME/npm/bin \
+    /usr/local/bin \
+    /usr/local/opt/ruby/bin
 
 if command -v brew > /dev/null 2>&1
     set --prepend PATH (brew --prefix)/bin
