@@ -309,8 +309,9 @@ augroup END
 
 nnoremap <leader>a "ap
 nnoremap <leader>* *<C-O>:%s///gn<CR>
-
 " /vim-yaml-helper config }}}
+
+Plug 'godlygeek/tabular'
 
 call plug#end()
 " /PLUGIN LIST }}}
