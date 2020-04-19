@@ -8,3 +8,5 @@ end
 abbr --add --global :q 'exit'
 abbr --add --global :e 'vim'
 abbr --add --global e 'vim'
+
+abbr --add --global code 'env THEME_ENABLE_GLYPHS="" code'
