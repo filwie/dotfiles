@@ -498,6 +498,7 @@ call helpers#PaletteHighlight('GitGutterDelete', '', 'neutral_red', 'neutral_red
 
 call helpers#PaletteHighlight('ALEErrorSign', '', 'neutral_red', 'neutral_red')
 call helpers#PaletteHighlight('ALEWarningSign', '', 'neutral_yellow', 'neutral_yellow')
+call helpers#PaletteHighlight('ALEInfoSign', '', 'neutral_blue', 'neutral_blue')
 
 highlight link GitGutterChangeDelete GitGutterChange
 highlight Comment gui=italic
