@@ -5,12 +5,6 @@
     "highlight.colors.enable": true,
     "git.enableGutters": false,
     "languageserver": {
-        "bash": {
-            "command": "bash-language-server",
-            "args": ["start"],
-            "filetypes": ["sh"],
-            "ignoredRootPaths": ["~"]
-        },
         "nim": {
             "command": "nimlsp",
             "filetypes": ["nim"]

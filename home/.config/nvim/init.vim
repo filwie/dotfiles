@@ -130,28 +130,29 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " coc.nvim config {{{
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 let g:coc_status_error_sign = '•'
 let g:coc_status_warning_sign = '•'
 let g:coc_global_extensions = [
-      \ 'coc-git',
-      \ 'coc-pairs',
+      \ 'coc-css',
       \ 'coc-emoji',
-      \ 'coc-highlight',
-      \ 'coc-lists',
-      \ 'coc-yank',
-      \ 'coc-yaml',
-      \ 'coc-rls',
-      \ 'coc-solargraph',
-      \ 'coc-python',
-      \ 'coc-vimlsp',
-      \ 'coc-tsserver',
+      \ 'coc-git',
       \ 'coc-gocode',
+      \ 'coc-highlight',
       \ 'coc-html',
-      \ 'coc-css'
+      \ 'coc-lists',
+      \ 'coc-pairs',
+      \ 'coc-python',
+      \ 'coc-rls',
+      \ 'coc-sh',
+      \ 'coc-solargraph',
+      \ 'coc-tsserver',
+      \ 'coc-vimlsp',
+      \ 'coc-yaml',
+      \ 'coc-yank'
       \]
 function! CocCurrentFunction()
   return get(b:, 'coc_current_function', '')
