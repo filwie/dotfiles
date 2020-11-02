@@ -1,21 +1,3 @@
-backend = "glx";
-
-dbe = false;
-
-glx-no-rebind-pixmap = true;
-glx-no-stencil = true;
-glx-swap-method = "0";
-
-paint-on-overlay = true;
-refresh-rate = 0;
-sw-opti = true;
-unredir-if-possible = true;
-
-vsync = "opengl-swc";
-vsync-aggressive = true;
-
-# Fading
-fading = true;
-fade-delta = 1;
-fade-in-step = 0.01;
-fade-out-step = 0.01;
+backend ="glx";
+blur-background = false;
+shadow = false;
