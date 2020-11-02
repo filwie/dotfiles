@@ -6,7 +6,7 @@ set $browser "firefox"
 set $term "kitty"
 set $lock_command "~/bin/lock_screen.sh || i3lock"
 set $bar_command "xfce4-panel"
-set $compositor_command "compton --config ~/.config/compton/config -b"
+set $compositor_command "picom"
 set $launcher_command "rofi -show drun -modi drun,run,window,ssh -terminal kitty"
 set $toggle_windows_command "rofi -show window -show-icons"
 set $border_size 1
@@ -193,20 +193,19 @@ for_window [class="(?i)xfce4-panel"]           floating enable
 exec --no-startup-id "setxkbmap"
 exec --no-startup-id "setxkbmap -option ctrl:nocaps"
 exec_always --no-startup-id $compositor_command
-exec --no-startup-id "/usr/lib/xfce4/notifyd/xfce4-notifyd"
-exec --no-startup-id "xss-lock -- i3lock"
-exec --no-startup-id "mate-power-manager"
-exec --no-startup-id "gnome-keyring-daemon -d"
-exec --no-startup-id "redshift-gtk"
-exec --no-startup-id "udiskie"
-exec --no-startup-id "nm-applet"
-exec --no-startup-id "blueman-applet"
-# exec --no-startup-id "xfce4-clipman"
-exec --no-startup-id "pasystray"
 exec --no-startup-id "~/.screenlayout/layout.sh"
 exec --no-startup-id "nitrogen --restore"  # should be after screen layout
-exec --no-startup-id "synergy"
-exec --no-startup-id "slack"
-exec --no-startup-id $bar_command
+
+# exec --no-startup-id "/usr/lib/xfce4/notifyd/xfce4-notifyd"
+# exec --no-startup-id "xss-lock -- i3lock"
+# exec --no-startup-id "redshift-gtk"
+# exec --no-startup-id "udiskie"
+# exec --no-startup-id "nm-applet"
+# exec --no-startup-id "blueman-applet"
+# exec --no-startup-id "xfce4-clipman"
+# exec --no-startup-id "pasystray"
+# exec --no-startup-id "synergy"
+# exec --no-startup-id "slack"
+# exec --no-startup-id $bar_command
 # /AUTOSTART }}}
 
