@@ -30,7 +30,7 @@ function help {
     echo "  -s, --scripts {SCRIPT}  link specified script(s) only"
     echo "  --all-configs           link all configs"
     echo "  --all-scripts           link all scripts"
-    echo "  -l, --list  list available configs and scripts"
+    echo "  -l, --list              list available configs and scripts"
     exit
 }
 
@@ -74,7 +74,7 @@ case "${1:---help}" in
         ;;
     -s|--scripts)
         shift
-        _src_dir="${SCRIPTS_DIR}" link_many "${@}"
+        _src_dir="${SCRIPTS_DIR}" _dest="${XDG_BIN_HOME}" link_many "${@}"
         ;;
     --all-scripts)
         _src_dir="${SCRIPTS_DIR}" _dest="${XDG_BIN_HOME}" link_many "${SCRIPTS[@]}"
