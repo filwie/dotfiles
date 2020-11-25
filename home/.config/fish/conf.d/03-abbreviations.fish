@@ -5,8 +5,9 @@ if command -v exa > /dev/null
     abbr --add --global  ls 'exa'
 end
 
+abbr --add --global vim 'nvim'
 abbr --add --global :q 'exit'
-abbr --add --global :e 'vim'
-abbr --add --global e 'vim'
+abbr --add --global :e 'nvim'
+abbr --add --global e 'nvim'
 
 abbr --add --global code 'env THEME_ENABLE_GLYPHS="" code'
