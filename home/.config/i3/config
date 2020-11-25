@@ -1,5 +1,3 @@
-# vim: set ft=ruby fdm=marker:
-
 # VARIABLES {{{
 set $mod Mod1
 set $browser "firefox"
@@ -60,6 +58,11 @@ bindsym $mod+Shift+r       restart
 
 # change focus between tiling / floating windows
 bindsym $mod+space         focus mode_toggle
+
+## scratchpad {{{
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+## /scratchpad }}}
 
 ## launch programs {{{
 bindsym $mod+Return        exec --no-startup-id $term
@@ -172,7 +175,7 @@ bindsym XF86MonBrightnessDown       exec "xbacklight -dec 20"
 
 # WINDOW COLORS {{{
 #                       border          background       text           indicator
-client.focused          $brightblack    $brightblack     $orange        $blue
+client.focused          $brightblack    $brightblack     $orange        $gtk_theme_main
 client.unfocused        $gtk_theme_main $brightblack     $brightwhite   $gtk_theme_main
 client.focused_inactive $gtk_theme_main $brightblack     $brightyellow  $gtk_theme_main
 client.urgent           $gtk_theme_main $brightblack     $brightwhite   $gtk_theme_main
@@ -187,6 +190,8 @@ for_window [class="(?i)nm-connection-editor"]  floating enable
 for_window [class="(?i)lxappearance"]          floating enable
 for_window [class="(?i)gpick"]                 floating enable
 for_window [class="(?i)xfce4-panel"]           floating enable
+for_window [class="(?i)nitrogen"]              floating enable
+for_window [class="(?i)keepassxc"]             floating enable
 # /FLOATING WINDOWS}}}
 
 # AUTOSTART {{{
