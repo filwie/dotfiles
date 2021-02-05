@@ -5,6 +5,10 @@
         "command": "workbench.action.toggleSidebarVisibility"
     },
     {
+        "key": "ctrl+k ctrl+t",
+        "command": go.test.package"
+    },
+    {
         "key": "ctrl+n",
         "command": "extension.advancedNewFile"
     },
