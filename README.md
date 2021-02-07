@@ -12,13 +12,12 @@ Usage:
 ```txt
 Usage: ./install.sh [option] [config|script]
 
-  -a, --all               link all configs and scripts
   -l, --list              list available configs and scripts
+  -a, --all               link all configs and scripts
   -c, --configs {CONFIG}  link specified config(s) only
   -s, --scripts {SCRIPT}  link specified script(s) only
   --all-configs           link all configs
   --all-scripts           link all scripts
-  -l, --list              list available configs and scripts
 ```
 
 ## Fish

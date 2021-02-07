@@ -24,13 +24,12 @@ function list_dotfiles {
 function help {
     echo "Usage: ${0} [option] [config|script]"
     echo
-    echo "  -a, --all               link all configs and scripts"
     echo "  -l, --list              list available configs and scripts"
+    echo "  -a, --all               link all configs and scripts"
     echo "  -c, --configs {CONFIG}  link specified config(s) only"
     echo "  -s, --scripts {SCRIPT}  link specified script(s) only"
     echo "  --all-configs           link all configs"
     echo "  --all-scripts           link all scripts"
-    echo "  -l, --list              list available configs and scripts"
     exit
 }
 
