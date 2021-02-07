@@ -1,19 +1,30 @@
 # Dotfiles
-## Quickstart
-Installation of all dotfiles or a subset of them can be done using `install.py` script (requires `Python3.6+`).
 
-To list available dotfiles:
-```sh
-./install.py --list
+Here I store my config files and such.
+
+## Quickstart
+
+I've written a handy script for creating symlinks from this repo location to
+config destination.
+
+Usage:
+
+```txt
+Usage: ./install.sh [option] [config|script]
+
+  -a, --all               link all configs and scripts
+  -l, --list              list available configs and scripts
+  -c, --configs {CONFIG}  link specified config(s) only
+  -s, --scripts {SCRIPT}  link specified script(s) only
+  --all-configs           link all configs
+  --all-scripts           link all scripts
+  -l, --list              list available configs and scripts
 ```
 
-To install dotfiles, execute the script without arguments (installs all available dotfiles)
-or pass one or more names from list displayed as a result of above command. If dotfiles
-already exist in specified location they will be backed up and then replaced.
-
-
 ## Fish
+
 ### Theme
+
 Make sure your terminal emulator handles truecolor and glyphs and
 you have installed one of [Nerd Fonts](https://www.nerdfonts.com/)
 I use `Iosevka` and that's what can be seen on screenshots below.
