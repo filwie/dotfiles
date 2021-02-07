@@ -1,3 +1,6 @@
+# systemd unit files
+home/.config/systemd/user/default.target.wants
+
 # Neovim
 home/.config/nvim/ftplugin/go/gocomplete.vim
 home/.config/nvim/autoload/gocomplete.vim
