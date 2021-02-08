@@ -5,7 +5,7 @@ set $term "kitty"
 set $lock_command "~/bin/lock_screen.sh || i3lock"
 set $bar_command "xfce4-panel"
 set $compositor_command "picom"
-set $launcher_command "rofi -show drun -modi drun,run,window,ssh -terminal kitty"
+set $launcher_command "rofi -show drun -modi drun,run,window,ssh -terminal kitty -icon-theme Papirus-Dark"
 set $toggle_windows_command "rofi -show window -show-icons"
 set $border_size 1
 set $font "pango:Noto Sans 10"
