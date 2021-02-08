@@ -16,6 +16,10 @@ if command -v brew > /dev/null 2>&1
     set --prepend PATH (brew --prefix)/bin
 end
 
+if command -v npm > /dev/null 2>&1
+    set --append PATH (npm -g prefix)/bin
+end
+
 switch (uname)
 case Darwin
     set --append PATH $HOME/Library/Python/**/bin/
