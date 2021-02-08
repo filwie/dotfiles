@@ -13,7 +13,7 @@
 
   spacing: 0;
   background-color: transparent;
-  font: "Noto Sans 16";
+  font: "Noto Sans 18";
 }
 
 window {
@@ -75,3 +75,6 @@ element selected {
   border: 0 0 0 5px;
   border-color: @contrast90;
 }
+
+element-icon { size: 2ch ; }
+
