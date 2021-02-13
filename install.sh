@@ -9,6 +9,9 @@ REPO_ROOT="$(cd "$(dirname "$(realpath "${0}")")" || exit; git rev-parse --show-
 CONFIGS_DIR="${REPO_ROOT}/home/.config"
 SCRIPTS_DIR="${REPO_ROOT}/home/.local/bin"
 
+
+mkdir -p "$XDG_CONFIG_HOME" "$XDG_BIN_HOME" "$XDG_DATA_HOME"
+
 cd "${CONFIGS_DIR}"
 CONFIGS=(*)
 cd - > /dev/null
