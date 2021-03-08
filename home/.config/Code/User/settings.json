@@ -75,12 +75,13 @@
   }],
   "vim.useSystemClipboard": true,
   "window.menuBarVisibility": "toggle",
-  "window.zoomLevel": 0,
+  "window.zoomLevel": 1,
   "workbench.activityBar.visible": false,
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.editor.tabSizing": "shrink",
   "workbench.iconTheme": "file-icons",
   "workbench.settings.editor": "json",
   "go.formatTool": "goimports",
-  "go.useLanguageServer": true
+  "go.useLanguageServer": true,
+  "todo-tree.tree.showScanModeButton": false
 }
