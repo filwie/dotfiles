@@ -8,15 +8,22 @@ let $THEME_ENABLE_GLYPHS = get(environ(),'THEME_ENABLE_GLYPHS', 0)
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 let g:filwie#enable_glyphs = $THEME_ENABLE_GLYPHS ==# 1
-let g:filwie#autoload_directory = [
-      \ $HOME . '/.vim/autoload/',
-      \ $XDG_DATA_HOME . '/nvim/site/autoload'
+let g:filwie#datadir = [
+  \ $HOME . '/.vim',
+  \ $XDG_DATA_HOME . '/nvim'
+  \ ][has('nvim')]
+
+let g:filwie#autoloaddir = [
+      \ g:filwie#datadir . '/autoload/',
+      \ g:filwie#datadir . '/site/autoload'
       \ ][has('nvim')]
 let g:filwie#vimplug_download_url =
       \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-let g:filwie#vimplug_install_path = g:filwie#autoload_directory . '/plug.vim'
-let g:filwie#vimplug_plugin_directory = $XDG_DATA_HOME . '/nvim/plugged'
+let g:filwie#vimplug_install_path = g:filwie#autoloaddir . '/plug.vim'
+let g:filwie#vimplug_plugin_directory = g:filwie#datadir . '/plugged'
 let g:filwie#python_interpreter = get(environ(), 'PYTHON_INTERPRETER', 'python')
+
+let $UNDODIR = g:filwie#datadir . '/undo'
 
 " plugins {{{
 if empty(glob(g:filwie#vimplug_install_path))
@@ -35,7 +42,8 @@ command! -nargs=0 REPL :PP
 
 Plug 'tpope/vim-commentary'
 
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 " gruvbox config {{{
 let g:gruvbox_italic = 1
 let g:gruvbox_contrast_light = 'soft'
@@ -145,7 +153,7 @@ let g:coc_global_extensions = [
       \ 'coc-html',
       \ 'coc-lists',
       \ 'coc-pairs',
-      \ 'coc-python',
+      \ 'coc-pyright',
       \ 'coc-rls',
       \ 'coc-sh',
       \ 'coc-solargraph',
@@ -367,7 +375,7 @@ if has('clipboard')
   set clipboard=unnamedplus
 endif
 set undofile
-set undodir=$XDG_DATA_HOME/nvim/undo
+set undodir=$UNDODIR
 set undolevels=1000
 set undoreload=10000
 if has('persistent_undo')
