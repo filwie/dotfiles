@@ -32,5 +32,7 @@ for bin_dir in $add_to_path_if_exists
 end
 
 if command -v pyenv > /dev/null 2>&1
-    command pyenv init - | source
+    status is-login; and pyenv init --path | source
+    pyenv init - | source
 end
+
