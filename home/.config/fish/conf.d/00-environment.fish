@@ -20,17 +20,23 @@ set -gx GOPATH $XDG_DATA_HOME/go
 set -gx GEM_HOME $XDG_DATA_HOME/gem
 set -gx GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
 
-set -gx FZF_BASE $XDG_DATA_HOME/fzf
-# set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'bat --theme=ansi-dark --style=numbers,changes --color=always {} | head -n 100'"
-set -gx FZF_CTRL_T_OPTS $FZF_CTRL_T_OPTS "--preview 'highlight --stdout --force --out-format ansi {} | head -n 100'"
 
-set -g FZF_CTRL_T_COMMAND "command find -L \$dir -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
+set -gx FZF_BASE $XDG_DATA_HOME/fzf
+
+set -gx FZF_CTRL_T_COMMAND "command find -L \$dir -not -path '*/\.git/*' 2> /dev/null | sed '1d; s#^\./##'"
 set -gx FZF_DEFAULT_COMAND "command find . -not -path '*/\.git/*'"
+
 if set -q __theme_color0
-    set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS "--color=16,border:$__theme_color8,hl:$__theme_url_color,hl+:$__theme_url_color,bg+:$__theme_color0,spinner:$__theme_color8" \
-                                               "--height=40%"
+ set -gx FZF_DEFAULT_OPTS "--color=16,border:$__theme_color8,hl:$__theme_url_color,hl+:$__theme_url_color,bg+:$__theme_color0,spinner:$__theme_color8" \
+                                            "--height=40%"
 end
 
+if command -v bat > /dev/null
+ set -gx BAT_THEME "gruvbox-dark"
+ set -gx FZF_CTRL_T_OPTS "--preview 'bat --line-range 0:100 --style=changes --color=always {}'"
+else if command -v highlight > /dev/null
+ set -gx FZF_CTRL_T_OPTS "--preview 'highlight --stdout --force --out-format ansi {} | head -n 100'"
+end
 
 set -gx FISH_DIR $XDG_CONFIG_HOME/fish
 # set -gx FISH_ENABLE_VI_MODE 1
