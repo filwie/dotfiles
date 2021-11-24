@@ -76,5 +76,12 @@ element selected {
   border-color: @contrast90;
 }
 
-element-icon { size: 2ch ; }
+element-icon {
+  size: 2.5ch;
+  margin: 0 20px 0 20px;
+}
+element-text {
 
+ background-color: inherit;
+ text-color: inherit;
+}
