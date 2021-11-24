@@ -11,3 +11,5 @@ abbr --add --global :e 'nvim'
 abbr --add --global e 'nvim'
 
 abbr --add --global code 'env THEME_ENABLE_GLYPHS="" code'
+
+abbr --add --global clip 'xclip -selection c'
