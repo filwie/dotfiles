@@ -7,6 +7,7 @@ return {
   font_size = 14.0,
   set_environment_variables = {
       TMUX_ALWAYS = "true",
+      THEME_ENABLE_GLYPHS = "1",
   },
 }
 
