@@ -122,6 +122,9 @@ endif
 " " / goyo.vim config }}}
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" vim-go config {{{
+let g:go_code_completion_enabled = 0
+" / vim-go config }}}
 
 " Plug 'racer-rust/vim-racer'
 " Plug 'rust-lang/rust.vim'
@@ -134,9 +137,9 @@ let g:coc_status_error_sign = '•'
 let g:coc_status_warning_sign = '•'
 let g:coc_global_extensions = [
       \ 'coc-css',
+      \ 'coc-go',
       \ 'coc-emoji',
       \ 'coc-git',
-      \ 'coc-go',
       \ 'coc-highlight',
       \ 'coc-html',
       \ 'coc-lists',
