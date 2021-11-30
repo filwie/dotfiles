@@ -132,8 +132,10 @@ augroup goyou_fix_hlgroups
 augroup END
 " / goyo.vim config }}}
 
-Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" vim-go config {{{
+let g:go_code_completion_enabled = 0
+" / vim-go config }}}
 
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
@@ -146,9 +148,9 @@ let g:coc_status_error_sign = '•'
 let g:coc_status_warning_sign = '•'
 let g:coc_global_extensions = [
       \ 'coc-css',
+      \ 'coc-go',
       \ 'coc-emoji',
       \ 'coc-git',
-      \ 'coc-gocode',
       \ 'coc-highlight',
       \ 'coc-html',
       \ 'coc-lists',
