@@ -1,7 +1,10 @@
 configuration {
-  theme: "~/.config/rofi/themes/filwie.rasi";
   show-icons: true;
+  terminal: "wezterm";
+  icon-theme: "Papirus-Dark";
   matching: "fuzzy";
   levenshtein-sort: false;
   sort: true;
 }
+
+@theme "~/.config/rofi/themes/filwie.rasi"

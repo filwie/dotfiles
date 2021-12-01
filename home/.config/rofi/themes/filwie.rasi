@@ -13,7 +13,7 @@
 
   spacing: 0;
   background-color: transparent;
-  font: "Noto Sans 18";
+  font: "Noto Sans 16";
 }
 
 window {
