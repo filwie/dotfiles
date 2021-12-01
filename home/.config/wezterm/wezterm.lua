@@ -8,7 +8,10 @@ return {
   set_environment_variables = {
       THEME_ENABLE_GLYPHS = "1",
       TMUX_ALWAYS = "true",
-      LINEGLYPH = ""
+      POWERLINE_TR = "",
+      POWERLINE_TL = "",
+      POWERLINE_BR = "",
+      POWERLINE_BL = "",
   },
 }
 
