@@ -52,7 +52,7 @@ set -q known_oses; or set -g known_oses \
 
 ## known_oses_colors {{{
 set -q known_oses_colors; or set -g known_oses_colors \
-    0F94D2 \
+    blue \
     770000 \
     EFA724 \
     C70036 \
@@ -69,7 +69,7 @@ set -q known_oses_colors; or set -g known_oses_colors \
 
 ## known_oses_glyphs {{{
 set -q known_oses_glyphs; or set -Ux known_oses_glyphs \
-    (printf '%s%s%s' (set_color 0F94D2 ) ' ' (set_color normal))\
+    (printf '%s%s%s' (set_color blue ) ' ' (set_color normal))\
     (printf '%s%s%s' (set_color 770000 ) ' ' (set_color normal)) \
     (printf '%s%s%s' (set_color EFA724 ) ' ' (set_color normal)) \
     (printf '%s%s%s' (set_color C70036 ) ' ' (set_color normal)) \
