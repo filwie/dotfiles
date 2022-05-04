@@ -2,43 +2,32 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-let $XDG_DATA_HOME = get(environ(), 'XDG_DATA_HOME', $HOME . '/.local/share/')
-let $THEME_BACKGROUND = get(environ(), 'THEME_BACKGROUND', 'dark')
-let $THEME_ENABLE_GLYPHS = get(environ(),'THEME_ENABLE_GLYPHS', 0)
+let $XDG_DATA_HOME = $HOME . '/.local/share/'
+let $THEME_ENABLE_GLYPHS = 1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
-let g:filwie#enable_glyphs = $THEME_ENABLE_GLYPHS ==# 1
-let g:filwie#datadir = [
-  \ $HOME . '/.vim',
-  \ $XDG_DATA_HOME . '/nvim'
-  \ ][has('nvim')]
+let g:data_dir = stdpath('data')
+let g:conf_dir = stdpath('config')
+let g:autoload_dir = g:data_dir . '/site/autoload'
+let g:undo_dir = g:data_dir . './undo'
+let $UNDODIR = g:undo_dir
 
-let g:filwie#autoloaddir = [
-      \ g:filwie#datadir . '/autoload/',
-      \ g:filwie#datadir . '/site/autoload'
-      \ ][has('nvim')]
-let g:filwie#vimplug_download_url =
-      \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-let g:filwie#vimplug_install_path = g:filwie#autoloaddir . '/plug.vim'
-let g:filwie#vimplug_plugin_directory = g:filwie#datadir . '/plugged'
-let g:filwie#python_interpreter = get(environ(), 'PYTHON_INTERPRETER', 'python')
+let g:enable_glyphs = get(environ(), 'THEME_ENABLE_GLYPHS', 0) ==# 1
 
-let $UNDODIR = g:filwie#datadir . '/undo'
 
 " plugins {{{
-if empty(glob(g:filwie#vimplug_install_path))
-    call helpers#EnsureVimPlugIsInstalled(
-                \ g:filwie#vimplug_download_url,
-                \ g:filwie#vimplug_install_path)
+let g:plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+let g:plug_path =  g:autoload_dir . '/plug.vim'
+let g:plug_dir = g:data_dir . '/plugged'
+if empty(glob(g:plug_path))
+  echoerr 'Plugin manager missing: ' . g:plug_url . ' -> ' . g:plug_path
 end
 
-nnoremap <leader>d :call helpers#GoToPluginsGitHub()<CR>
-
-call plug#begin(g:filwie#vimplug_plugin_directory)
-Plug 'tpope/vim-scriptease', {'on': 'PP'}
-" vim-scriptease config {{{
-command! -nargs=0 REPL :PP
-" /vim-scriptease config }}}
+call plug#begin(g:plug_dir)
+" Plug 'tpope/vim-scriptease', {'on': 'PP'}
+" " vim-scriptease config {{{
+" command! -nargs=0 REPL :PP
+" " /vim-scriptease config }}}
 
 Plug 'tpope/vim-commentary'
 
@@ -56,9 +45,9 @@ let g:gruvbox_color_column = 'bg1'
 Plug 'dense-analysis/ale'
 " ale config {{{
 let g:ale_echo_msg_format = '[%severity% %linter% %code%]: %s'
-let g:ale_linters = {'python': ['flake8']}
-let g:ale_sign_error = ['E', ' '][g:filwie#enable_glyphs]
-let g:ale_sign_warning = ['W', ' '][g:filwie#enable_glyphs]
+let g:ale_linters = {'python': ['flake8', 'pylint]']}
+let g:ale_sign_error = ['E', ' '][g:enable_glyphs]
+let g:ale_sign_warning = ['W', ' '][g:enable_glyphs]
 nnoremap ]e :ALENext<CR>
 nnoremap [e :ALEPrevious<CR>
 " /ale config}}}
@@ -78,13 +67,13 @@ Plug 'tpope/vim-markdown', {'for': 'markdown'}
 augroup markdown_inline_code_blocks
   autocmd FileType markdown
         \ let g:markdown_fenced_languages = ['make', 'zsh', 'sh',  'help', 'json', 'tex',
-        \ 'sql', 'ruby', 'jinja', 'html', 'css',
+        \ 'sql', 'ruby', 'html', 'css',
         \ 'yaml', 'ansible', 'lua', 'vim', 'java',
         \ 'python', 'javascript', 'xhtml', 'xml', 'c', 'cpp']
 augroup END
 " /vim-markdown config }}}
 
-Plug 'junegunn/fzf', { 'dir': g:filwie#vimplug_plugin_directory . '/fzf', 'do': './install --bin'}
+Plug 'junegunn/fzf', { 'dir': g:plug_dir . '/fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 " fzf config {{{
 let g:fzf_buffers_jump = 1
@@ -124,19 +113,18 @@ if has('nvim')
 endif
 "/fzf config }}}
 
-Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
-" goyo.vim config {{{
-augroup goyou_fix_hlgroups
-  autocmd!
-  autocmd User GoyoLeave silent! source $MYVIMRC
-augroup END
-" / goyo.vim config }}}
+" Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+" " goyo.vim config {{{
+" augroup goyou_fix_hlgroups
+"   autocmd!
+"   autocmd User GoyoLeave silent! source $MYVIMRC
+" augroup END
+" " / goyo.vim config }}}
 
-Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-Plug 'racer-rust/vim-racer'
-Plug 'rust-lang/rust.vim'
+" Plug 'racer-rust/vim-racer'
+" Plug 'rust-lang/rust.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " coc.nvim config {{{
@@ -148,7 +136,7 @@ let g:coc_global_extensions = [
       \ 'coc-css',
       \ 'coc-emoji',
       \ 'coc-git',
-      \ 'coc-gocode',
+      \ 'coc-go',
       \ 'coc-highlight',
       \ 'coc-html',
       \ 'coc-lists',
@@ -191,56 +179,56 @@ nnoremap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 " /coc.nvim }}}
+"
+" Plug 'valloric/MatchTagAlways', {'for': ['jinja', 'html']}
 
-Plug 'valloric/MatchTagAlways', {'for': ['jinja', 'html']}
+" Plug 'terryma/vim-multiple-cursors'
+" " vim-multiple-cursors config {{{
+" let g:multi_cursor_use_default_mapping=0
+" let g:multi_cursor_start_word_key      = '<C-d>'
+" let g:multi_cursor_select_all_word_key = '<A-n>'
+" let g:multi_cursor_start_key           = 'g<C-n>'
+" let g:multi_cursor_select_all_key      = 'g<A-n>'
+" let g:multi_cursor_next_key            = '<C-d>'
+" let g:multi_cursor_prev_key            = '<C-p>'
+" let g:multi_cursor_skip_key            = '<C-x>'
+" let g:multi_cursor_quit_key            = '<Esc>'
+" " /vim-multiple-cursors config }}}
 
-Plug 'terryma/vim-multiple-cursors'
-" vim-multiple-cursors config {{{
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_word_key      = '<C-d>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-n>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-d>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
-" /vim-multiple-cursors config }}}
-
-Plug 'itchyny/lightline.vim'
-" lightline config {{{
-function! CocCurrentFunction()
-  return get(b:, 'coc_current_function', '')
-endfunction
-function! LightlineGitBlame() abort
-  let blame = get(b:, 'coc_git_blame', '')
-  " return blame
-  return winwidth(0) > 120 ? blame : ''
-endfunction
-let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
-      \ 'active': {
-      \   'left': [
-      \     [ 'mode', 'paste' ],
-      \     [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ]
-      \   ],
-      \   'right':[
-      \     [ 'filetype', 'fileencoding', 'blame', 'percent' ],
-      \     [ 'lineinfo' ]
-      \   ],
-      \ },
-      \ 'component_function': {
-      \   'cocstatus': 'coc#status',
-      \   'currentfunction': 'CocCurrentFunction',
-      \   'blame': 'LightlineGitBlame'
-      \ },
-      \ }
-" /lightline config }}}
+" Plug 'itchyny/lightline.vim'
+" " lightline config {{{
+" function! CocCurrentFunction()
+"   return get(b:, 'coc_current_function', '')
+" endfunction
+" function! LightlineGitBlame() abort
+"   let blame = get(b:, 'coc_git_blame', '')
+"   " return blame
+"   return winwidth(0) > 120 ? blame : ''
+" endfunction
+" let g:lightline = {
+"       \ 'colorscheme': 'gruvbox',
+"       \ 'active': {
+"       \   'left': [
+"       \     [ 'mode', 'paste' ],
+"       \     [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ]
+"       \   ],
+"       \   'right':[
+"       \     [ 'filetype', 'fileencoding', 'blame', 'percent' ],
+"       \     [ 'lineinfo' ]
+"       \   ],
+"       \ },
+"       \ 'component_function': {
+"       \   'cocstatus': 'coc#status',
+"       \   'currentfunction': 'CocCurrentFunction',
+"       \   'blame': 'LightlineGitBlame'
+"       \ },
+"       \ }
+" " /lightline config }}}
 
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 " nerdtree config {{{
 map <C-n> :NERDTreeToggle<CR>
-if g:filwie#enable_glyphs
+if g:enable_glyphs
   let NERDTreeDirArrowExpandable = "\u00a0"
   let NERDTreeDirArrowCollapsible = "\u00a0"
 endif
@@ -257,70 +245,54 @@ augroup nerdtree_cursor
 augroup END
 " /nerdtree config }}}
 
-if g:filwie#enable_glyphs
+if g:enable_glyphs
   Plug 'ryanoasis/vim-devicons'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   " vim-devicons config {{{
-  let g:webdevicons_enable = g:filwie#enable_glyphs
+  let g:webdevicons_enable = g:enable_glyphs
   let g:DevIconsEnableFoldersOpenClose = 1
   " /vim-devicons config }}}
 endif
 
-Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
-" vista config {{{
-nnoremap <F8> :Vista finder<CR>
-
-let g:vista#renderer#enable_icon = g:filwie#enable_glyphs
-" let g:vista_default_executive = 'coc'
-" let g:vista_icon_indent = ['▸ ', '']
-" let g:vista_fzf_preview = ['right:50%']
-" let g:vista_executive_for = {
-      \ 'go': 'ctags',
-      \ 'javascript': 'coc',
-      \ 'javascript.jsx': 'coc',
-      \ 'python': 'coc',
-      \ }
-" /vista config }}}
-
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'airblade/vim-gitgutter'
 " vim-gitgutter config {{{
-let g:gitgutter_sign_added =              ['█ ', ' '][g:filwie#enable_glyphs]
-let g:gitgutter_sign_modified =           ['█ ', ' '][g:filwie#enable_glyphs]
-let g:gitgutter_sign_removed =            ['█ ', ' '][g:filwie#enable_glyphs]
-let g:gitgutter_sign_removed_first_line = ['█ ', ' '][g:filwie#enable_glyphs]
-let g:gitgutter_sign_modified_removed =   ['█ ', ' '][g:filwie#enable_glyphs]
+let g:gitgutter_sign_added =              ['█ ', ' '][g:enable_glyphs]
+let g:gitgutter_sign_modified =           ['█ ', ' '][g:enable_glyphs]
+let g:gitgutter_sign_removed =            ['█ ', ' '][g:enable_glyphs]
+let g:gitgutter_sign_removed_first_line = ['█ ', ' '][g:enable_glyphs]
+let g:gitgutter_sign_modified_removed =   ['█ ', ' '][g:enable_glyphs]
 " /vim-gitgutter config }}}
 
-Plug 'lmeijvogel/vim-yaml-helper', { 'for': 'yaml' }
-" vim-yaml-helper config {{{
-let g:vim_yaml_helper#auto_display_path = 0
-function! YamlPathYank()
-  if &filetype !=# 'yaml'
-    echo 'Not a yaml file'
-    return 1
-  endif
-  redir @a
-  :YamlDisplayFullPath
-  redir END
+" Plug 'lmeijvogel/vim-yaml-helper', { 'for': 'yaml' }
+" " vim-yaml-helper config {{{
+" let g:vim_yaml_helper#auto_display_path = 0
+" function! YamlPathYank()
+"   if &filetype !=# 'yaml'
+"     echo 'Not a yaml file'
+"     return 1
+"   endif
+"   redir @a
+"   :YamlDisplayFullPath
+"   redir END
 
-  normal! f:
-  normal! "Ay$
-endfunction
+"   normal! f:
+"   normal! "Ay$
+" endfunction
 
-augroup YamlPluginMapping
-  autocmd FileType yaml nnoremap <F3> :call YamlPathYank() <CR>
-augroup END
+" augroup YamlPluginMapping
+"   autocmd FileType yaml nnoremap <F3> :call YamlPathYank() <CR>
+" augroup END
 
-nnoremap <leader>a "ap
-nnoremap <leader>* *<C-O>:%s///gn<CR>
-" /vim-yaml-helper config }}}
+" nnoremap <leader>a "ap
+" nnoremap <leader>* *<C-O>:%s///gn<CR>
+" " /vim-yaml-helper config }}}
 
-Plug 'godlygeek/tabular'
+" Plug 'godlygeek/tabular'
 
 call plug#end()
 " /PLUGIN LIST }}}
@@ -369,11 +341,7 @@ augroup json_comments
 augroup END
 set timeoutlen=1000 ttimeoutlen=0
 set updatetime=300  " smaller updatetime for CursorHold & CursorHoldI
-if has('clipboard')
-  nnoremap y "+y
-  vnoremap y "+y
-  set clipboard=unnamedplus
-endif
+set clipboard+=unnamedplus
 set undofile
 set undodir=$UNDODIR
 set undolevels=1000
@@ -382,11 +350,11 @@ if has('persistent_undo')
   call system('mkdir ' . &undodir)
   set undofile
 endif
-augroup relative_line_numbers
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * if &modifiable | set relativenumber | endif
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
+" augroup relative_line_numbers
+"   autocmd!
+"   autocmd BufEnter,FocusGained,InsertLeave * if &modifiable | set relativenumber | endif
+"   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+" augroup END
 augroup remove_dangling_spaces
   autocmd!
   autocmd BufWritePre * :%s/\s\+$//e
@@ -423,70 +391,70 @@ command! -nargs=0 LastStatusToggle :let &laststatus = [2, 0, 0][&laststatus]
 nnoremap <leader>s :LastStatusToggle<CR>
 " /keymap }}}
 
-" filetype specific confg {{{
-let g:filwie#filetype_keymap = {
-  \ 'run': '<F10>',
-  \ 'fmt': '<leader>8',
-  \ 'test': '<leader>te',
-  \ 'build': '<F9>',
-  \ }
-let g:filwie#filetype_default_command = ':echom "Mapping is not specified"'
-let g:filwie#filetype_commands = {
-            \ 'ansible': {
-            \   'run': ':term ansible-playbook %:p',
-            \   },
-            \ 'json': {
-            \   'fmt': ':%!python -m json.tool',
-            \   },
-            \ 'markdown': {
-            \   'run': ':call helpers#MarkdownConvertOpen()',
-            \   },
-            \ 'ruby': {
-            \   'run': ':term ruby %:p',
-            \   },
-            \ 'python': {
-            \   'run': ':term ' . g:filwie#python_interpreter . ' %:p',
-            \   'fmt': ':%!autopep8 %:p',
-            \   'test': ':term cd %:p:h && pytest',
-            \   },
-            \ 'sh': {
-            \   'run': ':term %:p',
-            \   },
-            \ 'go': {
-            \   'run': ':GoRun',
-            \   'fmt': ':GoFmt',
-            \   'test': ':GoTest',
-            \   'build': ':GoBuild',
-            \   },
-            \ 'rust': {
-            \   'run': ':RustRun',
-            \   'fmt': ':RustFmt',
-            \   'test': ':GoTest',
-            \   },
-            \ 'vim': {
-            \   'run': ':source %:p',
-            \   },
-            \ 'nim': {
-            \   'run': ':source %',
-            \   },
-            \ }
-let g:filwie#filetype_commands['bash'] = g:filwie#filetype_commands['sh']
-let g:filwie#filetype_commands['fish'] = g:filwie#filetype_commands['sh']
-let g:filwie#filetype_commands['yaml.ansible'] = g:filwie#filetype_commands['ansible']
-let g:filwie#filetype_commands['ansible.yaml'] = g:filwie#filetype_commands['ansible']
+" " filetype specific confg {{{
+" let g:filwie#filetype_keymap = {
+"   \ 'run': '<F10>',
+"   \ 'fmt': '<leader>8',
+"   \ 'test': '<leader>te',
+"   \ 'build': '<F9>',
+"   \ }
+" let g:filwie#filetype_default_command = ':echom "Mapping is not specified"'
+" let g:filwie#filetype_commands = {
+"             \ 'ansible': {
+"             \   'run': ':term ansible-playbook %:p',
+"             \   },
+"             \ 'json': {
+"             \   'fmt': ':%!python -m json.tool',
+"             \   },
+"             \ 'markdown': {
+"             \   'run': ':call helpers#MarkdownConvertOpen()',
+"             \   },
+"             \ 'ruby': {
+"             \   'run': ':term ruby %:p',
+"             \   },
+"             \ 'python': {
+"             \   'run': ':term ' . g:filwie#python_interpreter . ' %:p',
+"             \   'fmt': ':%!autopep8 %:p',
+"             \   'test': ':term cd %:p:h && pytest',
+"             \   },
+"             \ 'sh': {
+"             \   'run': ':term %:p',
+"             \   },
+"             \ 'go': {
+"             \   'run': ':GoRun',
+"             \   'fmt': ':GoFmt',
+"             \   'test': ':GoTest',
+"             \   'build': ':GoBuild',
+"             \   },
+"             \ 'rust': {
+"             \   'run': ':RustRun',
+"             \   'fmt': ':RustFmt',
+"             \   'test': ':GoTest',
+"             \   },
+"             \ 'vim': {
+"             \   'run': ':source %:p',
+"             \   },
+"             \ 'nim': {
+"             \   'run': ':source %',
+"             \   },
+"             \ }
+" let g:filwie#filetype_commands['bash'] = g:filwie#filetype_commands['sh']
+" let g:filwie#filetype_commands['fish'] = g:filwie#filetype_commands['sh']
+" let g:filwie#filetype_commands['yaml.ansible'] = g:filwie#filetype_commands['ansible']
+" let g:filwie#filetype_commands['ansible.yaml'] = g:filwie#filetype_commands['ansible']
 
-for s:_filetype in keys(g:filwie#filetype_commands)
-  for s:_command in keys(g:filwie#filetype_keymap)
-    execute 'autocmd FileType ' . s:_filetype .
-          \ ' nnoremap ' . g:filwie#filetype_keymap[s:_command] . ' ' .
-          \ get(g:filwie#filetype_commands[s:_filetype], s:_command, g:filwie#filetype_default_command)
-          \ . '<CR>'
-    endfor
-endfor
+" for s:_filetype in keys(g:filwie#filetype_commands)
+"   for s:_command in keys(g:filwie#filetype_keymap)
+"     execute 'autocmd FileType ' . s:_filetype .
+"           \ ' nnoremap ' . g:filwie#filetype_keymap[s:_command] . ' ' .
+"           \ get(g:filwie#filetype_commands[s:_filetype], s:_command, g:filwie#filetype_default_command)
+"           \ . '<CR>'
+"     endfor
+" endfor
 " /filetype specific config }}}
 
 " theme {{{
-let &background = $THEME_BACKGROUND
+let &background = 'dark'
 silent! colorscheme gruvbox
 
 highlight Normal guibg=NONE guifg=NONE
