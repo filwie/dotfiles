@@ -36,11 +36,12 @@ function main () {
     local win_details
 
     win_details="$(get_window_details)"
-    i3-nagbar \
-        -t warning \
-        -m "Window details: ${win_details}" \
-        -b "copy all" "bash -c "notify-send ${win_details}"" \
-        --font 'pango:Noto Sans 10'
+    echo $win_details
+#     i3-nagbar \
+#         -t warning \
+#         -m "Window details: ${win_details}" \
+#         -b "copy all" "bash -c "notify-send ${win_details}"" \
+#         --font 'pango:Noto Sans 10'
 }
 
 main "${@}"
