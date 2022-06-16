@@ -16,6 +16,7 @@ set -gx NIM_HOME $XDG_DATA_HOME/nim
 set -gx NIMBLE_HOME $XDG_DATA_HOME/nimble
 
 set -gx GOPATH $XDG_DATA_HOME/go
+set -gx GO111MODULE on
 
 set -gx GEM_HOME $XDG_DATA_HOME/gem
 set -gx GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
