@@ -1,14 +1,14 @@
 # VARIABLES {{{
 set $mod Mod1
 set $browser "firefox"
-set $term "kitty"
+set $term "wezterm"
 set $lock_command "~/bin/lock_screen.sh || i3lock"
 set $bar_command "xfce4-panel"
 set $compositor_command "picom"
-set $launcher_command "rofi -show drun -modi drun,run,window,ssh -terminal kitty -icon-theme Papirus-Dark"
+set $launcher_command "rofi -show drun -modi drun,run,window,ssh"
 set $toggle_windows_command "rofi -show window -show-icons"
-set $border_size 1
-set $font "pango:Noto Sans 10"
+set $border_size 2
+set $font "pango:Noto Sans 12"
 
 font $font
 for_window [class="^.*"] border pixel $border_size
@@ -43,8 +43,8 @@ set $gtk_theme_main #383838
 
 # GAPS {{{
 # gaps can also have negative values
-# gaps inner 6
-# gaps outer 0
+gaps inner 8
+gaps outer 0
 # gaps top 0
 # }}}
 
@@ -154,17 +154,17 @@ bindsym $mod+r mode "resize"
 
 # MULTIMEDIA KEYS {{{
 ## volume controls {{{
-bindsym XF86AudioRaiseVolume        exec "amixer -D pulse sset Master 5%+"
-bindsym XF86AudioLowerVolume        exec "amixer -D pulse sset Master 5%-"
-bindsym $mod+XF86AudioRaiseVolume   exec "amixer -D pulse sset Master 1%+"
-bindsym $mod+XF86AudioLowerVolume   exec "amixer -D pulse sset Master 1%-"
-bindsym XF86AudioMute               exec "amixer sset Master -D pulse toggle"
+# bindsym XF86AudioRaiseVolume        exec "amixer -D pulse sset Master 5%+"
+# bindsym XF86AudioLowerVolume        exec "amixer -D pulse sset Master 5%-"
+# bindsym $mod+XF86AudioRaiseVolume   exec "amixer -D pulse sset Master 1%+"
+# bindsym $mod+XF86AudioLowerVolume   exec "amixer -D pulse sset Master 1%-"
+# bindsym XF86AudioMute               exec "amixer sset Master -D pulse toggle"
 ## /volume controls }}}
 
 ## play/pause/next/prev song {{{
-bindsym XF86AudioPlay               exec "playerctl play-pause"
-bindsym XF86AudioNext               exec "playerctl next"
-bindsym XF86AudioPrev               exec "playerctl previous"
+# bindsym XF86AudioPlay               exec "playerctl play-pause"
+# bindsym XF86AudioNext               exec "playerctl next"
+# bindsym XF86AudioPrev               exec "playerctl previous"
 ## /play/pause/next/prev song }}}
 
 ## screen brightness {{{
@@ -175,14 +175,16 @@ bindsym XF86AudioPrev               exec "playerctl previous"
 
 # WINDOW COLORS {{{
 #                       border          background       text           indicator
-client.focused          $brightblack    $brightblack     $orange        $gtk_theme_main
+client.focused          $white          $white           $black         $brightwhite
 client.unfocused        $gtk_theme_main $brightblack     $brightwhite   $gtk_theme_main
 client.focused_inactive $gtk_theme_main $brightblack     $brightyellow  $gtk_theme_main
 client.urgent           $gtk_theme_main $brightblack     $brightwhite   $gtk_theme_main
 # }}}
 
 # FLOATING WINDOWS {{{
-floating_minimum_size     240 x 100
+floating_minimum_size     640 x 480
+floating_maximum_size     1280 x 720
+
 for_window [class="(?i)pavucontrol"]           floating enable
 for_window [class="(?i)nm-applet"]             floating enable
 for_window [class="(?i)blueman-manager"]       floating enable
@@ -192,25 +194,14 @@ for_window [class="(?i)gpick"]                 floating enable
 for_window [class="(?i)xfce4-panel"]           floating enable
 for_window [class="(?i)nitrogen"]              floating enable
 for_window [class="(?i)keepassxc"]             floating enable
+for_window [class="(?i).*-settings"]             floating enable
 # /FLOATING WINDOWS}}}
 
 # AUTOSTART {{{
-exec --no-startup-id "setxkbmap"
-exec --no-startup-id "setxkbmap -option ctrl:nocaps"
+exec_always --no-startup-id "setxkbmap -option ctrl:nocaps -layout pl"
 exec_always --no-startup-id $compositor_command
-exec --no-startup-id "~/.screenlayout/layout.sh"
 exec --no-startup-id "nitrogen --restore"  # should be after screen layout
-
-# exec --no-startup-id "/usr/lib/xfce4/notifyd/xfce4-notifyd"
-# exec --no-startup-id "xss-lock -- i3lock"
-# exec --no-startup-id "redshift-gtk"
-# exec --no-startup-id "udiskie"
-# exec --no-startup-id "nm-applet"
-# exec --no-startup-id "blueman-applet"
-# exec --no-startup-id "xfce4-clipman"
-# exec --no-startup-id "pasystray"
-# exec --no-startup-id "synergy"
-# exec --no-startup-id "slack"
-# exec --no-startup-id $bar_command
+exec --no-startup-id "conky"
+exec --no-startup-id "redshift-gtk"
 # /AUTOSTART }}}
 
