@@ -13,6 +13,7 @@ let g:undo_dir = g:data_dir . './undo'
 let $UNDODIR = g:undo_dir
 
 let g:enable_glyphs = get(environ(), 'THEME_ENABLE_GLYPHS', 0) ==# 1
+let g:python_interpreter = get(environ(), 'PYTHON_INTERPRETER', 'python')
 
 
 " plugins {{{
@@ -395,14 +396,14 @@ nnoremap <leader>s :LastStatusToggle<CR>
 " /keymap }}}
 
 " filetype specific confg {{{
-let g:filwie#filetype_keymap = {
+let g:filetype_keymap = {
   \ 'run': '<F10>',
   \ 'fmt': '<leader>8',
   \ 'test': '<leader>te',
   \ 'build': '<F9>',
   \ }
-let g:filwie#filetype_default_command = ':echom "Mapping is not specified"'
-let g:filwie#filetype_commands = {
+let g:filetype_default_command = ':echom "Mapping is not specified"'
+let g:filetype_commands = {
             \ 'ansible': {
             \   'run': ':term ansible-playbook %:p',
             \   },
@@ -416,7 +417,7 @@ let g:filwie#filetype_commands = {
             \   'run': ':term ruby %:p',
             \   },
             \ 'python': {
-            \   'run': ':term ' . g:filwie#python_interpreter . ' %:p',
+            \   'run': ':term ' . g:python_interpreter . ' %:p',
             \   'fmt': ':%!autopep8 %:p',
             \   'test': ':term cd %:p:h && pytest',
             \   },
@@ -441,16 +442,16 @@ let g:filwie#filetype_commands = {
             \   'run': ':source %',
             \   },
             \ }
-let g:filwie#filetype_commands['bash'] = g:filwie#filetype_commands['sh']
-let g:filwie#filetype_commands['fish'] = g:filwie#filetype_commands['sh']
-let g:filwie#filetype_commands['yaml.ansible'] = g:filwie#filetype_commands['ansible']
-let g:filwie#filetype_commands['ansible.yaml'] = g:filwie#filetype_commands['ansible']
+let g:filetype_commands['bash'] = g:filetype_commands['sh']
+let g:filetype_commands['fish'] = g:filetype_commands['sh']
+let g:filetype_commands['yaml.ansible'] = g:filetype_commands['ansible']
+let g:filetype_commands['ansible.yaml'] = g:filetype_commands['ansible']
 
-for s:_filetype in keys(g:filwie#filetype_commands)
-  for s:_command in keys(g:filwie#filetype_keymap)
+for s:_filetype in keys(g:filetype_commands)
+  for s:_command in keys(g:filetype_keymap)
     execute 'autocmd FileType ' . s:_filetype .
-          \ ' nnoremap ' . g:filwie#filetype_keymap[s:_command] . ' ' .
-          \ get(g:filwie#filetype_commands[s:_filetype], s:_command, g:filwie#filetype_default_command)
+          \ ' nnoremap ' . g:filetype_keymap[s:_command] . ' ' .
+          \ get(g:filetype_commands[s:_filetype], s:_command, g:filetype_default_command)
           \ . '<CR>'
     endfor
 endfor
