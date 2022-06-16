@@ -394,66 +394,66 @@ command! -nargs=0 LastStatusToggle :let &laststatus = [2, 0, 0][&laststatus]
 nnoremap <leader>s :LastStatusToggle<CR>
 " /keymap }}}
 
-" " filetype specific confg {{{
-" let g:filwie#filetype_keymap = {
-"   \ 'run': '<F10>',
-"   \ 'fmt': '<leader>8',
-"   \ 'test': '<leader>te',
-"   \ 'build': '<F9>',
-"   \ }
-" let g:filwie#filetype_default_command = ':echom "Mapping is not specified"'
-" let g:filwie#filetype_commands = {
-"             \ 'ansible': {
-"             \   'run': ':term ansible-playbook %:p',
-"             \   },
-"             \ 'json': {
-"             \   'fmt': ':%!python -m json.tool',
-"             \   },
-"             \ 'markdown': {
-"             \   'run': ':call helpers#MarkdownConvertOpen()',
-"             \   },
-"             \ 'ruby': {
-"             \   'run': ':term ruby %:p',
-"             \   },
-"             \ 'python': {
-"             \   'run': ':term ' . g:filwie#python_interpreter . ' %:p',
-"             \   'fmt': ':%!autopep8 %:p',
-"             \   'test': ':term cd %:p:h && pytest',
-"             \   },
-"             \ 'sh': {
-"             \   'run': ':term %:p',
-"             \   },
-"             \ 'go': {
-"             \   'run': ':GoRun',
-"             \   'fmt': ':GoFmt',
-"             \   'test': ':GoTest',
-"             \   'build': ':GoBuild',
-"             \   },
-"             \ 'rust': {
-"             \   'run': ':RustRun',
-"             \   'fmt': ':RustFmt',
-"             \   'test': ':GoTest',
-"             \   },
-"             \ 'vim': {
-"             \   'run': ':source %:p',
-"             \   },
-"             \ 'nim': {
-"             \   'run': ':source %',
-"             \   },
-"             \ }
-" let g:filwie#filetype_commands['bash'] = g:filwie#filetype_commands['sh']
-" let g:filwie#filetype_commands['fish'] = g:filwie#filetype_commands['sh']
-" let g:filwie#filetype_commands['yaml.ansible'] = g:filwie#filetype_commands['ansible']
-" let g:filwie#filetype_commands['ansible.yaml'] = g:filwie#filetype_commands['ansible']
+" filetype specific confg {{{
+let g:filwie#filetype_keymap = {
+  \ 'run': '<F10>',
+  \ 'fmt': '<leader>8',
+  \ 'test': '<leader>te',
+  \ 'build': '<F9>',
+  \ }
+let g:filwie#filetype_default_command = ':echom "Mapping is not specified"'
+let g:filwie#filetype_commands = {
+            \ 'ansible': {
+            \   'run': ':term ansible-playbook %:p',
+            \   },
+            \ 'json': {
+            \   'fmt': ':%!python -m json.tool',
+            \   },
+            \ 'markdown': {
+            \   'run': ':call helpers#MarkdownConvertOpen()',
+            \   },
+            \ 'ruby': {
+            \   'run': ':term ruby %:p',
+            \   },
+            \ 'python': {
+            \   'run': ':term ' . g:filwie#python_interpreter . ' %:p',
+            \   'fmt': ':%!autopep8 %:p',
+            \   'test': ':term cd %:p:h && pytest',
+            \   },
+            \ 'sh': {
+            \   'run': ':term %:p',
+            \   },
+            \ 'go': {
+            \   'run': ':GoRun %',
+            \   'fmt': ':GoFmt',
+            \   'test': ':GoTest',
+            \   'build': ':GoBuild',
+            \   },
+            \ 'rust': {
+            \   'run': ':RustRun',
+            \   'fmt': ':RustFmt',
+            \   'test': ':GoTest',
+            \   },
+            \ 'vim': {
+            \   'run': ':source %:p',
+            \   },
+            \ 'nim': {
+            \   'run': ':source %',
+            \   },
+            \ }
+let g:filwie#filetype_commands['bash'] = g:filwie#filetype_commands['sh']
+let g:filwie#filetype_commands['fish'] = g:filwie#filetype_commands['sh']
+let g:filwie#filetype_commands['yaml.ansible'] = g:filwie#filetype_commands['ansible']
+let g:filwie#filetype_commands['ansible.yaml'] = g:filwie#filetype_commands['ansible']
 
-" for s:_filetype in keys(g:filwie#filetype_commands)
-"   for s:_command in keys(g:filwie#filetype_keymap)
-"     execute 'autocmd FileType ' . s:_filetype .
-"           \ ' nnoremap ' . g:filwie#filetype_keymap[s:_command] . ' ' .
-"           \ get(g:filwie#filetype_commands[s:_filetype], s:_command, g:filwie#filetype_default_command)
-"           \ . '<CR>'
-"     endfor
-" endfor
+for s:_filetype in keys(g:filwie#filetype_commands)
+  for s:_command in keys(g:filwie#filetype_keymap)
+    execute 'autocmd FileType ' . s:_filetype .
+          \ ' nnoremap ' . g:filwie#filetype_keymap[s:_command] . ' ' .
+          \ get(g:filwie#filetype_commands[s:_filetype], s:_command, g:filwie#filetype_default_command)
+          \ . '<CR>'
+    endfor
+endfor
 " /filetype specific config }}}
 
 " theme {{{
