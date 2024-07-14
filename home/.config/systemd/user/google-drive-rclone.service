@@ -1,6 +1,6 @@
 [Unit]
 Description=Google Drive - rclone
-AssertPathIsDirectory=/mnt/google-drive
+AssertPathIsDirectory=%h/google-drive
 
 [Service]
 Type=simple
@@ -19,8 +19,8 @@ ExecStart=/usr/bin/rclone mount \
         --checkers=16 \
         --bwlimit=40M \
         --dir-cache-time=60m \
-        --cache-info-age=60m google-drive:/ /mnt/google-drive
-ExecStop=/usr/bin/fusermount -u /mnt/google-drive
+        --cache-info-age=60m google-drive:/ %h/google-drive
+ExecStop=/usr/bin/fusermount -u %h/google-drive
 Restart=always
 RestartSec=10
 

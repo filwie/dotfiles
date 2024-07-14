@@ -1,6 +1,6 @@
 [Unit]
 Description=Google Photos - rclone
-AssertPathIsDirectory=/mnt/google-photos
+AssertPathIsDirectory=%h/google-photos
 
 [Service]
 Type=simple
@@ -19,8 +19,8 @@ ExecStart=/usr/bin/rclone mount \
         --checkers=16 \
         --bwlimit=40M \
         --dir-cache-time=60m \
-        --cache-info-age=60m google-photos:/ /mnt/google-photos
-ExecStop=/usr/bin/fusermount -u /mnt/google-photos
+        --cache-info-age=60m google-photos:/ %h/google-photos
+ExecStop=/usr/bin/fusermount -u %h/google-photos
 Restart=always
 RestartSec=10
 

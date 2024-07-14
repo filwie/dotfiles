@@ -1,6 +1,6 @@
 [Unit]
 Description=Dropbox - rclone
-AssertPathIsDirectory=/mnt/dropbox
+AssertPathIsDirectory=%h/dropbox
 
 [Service]
 Type=simple
@@ -19,8 +19,8 @@ ExecStart=/usr/bin/rclone mount \
         --checkers=16 \
         --bwlimit=40M \
         --dir-cache-time=60m \
-        --cache-info-age=60m dropbox:/ /mnt/dropbox
-ExecStop=/usr/bin/fusermount -u /mnt/drop
+        --cache-info-age=60m dropbox:/ %h/dropbox
+ExecStop=/usr/bin/fusermount -u %h/dropbox
 Restart=always
 RestartSec=10
 
