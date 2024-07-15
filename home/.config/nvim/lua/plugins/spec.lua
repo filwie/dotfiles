@@ -6,7 +6,13 @@
 -- * override the configuration of LazyVim plugins
 return {
   -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
+  {
+    "ellisonleao/gruvbox.nvim",
+    opts = {
+      contrast = "hard", -- can be "hard", "soft" or empty string
+      transparent_mode = true,
+    },
+  },
 
   -- Configure LazyVim to load gruvbox
   {
