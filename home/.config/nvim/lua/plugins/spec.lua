@@ -30,7 +30,7 @@ return {
   },
 
   -- disable trouble
-  { "folke/trouble.nvim", enabled = false },
+  { "folke/trouble.nvim" },
 
   -- override nvim-cmp and add cmp-emoji
   {
