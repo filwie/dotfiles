@@ -12,27 +12,21 @@ set -l add_to_path_if_exists \
     /usr/local/bin \
     /usr/local/opt/ruby/bin
 
-if command -v brew > /dev/null 2>&1
-    set --prepend PATH (brew --prefix)/bin
-end
+# if command -v brew > /dev/null 2>&1
+#     set --prepend PATH (brew --prefix)/bin
+# end
 
-if command -v npm > /dev/null 2>&1
-    set --append PATH (npm -g prefix)/bin
-end
+# if command -v npm > /dev/null 2>&1
+#     set --append PATH (npm -g prefix)/bin
+# end
 
-switch (uname)
-case Darwin
-    set --append PATH $HOME/Library/Python/**/bin/
-end
+# switch (uname)
+# case Darwin
+#     set --append PATH $HOME/Library/Python/**/bin/
+# end
 
 for bin_dir in $add_to_path_if_exists
     if test -d $bin_dir; and not contains $bin_dir $PATH
         set --prepend PATH $bin_dir
     end
 end
-
-if command -v pyenv > /dev/null 2>&1
-    status is-login; and pyenv init --path | source
-    pyenv init - | source
-end
-
